@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "powergrid_synth"
+version = "0.1.0"
+description = "Synthetic power grid generator based on Chung-Lu Chain"
+dependencies = [
+    "numpy>=1.21",
+    "networkx>=3.0"
+]
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+dev = ["pytest"]
