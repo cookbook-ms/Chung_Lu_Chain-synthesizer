@@ -1,7 +1,7 @@
-SYNTHETIC POWER GRID GENERATOR
+SYNTHETIC POWER GRID GENERATOR based on [Chung-Lu-Chain model](https://arxiv.org/abs/1711.11098)
 ================================================================================
 
-[CI Status: https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/actions/workflows/ci.yml/badge.svg]
+[CI Status]: (https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/actions/workflows/ci.yml/badge.svg)
 [Python Version: https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue]
 [License: https://img.shields.io/badge/license-MIT-green]
 
