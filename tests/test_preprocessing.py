@@ -1,5 +1,6 @@
 import pytest
 import numpy as np
+import math
 from powergrid_synth.preprocessing import Preprocessor
 
 class TestPreprocessor:
@@ -21,16 +22,25 @@ class TestPreprocessor:
 
     def test_diameter_path_constraints(self):
         """Test that the Diameter Path (D) nodes are assigned to distinct boxes."""
-        initial_degrees = [4]*20 # plenty of high degree nodes
+        # Setup input
+        initial_degrees = [4]*20 # 20 nodes with degree 4
         target_diameter = 5
         
+        # --- Calculate EXPECTED diameter adjustment based on Algorithm 1 ---
+        eta = len([x for x in initial_degrees if x > 0]) # 20
+        term = 2 * math.log(eta / (target_diameter + 1)) # 2 * ln(20/6) ~= 2.407
+        expected_delta = int(round(target_diameter - term)) # 5 - 2 = 3
+        expected_delta = max(1, expected_delta)
+        
+        # Run Code
         d_prime, v, D, S = self.prep.run_setup(initial_degrees, target_diameter)
         
-        # Diameter set size should be diameter + 1
-        assert len(D) == target_diameter + 1
+        # Assertion
+        # The size of the diameter path set D should be equal to (adjusted_delta + 1)
+        assert len(D) == expected_delta + 1, \
+            f"Expected diameter set size {expected_delta + 1} (adjusted from {target_diameter}), but got {len(D)}"
         
         # Check distinct box assignment
-        # v[i] is the box ID for node i
         boxes_for_D = [v[i] for i in D]
         assert len(boxes_for_D) == len(set(boxes_for_D)), "Nodes in D must have distinct boxes"
 
