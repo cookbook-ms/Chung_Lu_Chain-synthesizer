@@ -114,9 +114,3 @@ This package is based on a generative model pipeline:
 2. CLC (Chung-Lu-Connected): Generates edges within boxes using a Chung-Lu model, ensuring the specific diameter constraints are met.
 
 3. k-Stars Transformer Model: Models inter-level connections (transformers) as disjoint stars, where the number of stars is proportional to the size of the subgraphs (h(n_i, n_j) approx c * min(n_i, n_j)).
-
-
-LICENSE
---------------------------------------------------------------------------------
-
-[Insert License Here]
