@@ -1,4 +1,4 @@
-SYNTHETIC POWER GRID GENERATOR based on [Chung-Lu-Chain model](https://arxiv.org/abs/1711.11098)
+Synthetic graph model based on [Chung-Lu-Chain model](https://arxiv.org/abs/1711.11098)
 ================================================================================
 
 ![CI Status](https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/actions/workflows/ci.yml/badge.svg)
