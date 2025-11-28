@@ -1,9 +1,9 @@
 SYNTHETIC POWER GRID GENERATOR based on [Chung-Lu-Chain model](https://arxiv.org/abs/1711.11098)
 ================================================================================
 
-[CI Status]: (https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/actions/workflows/ci.yml/badge.svg)
-[Python Version: https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue]
-[License: https://img.shields.io/badge/license-MIT-green]
+![CI Status](https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/actions/workflows/ci.yml/badge.svg)
+![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 A Python package for generating realistic, multi-level synthetic power grids based on topological algorithms. This tool allows researchers to create grid models with specific degree distributions, diameters, and hierarchical structures (e.g., Transmission, Distribution, Residential) without relying on sensitive real-world data.
 
