@@ -21,10 +21,10 @@ def main():
         {'n': 50, 'avg_k': 3.5, 'diam': 10, 'dist_type': 'dgln', 'max_k': 15},
         
         # Level 1: Medium Voltage (Distribution)
-        {'n': 150, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl', 'max_k': 20},
+        {'n': 100, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl', 'max_k': 10},
         
-        # Level 2: Low Voltage (Local/Residential)
-        {'n': 300, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'poisson'}
+        # Level 2: Low Voltage 
+        {'n': 150, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'dgln', 'max_k': 10}
     ]
 
     # Define k-stars connections between levels

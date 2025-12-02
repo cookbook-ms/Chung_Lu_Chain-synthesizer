@@ -111,11 +111,11 @@ def main():
     # Define Specs for 5 Voltage Levels
     # Same standard config as previous tests
     level_specs = [
-        {'n': 50, 'avg_k': 4.0, 'diam': 8, 'dist_type': 'dgln', 'max_k': 20},
+        {'n': 50, 'avg_k': 2.0, 'diam': 8, 'dist_type': 'dgln', 'max_k': 20},
         {'n': 100, 'avg_k': 3.0, 'diam': 12, 'dist_type': 'dpl', 'max_k': 20},
-        {'n': 200, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'poisson'},
-        {'n': 400, 'avg_k': 2.2, 'diam': 20, 'dist_type': 'poisson'},
-        {'n': 800, 'avg_k': 1.8, 'diam': 25, 'dist_type': 'poisson'}
+        {'n': 200, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dgln', 'max_k': 20},
+        {'n': 400, 'avg_k': 2.2, 'diam': 20, 'dist_type': 'dgln', 'max_k': 20},
+        {'n': 800, 'avg_k': 1.8, 'diam': 25, 'dist_type': 'dgln', 'max_k': 20}
     ]
 
     connection_specs = {

@@ -20,19 +20,19 @@ def main():
     # We use a mix of distributions to simulate realistic grid topology
     level_specs = [
         # Level 0: Extra High Voltage (Backbone) - Log-Normal for hubs
-        {'n': 50, 'avg_k': 4.0, 'diam': 8, 'dist_type': 'dgln', 'max_k': 20},
+        {'n': 50, 'avg_k': 2, 'diam': 8, 'dist_type': 'dgln', 'max_k': 20},
         
         # Level 1: High Voltage - Power Law for scale-free structure
         {'n': 100, 'avg_k': 3.0, 'diam': 12, 'dist_type': 'dpl', 'max_k': 20},
         
-        # Level 2: Medium Voltage - Poisson
-        {'n': 200, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'poisson'},
+        # Level 2: Medium Voltage - Log-Normal
+        {'n': 200, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dgln', 'max_k': 20},
         
-        # Level 3: Low Voltage - Poisson
-        {'n': 400, 'avg_k': 2.2, 'diam': 20, 'dist_type': 'poisson'},
+        # Level 3: Low Voltage - Log-Normal
+        {'n': 400, 'avg_k': 2.2, 'diam': 20, 'dist_type': 'dgln', 'max_k': 20},
         
-        # Level 4: Residential - Poisson (Radial-like)
-        {'n': 800, 'avg_k': 1.8, 'diam': 25, 'dist_type': 'poisson'}
+        # Level 4: Lower Vol - Log-Normal
+        {'n': 800, 'avg_k': 1.8, 'diam': 25, 'dist_type': 'dgln', 'max_k': 20}
     ]
 
     # Define k-stars connections between levels
