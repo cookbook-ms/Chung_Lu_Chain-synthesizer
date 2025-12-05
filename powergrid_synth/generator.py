@@ -24,23 +24,16 @@ class PowerGridGenerator:
     def generate_grid(self, 
                       degrees_by_level: List[List[int]], 
                       diameters_by_level: List[int], 
-                      transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]]) -> nx.Graph:
+                      transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
+                      keep_lcc: bool = True) -> nx.Graph:
         """
         Procedure CLCSTARS({d_xi}, {delta_xi}, {t[Xi, Xj]}) -> E
         
         Args:
             degrees_by_level: List of degree sequences, one for each voltage level.
-                              Example: [ [deg_seq_level_0], [deg_seq_level_1] ]
             diameters_by_level: List of target diameters, one for each voltage level.
             transformer_degrees: Dictionary mapping level pairs (i, j) to a tuple of transformer degree lists.
-                                 Key: (level_i_index, level_j_index) where i < j
-                                 Value: (t_i_to_j, t_j_to_i)
-                                 
-                                 Note: The length of t_i_to_j must match the number of nodes in Level i 
-                                 AFTER inflation (Algorithm 1). Since we don't know the exact inflated size 
-                                 pre-generation, the user typically provides initial estimates or we adjust 
-                                 dynamically. *For strict adherence to the paper, we assume input t aligns 
-                                 with the final node counts or is padded.*
+            keep_lcc: If True, returns only the Largest Connected Component of the generated grid, removing isolated islands. Default: True
 
         Returns:
             A NetworkX graph representing the entire multi-level grid.
@@ -55,12 +48,6 @@ class PowerGridGenerator:
         level_node_counts = [0] * k
         level_nodes_local_to_global = [] # List of mappings for each level
 
-        # Store intermediate results for transformer step
-        # We assume the user inputs 't' lists match the INITIAL degrees length,
-        # but Algorithm 1 inflates nodes. We must handle this alignment.
-        # For this implementation, we will pad 't' with 0s (no transformer connection)
-        # for any nodes added during inflation.
-        
         current_global_offset = 0
 
         print(f"--- Starting Generation for {k} Voltage Levels ---")
@@ -86,7 +73,6 @@ class PowerGridGenerator:
             level_offsets[i] = current_global_offset
             
             # 4. Convert local edges to global IDs and add to E
-            # Local node 'u' becomes 'u + current_global_offset'
             for u, w in local_edges:
                 global_u = u + current_global_offset
                 global_w = w + current_global_offset
@@ -103,32 +89,21 @@ class PowerGridGenerator:
         for i in range(k):
             for j in range(i + 1, k):
                 
-                # Check if connection logic exists for this pair
                 if (i, j) not in transformer_degrees:
                     continue
                 
                 print(f"  -> Connecting Level {i} <-> Level {j}")
                 
-                # Retrieve desired transformer degrees
                 t_i_j_input, t_j_i_input = transformer_degrees[(i, j)]
                 
-                # CRITICAL ALIGNMENT:
-                # The node counts at Level i might have increased due to Algorithm 1 (inflation).
-                # We must resize the transformer degree lists to match the actual node counts.
-                # New nodes (added by inflation) are assumed to have 0 transformer degrees (no inter-ties).
-                
-                # Resize t_i_j
+                # Resize/Pad transformer degrees to match actual inflated node counts
                 actual_n_i = level_node_counts[i]
                 t_i_j = list(t_i_j_input)
                 if len(t_i_j) < actual_n_i:
                     t_i_j.extend([0] * (actual_n_i - len(t_i_j)))
                 elif len(t_i_j) > actual_n_i:
-                    # This implies we estimated too many nodes initially, trim?
-                    # Or Algorithm 1 didn't inflate as much?
-                    # Safer to slice:
                     t_i_j = t_i_j[:actual_n_i]
                 
-                # Resize t_j_i
                 actual_n_j = level_node_counts[j]
                 t_j_i = list(t_j_i_input)
                 if len(t_j_i) < actual_n_j:
@@ -137,7 +112,6 @@ class PowerGridGenerator:
                     t_j_i = t_j_i[:actual_n_j]
 
                 # Run Algorithm 3 (STARS)
-                # Returns edges (u, v) where u is index in i, v is index in j
                 trans_edges = self.transformer_connector.generate_transformer_edges(t_i_j, t_j_i)
                 
                 # Convert to global IDs
@@ -155,12 +129,25 @@ class PowerGridGenerator:
         G = nx.Graph()
         G.add_edges_from(all_edges)
         
-        # Optional: Add metadata to nodes (which level they belong to)
-        # Using add_node ensures even isolated nodes are included and avoids KeyErrors
+        # Add metadata to nodes (ensure even isolated nodes are created with attrs)
         for i in range(k):
             start = level_offsets[i]
             end = start + level_node_counts[i]
             for node_id in range(start, end):
                 G.add_node(node_id, voltage_level=i)
+
+        # =========================================================
+        # Post-Processing: Largest Connected Component (Optional)
+        # =========================================================
+        if keep_lcc:
+            if G.number_of_nodes() > 0:
+                print("Filtering for Largest Connected Component (LCC)...")
+                original_n = G.number_of_nodes()
+                largest_cc_nodes = max(nx.connected_components(G), key=len)
+                G = G.subgraph(largest_cc_nodes).copy()
+                new_n = G.number_of_nodes()
+                print(f"  -> Kept {new_n} nodes (removed {original_n - new_n} isolated/disconnected nodes).")
+            else:
+                print("Warning: Graph is empty, cannot filter for LCC.")
         
         return G

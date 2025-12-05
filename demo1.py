@@ -52,7 +52,8 @@ def main():
     grid_graph = gen.generate_grid(
         degrees_by_level=params['degrees_by_level'],
         diameters_by_level=params['diameters_by_level'],
-        transformer_degrees=params['transformer_degrees']
+        transformer_degrees=params['transformer_degrees'], 
+        keep_lcc=True
     )
     
     print(f"Grid Generated: {grid_graph.number_of_nodes()} nodes, {grid_graph.number_of_edges()} edges")

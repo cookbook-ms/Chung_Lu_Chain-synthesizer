@@ -1,6 +1,9 @@
 import networkx as nx
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import matplotlib.patches as mpatches
+import matplotlib.lines as mlines
 import numpy as np
 from matplotlib.widgets import Button
 from typing import Dict, Any, Tuple, List, Optional
@@ -78,7 +81,12 @@ class GridVisualizer:
 
     def __init__(self):
         # Default colormap for voltage levels
-        self.cmap = cm.get_cmap('tab10') 
+        # Fix for Matplotlib 3.7+ deprecation of cm.get_cmap
+        if hasattr(matplotlib, 'colormaps'):
+            self.cmap = matplotlib.colormaps['tab10']
+        else:
+            self.cmap = cm.get_cmap('tab10')
+            
         # Keep references to widgets to prevent garbage collection
         self._widgets = []
 
@@ -162,7 +170,127 @@ class GridVisualizer:
         plt.tight_layout()
         plt.show()
 
-    def _draw_graph_on_ax(self, ax, graph, layout_name, title, show_labels):
+    def _draw_bus_types_on_ax(self, ax, graph: nx.Graph, layout_name: str, title: str, 
+                              legend_loc='center left', legend_bbox=(1, 0.5), bbox_transform=None):
+        """Helper to draw bus type visualization on a specific axis."""
+        print(f"Calculating layout '{layout_name}' for bus types...")
+        # 1. Calculate Layout
+        if layout_name == 'kamada_kawai':
+            pos = nx.kamada_kawai_layout(graph)
+        elif layout_name == 'yifan_hu':
+            pos = self._yifan_hu_layout(graph)
+        elif layout_name == 'voltage_layered':
+            pos = self._get_layered_layout(graph)
+        else:
+            pos = nx.spring_layout(graph, seed=42)
+
+        ax.clear()
+
+        # 2. Node Config
+        node_styles = {
+            'Gen':  {'color': '#d62728', 'shape': 'o', 'label': 'Generation (Gen)'}, # Red
+            'Load': {'color': '#2ca02c', 'shape': '^', 'label': 'Load (Load)'},       # Green
+            'Conn': {'color': '#1f77b4', 'shape': 's', 'label': 'Connection (Conn)'}  # Blue
+        }
+        
+        for n_type, style in node_styles.items():
+            nodelist = [n for n, d in graph.nodes(data=True) if d.get('bus_type') == n_type]
+            if nodelist:
+                nx.draw_networkx_nodes(graph, pos, 
+                                     nodelist=nodelist, 
+                                     node_color=style['color'], 
+                                     node_shape=style['shape'], 
+                                     node_size=60, 
+                                     alpha=0.9, 
+                                     ax=ax, 
+                                     label=style['label'])
+
+        # 3. Edge Config
+        edge_styles = {
+            frozenset(['Gen', 'Gen']):  {'style': 'dashed', 'color': 'black', 'label': 'GG (Gen-Gen)'},
+            frozenset(['Load', 'Load']): {'style': 'solid',  'color': 'black', 'label': 'LL (Load-Load)'},
+            frozenset(['Conn', 'Conn']): {'style': 'dotted', 'color': 'black', 'label': 'CC (Conn-Conn)'},
+            frozenset(['Gen', 'Load']):  {'style': 'dashdot', 'color': 'gray', 'label': 'GL (Gen-Load)'},
+            frozenset(['Gen', 'Conn']):  {'style': (0, (3, 5, 1, 5)), 'color': 'gray', 'label': 'GC (Gen-Conn)'},
+            frozenset(['Load', 'Conn']): {'style': (0, (5, 10)), 'color': 'gray', 'label': 'LC (Load-Conn)'},
+        }
+
+        for u, v in graph.edges():
+            t1 = graph.nodes[u].get('bus_type', 'Unknown')
+            t2 = graph.nodes[v].get('bus_type', 'Unknown')
+            
+            pair = frozenset([t1, t2])
+            style = edge_styles.get(pair, {'style': 'solid', 'color': 'lightgray'})
+            
+            nx.draw_networkx_edges(graph, pos, 
+                                   edgelist=[(u, v)], 
+                                   style=style['style'], 
+                                   edge_color=style['color'], 
+                                   alpha=0.6, 
+                                   ax=ax)
+
+        # 4. Legend
+        handles = []
+        for style in node_styles.values():
+            handle = mlines.Line2D([], [], 
+                                 color=style['color'], 
+                                 marker=style['shape'], 
+                                 linestyle='None', 
+                                 markersize=10, 
+                                 label=style['label'])
+            handles.append(handle)
+        
+        for pair_key, style in edge_styles.items():
+            line = mlines.Line2D([], [], color=style['color'], linestyle=style['style'], label=style['label'])
+            handles.append(line)
+
+        # Apply specific legend location args
+        kwargs = {'handles': handles, 'loc': legend_loc, 'bbox_to_anchor': legend_bbox, 'title': "Grid Components"}
+        if bbox_transform is not None:
+            kwargs['bbox_transform'] = bbox_transform
+            
+        ax.legend(**kwargs)
+        
+        ax.set_title(f"{title}\nLayout: {layout_name}")
+        ax.axis('off')
+
+    def plot_bus_types(self, graph: nx.Graph, layout: str = 'yifan_hu', title: str = "Bus Type Visualization", figsize: Tuple[int, int] = (12, 10)):
+        """Visualizes the grid coloring nodes by their Bus Type (Static)."""
+        plt.figure(figsize=figsize)
+        self._draw_bus_types_on_ax(plt.gca(), graph, layout, title)
+        plt.tight_layout()
+        plt.show()
+
+    def plot_interactive_bus_types(self, graph: nx.Graph, title: str = "Interactive Bus Type Visualization", figsize: Tuple[int, int] = (14, 10)):
+        """Opens an interactive window for Bus Type Visualization with layout selection."""
+        fig, ax = plt.subplots(figsize=figsize)
+        
+        # Create sidebar on the left
+        plt.subplots_adjust(left=0.25)
+        
+        # Dropdown in sidebar (Top Left)
+        dropdown_rect = [0.02, 0.85, 0.20, 0.05] 
+        layout_options = ['kamada_kawai', 'yifan_hu', 'spring', 'spectral', 'voltage_layered']
+        
+        def update_layout(label):
+            # Legend below dropdown in sidebar
+            self._draw_bus_types_on_ax(ax, graph, label, title,
+                                     legend_loc='upper left',
+                                     legend_bbox=(0.02, 0.8), # Below dropdown (0.85)
+                                     bbox_transform=fig.transFigure)
+            fig.canvas.draw_idle()
+
+        dropdown = MatplotlibDropdown(fig, dropdown_rect, layout_options, active=0, on_select=update_layout)
+        fig.text(0.02, 0.91, "Select Layout:", weight='bold')
+
+        self._widgets.append(dropdown)
+        
+        # Initial draw with first option
+        update_layout(layout_options[0])
+        plt.show()
+
+    def _draw_graph_on_ax(self, ax, graph, layout_name, title, show_labels,
+                          legend_loc='upper right', legend_bbox=None, bbox_transform=None):
         """Helper to draw graph on a specific axis."""
         print(f"Calculating layout '{layout_name}'...")
         if layout_name == 'kamada_kawai':
@@ -194,30 +322,39 @@ class GridVisualizer:
         unique_levels = sorted(list(set(nx.get_node_attributes(graph, 'voltage_level').values())))
         import matplotlib.patches as mpatches
         legend_elements = [mpatches.Patch(color=self.cmap(lvl), label=f'Voltage Level {lvl}') for lvl in unique_levels]
-        ax.legend(handles=legend_elements, loc='upper right')
+        
+        kwargs = {'handles': legend_elements, 'loc': legend_loc}
+        if legend_bbox: kwargs['bbox_to_anchor'] = legend_bbox
+        if bbox_transform: kwargs['bbox_transform'] = bbox_transform
+            
+        ax.legend(**kwargs)
 
     def _create_interactive_window(self, graph: nx.Graph, title: str, figsize: Tuple[int, int]):
         """Helper to create a figure with a Dropdown menu for layout selection."""
         fig, ax = plt.subplots(figsize=figsize)
-        plt.subplots_adjust(top=0.85)  # Reserve space at top for dropdown
+        
+        # Create sidebar on the left
+        plt.subplots_adjust(left=0.25)
         
         # Define Dropdown Position (Top Left corner)
-        # Rect: [left, bottom, width, height]
-        # We put it near the top left
-        dropdown_rect = [0.05, 0.9, 0.20, 0.05] 
+        dropdown_rect = [0.02, 0.85, 0.20, 0.05] 
         
         layout_options = ['kamada_kawai', 'yifan_hu', 'spring', 'spectral', 'voltage_layered']
         
         # Callback wrapper
         def update_layout(label):
-            self._draw_graph_on_ax(ax, graph, label, title, show_labels=False)
+            # Legend below dropdown
+            self._draw_graph_on_ax(ax, graph, label, title, show_labels=False,
+                                   legend_loc='upper left',
+                                   legend_bbox=(0.02, 0.8),
+                                   bbox_transform=fig.transFigure)
             fig.canvas.draw_idle()
 
         # Create our custom dropdown
         dropdown = MatplotlibDropdown(fig, dropdown_rect, layout_options, active=0, on_select=update_layout)
         
         # Label next to dropdown
-        fig.text(0.05, 0.96, "Select Layout:", weight='bold')
+        fig.text(0.02, 0.91, "Select Layout:", weight='bold')
 
         # Keep reference to prevent GC
         self._widgets.append(dropdown)
