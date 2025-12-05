@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 This generates the graphs based on Chung-Lu-Chain graph model for electric infrastructure networks, given as inputs the degree distribution and diameter. 
-On top of this grid topology, we follow MATPOWER to perform bus type assignment. 
+On top of this grid topology, we follow MATPOWER to perform bus type assignment. The rest is WIP.
 
 ## Features
 
