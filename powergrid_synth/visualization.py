@@ -170,6 +170,63 @@ class GridVisualizer:
         plt.tight_layout()
         plt.show()
 
+    def plot_load_gen_bubbles(self, grid: nx.Graph, layout: str = 'kamada_kawai', title: str = "Generation vs Load", figsize: Tuple[int, int] = (12, 10)):
+        """
+        Bubble plot showing generation and load magnitudes.
+        Generators are blue squares, Loads are red circles.
+        Size is proportional to capacity/load.
+        """
+        plt.figure(figsize=figsize)
+        ax = plt.gca()
+        
+        # 1. Layout
+        if layout == 'kamada_kawai':
+            pos = nx.kamada_kawai_layout(grid)
+        elif layout == 'yifan_hu':
+            pos = self._yifan_hu_layout(grid)
+        elif layout == 'spring':
+             pos = nx.spring_layout(grid, seed=42)
+        elif layout == 'voltage_layered':
+            pos = self._get_layered_layout(grid)
+        else:
+             pos = nx.kamada_kawai_layout(grid)
+             
+        # 2. Draw edges
+        nx.draw_networkx_edges(grid, pos, alpha=0.2, ax=ax)
+        
+        # 3. Draw Loads (Red circles)
+        load_nodes = [n for n, d in grid.nodes(data=True) if d.get('bus_type') == 'Load']
+        if load_nodes:
+            # Scale factor for visibility
+            load_sizes = [grid.nodes[n].get('pl', 0) * 2 for n in load_nodes]
+            nx.draw_networkx_nodes(grid, pos, nodelist=load_nodes, node_color='red', 
+                                   node_size=load_sizes, alpha=0.6, label='Load', ax=ax)
+        
+        # 4. Draw Gens (Blue squares)
+        gen_nodes = [n for n, d in grid.nodes(data=True) if d.get('bus_type') == 'Gen']
+        if gen_nodes:
+            # Scale factor for visibility
+            gen_sizes = [grid.nodes[n].get('pg', 0) * 2 for n in gen_nodes]
+            nx.draw_networkx_nodes(grid, pos, nodelist=gen_nodes, node_color='blue', 
+                                   node_shape='s', node_size=gen_sizes, alpha=0.6, label='Gen (Dispatched)', ax=ax)
+        
+        # 5. Create Manual Legend
+        # Using fixed size markers (markersize=8) instead of scaling with data
+        legend_elements = [
+            mlines.Line2D([], [], color='red', marker='o', linestyle='None', 
+                          markersize=8, label='Load', alpha=0.6),
+            mlines.Line2D([], [], color='blue', marker='s', linestyle='None', 
+                          markersize=8, label='Gen (Dispatched)', alpha=0.6)
+        ]
+        
+        ax.legend(handles=legend_elements)
+        ax.axis('off')
+        if title:
+            ax.set_title(title)
+        
+        plt.tight_layout()
+        plt.show()
+
     def _draw_bus_types_on_ax(self, ax, graph: nx.Graph, layout_name: str, title: str, 
                               legend_loc='center left', legend_bbox=(1, 0.5), bbox_transform=None):
         """Helper to draw bus type visualization on a specific axis."""
@@ -232,11 +289,12 @@ class GridVisualizer:
         # 4. Legend
         handles = []
         for style in node_styles.values():
+            # Use smaller fixed size for legend (markersize=8)
             handle = mlines.Line2D([], [], 
                                  color=style['color'], 
                                  marker=style['shape'], 
                                  linestyle='None', 
-                                 markersize=10, 
+                                 markersize=8, 
                                  label=style['label'])
             handles.append(handle)
         
@@ -254,7 +312,7 @@ class GridVisualizer:
         ax.set_title(f"{title}\nLayout: {layout_name}")
         ax.axis('off')
 
-    def plot_bus_types(self, graph: nx.Graph, layout: str = 'yifan_hu', title: str = "Bus Type Visualization", figsize: Tuple[int, int] = (12, 10)):
+    def plot_bus_types(self, graph: nx.Graph, layout: str = 'kamada_kawai', title: str = "Bus Type Visualization", figsize: Tuple[int, int] = (12, 10)):
         """Visualizes the grid coloring nodes by their Bus Type (Static)."""
         plt.figure(figsize=figsize)
         self._draw_bus_types_on_ax(plt.gca(), graph, layout, title)

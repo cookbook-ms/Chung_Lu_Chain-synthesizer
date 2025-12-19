@@ -14,41 +14,30 @@ def main():
     print("--- 1. Configuration: Setting up 5-Level Hierarchy ---")
     
     # Initialize Configurator
-    configurator = InputConfigurator(seed=42)
+    configurator = InputConfigurator(seed=100)
 
     # Define Specs for 5 Voltage Levels
     # We use a mix of distributions to simulate realistic grid topology
+    # Define 3 voltage levels mimicking a transmission -> sub-transmission -> distribution hierarchy
     level_specs = [
-        # Level 0: Extra High Voltage (Backbone) - Log-Normal for hubs
-        {'n': 50, 'avg_k': 2, 'diam': 8, 'dist_type': 'dgln', 'max_k': 20},
-        
-        # Level 1: High Voltage - Power Law for scale-free structure
-        {'n': 100, 'avg_k': 3.0, 'diam': 12, 'dist_type': 'dpl', 'max_k': 20},
-        
-        # Level 2: Medium Voltage - Log-Normal
-        {'n': 200, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dgln', 'max_k': 20},
-        
-        # Level 3: Low Voltage - Log-Normal
-        {'n': 400, 'avg_k': 2.2, 'diam': 20, 'dist_type': 'dgln', 'max_k': 20},
-        
-        # Level 4: Lower Vol - Log-Normal
-        {'n': 800, 'avg_k': 1.8, 'diam': 25, 'dist_type': 'dgln', 'max_k': 20}
+        # Level 0: Transmission (High Connectivity)
+        {'n': 20, 'avg_k': 4.0, 'diam': 6, 'dist_type': 'dgln'},
+        # Level 1: Sub-Transmission
+        {'n': 20, 'avg_k': 3.0, 'diam': 10, 'dist_type': 'dpl'},
+        # Level 2: Distribution (More Radial)
+        {'n': 10, 'avg_k': 2.0, 'diam': 10, 'dist_type': 'poisson'}
     ]
-
-    # Define k-stars connections between levels
-    # (source_level, target_level): {type, c, gamma}
+    
     connection_specs = {
         (0, 1): {'type': 'k-stars', 'c': 0.174, 'gamma': 4.15},
-        (1, 2): {'type': 'k-stars', 'c': 0.174, 'gamma': 4.15},
-        (2, 3): {'type': 'k-stars', 'c': 0.15, 'gamma': 4.15},
-        (3, 4): {'type': 'k-stars', 'c': 0.10, 'gamma': 4.15}
+        (1, 2): {'type': 'k-stars', 'c': 0.15, 'gamma': 4.15}
     }
 
     print("--- 2. Generating Input Parameters ---")
     params = configurator.create_params(level_specs, connection_specs)
 
     print("--- 3. Generating Grid Topology ---")
-    gen = PowerGridGenerator(seed=42)
+    gen = PowerGridGenerator(seed=100)
     grid_graph = gen.generate_grid(
         degrees_by_level=params['degrees_by_level'],
         diameters_by_level=params['diameters_by_level'],
