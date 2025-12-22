@@ -1,8 +1,6 @@
 import os
 import sys
 
-# Point Sphinx to the source code so it can read docstrings
-sys.path.insert(0, os.path.abspath('../src'))
 
 project = 'PowerGridSynth'
 copyright = '2025, PowerGridSynth Developers'

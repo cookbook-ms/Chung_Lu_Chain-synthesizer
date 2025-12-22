@@ -15,6 +15,7 @@
 ```
 
 # grid data generator
+
 ```{eval-rst}
 .. autoclass:: powergrid_synth.BusTypeAllocator
    :members:
@@ -50,7 +51,7 @@
    :show-inheritance:
 ```
 
-Utilities
+# Utilities
 ```{eval-rst}
 .. autoclass:: powergrid_synth.GridVisualizer
    :members:
