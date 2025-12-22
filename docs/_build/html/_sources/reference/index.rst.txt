@@ -1,7 +1,7 @@
 API Reference
+============================
 
-
-# topology generator
+topology generator
 
 ```{eval-rst}
 .. autoclass:: powergrid_synth.InputConfigurator
@@ -20,7 +20,7 @@ API Reference
 
 
 
-# grid data generator
+## grid data generator
 
 ```{eval-rst}
 .. autoclass:: powergrid_synth.BusTypeAllocator
@@ -57,7 +57,7 @@ API Reference
    :show-inheritance:
 ```
 
-# Utilities
+## Utilities
 ```{eval-rst}
 .. autoclass:: powergrid_synth.GridVisualizer
    :members:

@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="topology generator" href="api_reference.html" /> 
+    <link rel="next" title="Getting started" href="README.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,10 +41,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting started:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">topology generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#grid-data-generator">grid data generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/api_reference.html">topology generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/api_reference.html#grid-data-generator">grid data generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/api_reference.html#utilities">Utilities</a></li>
 </ul>
 
         </div>
@@ -73,22 +78,42 @@
              
   <section id="powergridsynth-documentation">
 <h1>PowerGridSynth Documentation<a class="headerlink" href="#powergridsynth-documentation" title="Link to this heading"></a></h1>
+<p>PowerGridSynth (Power grid synthesizer) is an open source project written in Python, dedicated to build <strong>synthetic power grids</strong>. The goal of the project is to provide realistic yet synthetic power grids for grid modeling, simulation and analysis, with the ultimate goal of building <strong>Foundation Models</strong> for power grids. It is part of <a class="reference external" href="https://lfenergy.org">LF Energy</a>, a Linux Foundation focused on energy sector. This project is supported by <a class="reference external" href="https://ai-effect.eu/">AI-EFFECT (Artificial Intelligence Experimentation Facility For the Energy Sector)</a>.</p>
+<p>It contains three main parts:</p>
+<ul class="simple">
+<li><p>grid topology generation,</p></li>
+<li><p>grid data generation,</p></li>
+<li><p>grid data utility.</p></li>
+</ul>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Getting started:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">topology generator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.PowerGridGenerator"><code class="docutils literal notranslate"><span class="pre">PowerGridGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.InputConfigurator"><code class="docutils literal notranslate"><span class="pre">InputConfigurator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#user-guide">User guide</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#grid-data-generator">grid data generator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.BusTypeAllocator"><code class="docutils literal notranslate"><span class="pre">BusTypeAllocator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.CapacityAllocator"><code class="docutils literal notranslate"><span class="pre">CapacityAllocator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.LoadAllocator"><code class="docutils literal notranslate"><span class="pre">LoadAllocator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.TransmissionLineAllocator"><code class="docutils literal notranslate"><span class="pre">TransmissionLineAllocator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.GenerationDispatcher"><code class="docutils literal notranslate"><span class="pre">GenerationDispatcher</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.GridVisualizer"><code class="docutils literal notranslate"><span class="pre">GridVisualizer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_reference.html#powergrid_synth.GridExporter"><code class="docutils literal notranslate"><span class="pre">GridExporter</span></code></a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/api_reference.html">topology generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.InputConfigurator"><code class="docutils literal notranslate"><span class="pre">InputConfigurator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.PowerGridGenerator"><code class="docutils literal notranslate"><span class="pre">PowerGridGenerator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/api_reference.html#grid-data-generator">grid data generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.BusTypeAllocator"><code class="docutils literal notranslate"><span class="pre">BusTypeAllocator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.CapacityAllocator"><code class="docutils literal notranslate"><span class="pre">CapacityAllocator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.LoadAllocator"><code class="docutils literal notranslate"><span class="pre">LoadAllocator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.TransmissionLineAllocator"><code class="docutils literal notranslate"><span class="pre">TransmissionLineAllocator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.GenerationDispatcher"><code class="docutils literal notranslate"><span class="pre">GenerationDispatcher</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/api_reference.html#utilities">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.GridVisualizer"><code class="docutils literal notranslate"><span class="pre">GridVisualizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api_reference.html#powergrid_synth.GridExporter"><code class="docutils literal notranslate"><span class="pre">GridExporter</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -107,7 +132,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="api_reference.html" class="btn btn-neutral float-right" title="topology generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="README.html" class="btn btn-neutral float-right" title="Getting started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

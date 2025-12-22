@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="PowerGridSynth Documentation" href="index.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="README.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,12 +44,12 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">topology generator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#powergrid_synth.PowerGridGenerator"><code class="docutils literal notranslate"><span class="pre">PowerGridGenerator</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#powergrid_synth.PowerGridGenerator.generate_grid"><code class="docutils literal notranslate"><span class="pre">PowerGridGenerator.generate_grid()</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#powergrid_synth.InputConfigurator"><code class="docutils literal notranslate"><span class="pre">InputConfigurator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#powergrid_synth.InputConfigurator.create_params"><code class="docutils literal notranslate"><span class="pre">InputConfigurator.create_params()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#powergrid_synth.PowerGridGenerator"><code class="docutils literal notranslate"><span class="pre">PowerGridGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#powergrid_synth.PowerGridGenerator.generate_grid"><code class="docutils literal notranslate"><span class="pre">PowerGridGenerator.generate_grid()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -78,6 +78,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#powergrid_synth.GenerationDispatcher.dispatch"><code class="docutils literal notranslate"><span class="pre">GenerationDispatcher.dispatch()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#utilities">Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#powergrid_synth.GridVisualizer"><code class="docutils literal notranslate"><span class="pre">GridVisualizer</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#powergrid_synth.GridVisualizer.plot_bus_types"><code class="docutils literal notranslate"><span class="pre">GridVisualizer.plot_bus_types()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#powergrid_synth.GridVisualizer.plot_grid"><code class="docutils literal notranslate"><span class="pre">GridVisualizer.plot_grid()</span></code></a></li>
@@ -121,8 +124,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="topology-generator">
+  <p>API Reference</p>
+<section id="topology-generator">
 <h1>topology generator<a class="headerlink" href="#topology-generator" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.InputConfigurator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">InputConfigurator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powergrid_synth/input_configurator.html#InputConfigurator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.InputConfigurator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Helper class to generate the detailed input arrays (degrees, transformer connections)
+required by PowerGridGenerator from high-level parameters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.InputConfigurator.create_params">
+<span class="sig-name descname"><span class="pre">create_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inter_connections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/powergrid_synth/input_configurator.html#InputConfigurator.create_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.InputConfigurator.create_params" title="Link to this definition"></a></dt>
+<dd><p>Generates the full parameter set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inter_connections</strong> – Dict mapping (i, j) to config.
+Config can be {‘type’: ‘simple’, ‘p_i_j’: …, ‘p_j_i’: …}
+OR {‘type’: ‘k-stars’, ‘c’: 0.174, ‘gamma’: 4.15}</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="powergrid_synth.PowerGridGenerator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">PowerGridGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powergrid_synth/generator.html#PowerGridGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.PowerGridGenerator" title="Link to this definition"></a></dt>
@@ -143,27 +168,6 @@
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A NetworkX graph representing the entire multi-level grid.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="powergrid_synth.InputConfigurator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">InputConfigurator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powergrid_synth/input_configurator.html#InputConfigurator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.InputConfigurator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Helper class to generate the detailed input arrays (degrees, transformer connections)
-required by PowerGridGenerator from high-level parameters.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="powergrid_synth.InputConfigurator.create_params">
-<span class="sig-name descname"><span class="pre">create_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inter_connections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/powergrid_synth/input_configurator.html#InputConfigurator.create_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.InputConfigurator.create_params" title="Link to this definition"></a></dt>
-<dd><p>Generates the full parameter set.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>inter_connections</strong> – Dict mapping (i, j) to config.
-Config can be {‘type’: ‘simple’, ‘p_i_j’: …, ‘p_j_i’: …}
-OR {‘type’: ‘k-stars’, ‘c’: 0.174, ‘gamma’: 4.15}</p>
 </dd>
 </dl>
 </dd></dl>
@@ -298,7 +302,9 @@ Ported and adapted from ‘sg_gen_dispatch.m’ (SynGrid).</p>
 
 </dd></dl>
 
-<p>Utilities</p>
+</section>
+<section id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="powergrid_synth.GridVisualizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">GridVisualizer</span></span><a class="reference internal" href="_modules/powergrid_synth/visualization.html#GridVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer" title="Link to this definition"></a></dt>
@@ -388,7 +394,7 @@ This is the preferred format for bridging with Pypowsybl.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="PowerGridSynth Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="README.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
