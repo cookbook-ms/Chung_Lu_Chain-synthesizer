@@ -120,6 +120,6 @@ def main():
 
     print("\nDemo Completed Successfully.")
     print("============================================================")
-
+    print(grid)    
 if __name__ == "__main__":
     main()

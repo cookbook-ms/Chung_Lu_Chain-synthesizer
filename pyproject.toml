@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "powergrid_synth"
 version = "0.1.0"
-description = "Synthetic power grid generator based on specific topological algorithms"
+description = "Synthetic power grid generator based on Chung-Lu-Chain model and MATPOWER SynGrid." 
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
@@ -22,3 +22,8 @@ dev = [
     "pytest-cov",
     "build"
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer"
+"Documentation" = "https://Chung_Lu_Chain-synthesizer.readthedocs.io/"
+"Bug Tracker" = "https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/issues"
