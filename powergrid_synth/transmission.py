@@ -266,6 +266,7 @@ class TransmissionLineAllocator:
         sigma_len = zpr_pars[1]
         
         zpr = np.random.lognormal(mu_len, sigma_len, m_lines)
+        # physical practice in the per-unit system, and for stability 
         zpr = np.clip(zpr, 0.001, 0.5) 
         
         # 2. Generate Phi and Initial X, R

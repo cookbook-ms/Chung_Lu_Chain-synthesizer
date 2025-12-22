@@ -162,53 +162,19 @@ class GridVisualizer:
             step *= 0.95 
 
         return {nodes[i]: pos[i] for i in range(n)}
-    
-    def _draw_edges_impedance(self, ax, grid, pos, alpha=0.8):
-        """Helper to draw edges colored by impedance."""
-        edges = []
-        z_vals = []
-        for u, v, d in grid.edges(data=True):
-            edges.append((u, v))
-            z_vals.append(d.get('z', 0.0))
-        
-        if edges:
-            edge_collection = nx.draw_networkx_edges(
-                grid, pos,
-                edgelist=edges,
-                edge_color=z_vals,
-                edge_cmap=plt.cm.coolwarm,
-                width=2.0,
-                alpha=alpha,
-                ax=ax
-            )
-            return edge_collection
-        return None
 
-    def plot_grid(self, graph: nx.Graph, layout: str = 'kamada_kawai', title: str = "Grid", show_labels: bool = False, 
-                 show_bus_types: bool = False, show_impedance: bool = False, figsize: Tuple[int, int] = (12, 10)):
-        """
-        Static plot function for grid topology.
-        Options allow overlaying bus types or impedance features.
-        """
+    def plot_grid(self, graph: nx.Graph, layout: str = 'kamada_kawai', title: str = "Grid", show_labels: bool = False, figsize: Tuple[int, int] = (12, 10)):
+        """Static plot function."""
         plt.figure(figsize=figsize)
-        
-        if show_bus_types:
-            # If bus types are requested, delegate to the more complex handler
-            # Use 'best' location for adaptive placement
-            self._draw_bus_types_on_ax(plt.gca(), graph, layout, title, legend_loc='best', legend_bbox=None, show_impedance=show_impedance)
-        else:
-            self._draw_graph_on_ax(plt.gca(), graph, layout, title, show_labels, legend_loc='best', show_impedance=show_impedance)
-            
+        self._draw_graph_on_ax(plt.gca(), graph, layout, title, show_labels)
         plt.tight_layout()
         plt.show()
 
-    def plot_load_gen_bubbles(self, grid: nx.Graph, layout: str = 'kamada_kawai', title: str = "Generation vs Load", 
-                            show_impedance: bool = False, figsize: Tuple[int, int] = (12, 10)):
+    def plot_load_gen_bubbles(self, grid: nx.Graph, layout: str = 'kamada_kawai', title: str = "Generation vs Load", figsize: Tuple[int, int] = (12, 10)):
         """
         Bubble plot showing generation and load magnitudes.
         Generators are blue squares, Loads are red circles.
         Size is proportional to capacity/load.
-        Optionally plots impedance on edges.
         """
         plt.figure(figsize=figsize)
         ax = plt.gca()
@@ -225,14 +191,8 @@ class GridVisualizer:
         else:
              pos = nx.kamada_kawai_layout(grid)
              
-        # 2. Draw Edges
-        if show_impedance:
-            edge_coll = self._draw_edges_impedance(ax, grid, pos)
-            if edge_coll:
-                # Horizontal Colorbar at Bottom
-                plt.colorbar(edge_coll, ax=ax, label="Impedance (Z)", orientation='horizontal', fraction=0.046, pad=0.04)
-        else:
-            nx.draw_networkx_edges(grid, pos, alpha=0.2, ax=ax)
+        # 2. Draw edges
+        nx.draw_networkx_edges(grid, pos, alpha=0.2, ax=ax)
         
         # 3. Draw Loads (Red circles)
         load_nodes = [n for n, d in grid.nodes(data=True) if d.get('bus_type') == 'Load']
@@ -259,8 +219,7 @@ class GridVisualizer:
                           markersize=8, label='Gen (Dispatched)', alpha=0.6)
         ]
         
-        # Adaptive Legend Placement
-        ax.legend(handles=legend_elements, loc='best')
+        ax.legend(handles=legend_elements)
         ax.axis('off')
         if title:
             ax.set_title(title)
@@ -269,8 +228,7 @@ class GridVisualizer:
         plt.show()
 
     def _draw_bus_types_on_ax(self, ax, graph: nx.Graph, layout_name: str, title: str, 
-                              legend_loc='center left', legend_bbox=(1, 0.5), bbox_transform=None,
-                              show_impedance: bool = False):
+                              legend_loc='center left', legend_bbox=(1, 0.5), bbox_transform=None):
         """Helper to draw bus type visualization on a specific axis."""
         print(f"Calculating layout '{layout_name}' for bus types...")
         # 1. Calculate Layout
@@ -305,35 +263,28 @@ class GridVisualizer:
                                      label=style['label'])
 
         # 3. Edge Config
-        if show_impedance:
-            # Overwrite edge styles with impedance colors
-            edge_coll = self._draw_edges_impedance(ax, graph, pos)
-            if edge_coll:
-                # Horizontal Colorbar at Bottom
-                plt.colorbar(edge_coll, ax=ax, label="Impedance (Z)", orientation='horizontal', fraction=0.046, pad=0.04)
-        else:
-            edge_styles = {
-                frozenset(['Gen', 'Gen']):  {'style': 'dashed', 'color': 'black', 'label': 'GG (Gen-Gen)'},
-                frozenset(['Load', 'Load']): {'style': 'solid',  'color': 'black', 'label': 'LL (Load-Load)'},
-                frozenset(['Conn', 'Conn']): {'style': 'dotted', 'color': 'black', 'label': 'CC (Conn-Conn)'},
-                frozenset(['Gen', 'Load']):  {'style': 'dashdot', 'color': 'gray', 'label': 'GL (Gen-Load)'},
-                frozenset(['Gen', 'Conn']):  {'style': (0, (3, 5, 1, 5)), 'color': 'gray', 'label': 'GC (Gen-Conn)'},
-                frozenset(['Load', 'Conn']): {'style': (0, (5, 10)), 'color': 'gray', 'label': 'LC (Load-Conn)'},
-            }
+        edge_styles = {
+            frozenset(['Gen', 'Gen']):  {'style': 'dashed', 'color': 'black', 'label': 'GG (Gen-Gen)'},
+            frozenset(['Load', 'Load']): {'style': 'solid',  'color': 'black', 'label': 'LL (Load-Load)'},
+            frozenset(['Conn', 'Conn']): {'style': 'dotted', 'color': 'black', 'label': 'CC (Conn-Conn)'},
+            frozenset(['Gen', 'Load']):  {'style': 'dashdot', 'color': 'gray', 'label': 'GL (Gen-Load)'},
+            frozenset(['Gen', 'Conn']):  {'style': (0, (3, 5, 1, 5)), 'color': 'gray', 'label': 'GC (Gen-Conn)'},
+            frozenset(['Load', 'Conn']): {'style': (0, (5, 10)), 'color': 'gray', 'label': 'LC (Load-Conn)'},
+        }
 
-            for u, v in graph.edges():
-                t1 = graph.nodes[u].get('bus_type', 'Unknown')
-                t2 = graph.nodes[v].get('bus_type', 'Unknown')
-                
-                pair = frozenset([t1, t2])
-                style = edge_styles.get(pair, {'style': 'solid', 'color': 'lightgray'})
-                
-                nx.draw_networkx_edges(graph, pos, 
-                                       edgelist=[(u, v)], 
-                                       style=style['style'], 
-                                       edge_color=style['color'], 
-                                       alpha=0.6, 
-                                       ax=ax)
+        for u, v in graph.edges():
+            t1 = graph.nodes[u].get('bus_type', 'Unknown')
+            t2 = graph.nodes[v].get('bus_type', 'Unknown')
+            
+            pair = frozenset([t1, t2])
+            style = edge_styles.get(pair, {'style': 'solid', 'color': 'lightgray'})
+            
+            nx.draw_networkx_edges(graph, pos, 
+                                   edgelist=[(u, v)], 
+                                   style=style['style'], 
+                                   edge_color=style['color'], 
+                                   alpha=0.6, 
+                                   ax=ax)
 
         # 4. Legend
         handles = []
@@ -347,18 +298,12 @@ class GridVisualizer:
                                  label=style['label'])
             handles.append(handle)
         
-        if not show_impedance:
-            # Only show edge style legend if we aren't using impedance coloring
-            for pair_key, style in edge_styles.items():
-                line = mlines.Line2D([], [], color=style['color'], linestyle=style['style'], label=style['label'])
-                handles.append(line)
+        for pair_key, style in edge_styles.items():
+            line = mlines.Line2D([], [], color=style['color'], linestyle=style['style'], label=style['label'])
+            handles.append(line)
 
         # Apply specific legend location args
-        kwargs = {'handles': handles, 'loc': legend_loc, 'title': "Grid Components"}
-        
-        # Only apply bbox and transform if explicitly provided (for sidebar usage)
-        if legend_bbox is not None:
-             kwargs['bbox_to_anchor'] = legend_bbox
+        kwargs = {'handles': handles, 'loc': legend_loc, 'bbox_to_anchor': legend_bbox, 'title': "Grid Components"}
         if bbox_transform is not None:
             kwargs['bbox_transform'] = bbox_transform
             
@@ -367,12 +312,10 @@ class GridVisualizer:
         ax.set_title(f"{title}\nLayout: {layout_name}")
         ax.axis('off')
 
-    def plot_bus_types(self, graph: nx.Graph, layout: str = 'kamada_kawai', title: str = "Bus Type Visualization", 
-                      show_impedance: bool = False, figsize: Tuple[int, int] = (12, 10)):
-        """Visualizes the grid coloring nodes by their Bus Type (Static). Option to show impedance on edges."""
+    def plot_bus_types(self, graph: nx.Graph, layout: str = 'kamada_kawai', title: str = "Bus Type Visualization", figsize: Tuple[int, int] = (12, 10)):
+        """Visualizes the grid coloring nodes by their Bus Type (Static)."""
         plt.figure(figsize=figsize)
-        # Use 'best' location for adaptive placement in static plot
-        self._draw_bus_types_on_ax(plt.gca(), graph, layout, title, legend_loc='best', legend_bbox=None, show_impedance=show_impedance)
+        self._draw_bus_types_on_ax(plt.gca(), graph, layout, title)
         plt.tight_layout()
         plt.show()
 
@@ -405,8 +348,7 @@ class GridVisualizer:
         plt.show()
 
     def _draw_graph_on_ax(self, ax, graph, layout_name, title, show_labels,
-                          legend_loc='upper right', legend_bbox=None, bbox_transform=None,
-                          show_impedance: bool = False):
+                          legend_loc='upper right', legend_bbox=None, bbox_transform=None):
         """Helper to draw graph on a specific axis."""
         print(f"Calculating layout '{layout_name}'...")
         if layout_name == 'kamada_kawai':
@@ -425,15 +367,7 @@ class GridVisualizer:
         node_colors = self._get_node_colors(graph)
         
         ax.clear()
-        
-        if show_impedance:
-             edge_coll = self._draw_edges_impedance(ax, graph, pos)
-             if edge_coll:
-                # Horizontal Colorbar at Bottom
-                plt.colorbar(edge_coll, ax=ax, label="Impedance (Z)", orientation='horizontal', fraction=0.046, pad=0.04)
-        else:
-            nx.draw_networkx_edges(graph, pos, ax=ax, alpha=0.3, edge_color='gray')
-            
+        nx.draw_networkx_edges(graph, pos, ax=ax, alpha=0.3, edge_color='gray')
         nx.draw_networkx_nodes(graph, pos, ax=ax, node_color=node_colors, node_size=50, alpha=0.9)
         
         if show_labels:
@@ -524,14 +458,31 @@ class GridVisualizer:
         else:
              pos = nx.kamada_kawai_layout(grid)
 
-        # 2. Draw Nodes
+        # 2. Extract Impedance
+        edges = []
+        z_vals = []
+        for u, v, d in grid.edges(data=True):
+            edges.append((u, v))
+            z_vals.append(d.get('z', 0.0))
+
+        # 3. Draw Nodes
         nx.draw_networkx_nodes(grid, pos, node_size=20, node_color='black', ax=ax)
 
-        # 3. Draw Edges with Colormap using Helper
-        edge_coll = self._draw_edges_impedance(ax, grid, pos)
-        if edge_coll:
-            # Horizontal Colorbar at Bottom
-            plt.colorbar(edge_coll, ax=ax, label="Impedance Magnitude (Z) [p.u.]", orientation='horizontal', fraction=0.046, pad=0.04)
+        # 4. Draw Edges with Colormap
+        if edges:
+            # Use coolwarm: Blue (Low Z) to Red (High Z)
+            edge_collection = nx.draw_networkx_edges(
+                grid, pos,
+                edgelist=edges,
+                edge_color=z_vals,
+                edge_cmap=plt.cm.coolwarm,
+                width=2.0,
+                alpha=0.8,
+                ax=ax
+            )
+            # Colorbar
+            if edge_collection:
+                plt.colorbar(edge_collection, ax=ax, label="Impedance Magnitude (Z) [p.u.]")
         
         ax.axis('off')
         if title:

@@ -28,7 +28,7 @@ def main():
     print_separator()
     configurator = InputConfigurator(seed=42)
     
-    # Using 'dgln' for degree distribution
+    # Using 'dgln' (Discrete Generalized Log-Normal) for degree distribution
     level_specs = [
         {'n': 20, 'avg_k': 3.0, 'diam': 6, 'dist_type': 'dgln'},
         {'n': 60, 'avg_k': 2.2, 'diam': 10, 'dist_type': 'dgln'}
@@ -98,7 +98,7 @@ def main():
     print_separator()
     trans_allocator = TransmissionLineAllocator(grid, ref_sys_id=1)
     line_caps = trans_allocator.allocate()
-    # print(line_caps)
+    
     total_lines = len(line_caps)
     avg_cap = sum(line_caps.values()) / total_lines if total_lines > 0 else 0
     print(f"-> Allocated {total_lines} Lines")
@@ -110,10 +110,13 @@ def main():
     viz = GridVisualizer()
     
     print("-> Plotting Bus Types...")
-    viz.plot_bus_types(grid, layout='kamada_kawai', title="Synthetic Grid: Bus Types")
+    viz.plot_bus_types(grid, layout='kamada_kawai', title="Synthetic Grid: Bus Types", show_impedance=False)
 
     print("-> Plotting Generation vs Load Bubbles...")
     viz.plot_load_gen_bubbles(grid, layout='kamada_kawai', title=f"Generation vs Load (Total: {total_load:.0f} MW)")
+
+    print("-> Plotting Transmission Line Impedances...")
+    viz.plot_impedance(grid, layout='kamada_kawai', title="Grid Impedance Map (Blue=Low Z, Red=High Z)")
 
     print("\nDemo Completed Successfully.")
     print("============================================================")

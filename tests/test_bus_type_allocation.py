@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from powergrid_synth.generator import PowerGridGenerator
 from powergrid_synth.input_configurator import InputConfigurator
 from powergrid_synth.bus_type_allocator import BusTypeAllocator
-from powergrid_synth.visualization import GridVisualizer
+from powergrid_synth.visualization_old import GridVisualizer
 
 class TestIntegration:
     

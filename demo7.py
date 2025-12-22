@@ -13,7 +13,7 @@ from powergrid_synth.capacity_allocator import CapacityAllocator
 from powergrid_synth.load_allocator import LoadAllocator
 from powergrid_synth.generation_dispatcher import GenerationDispatcher
 from powergrid_synth.transmission import TransmissionLineAllocator
-from powergrid_synth.visualization import GridVisualizer
+from powergrid_synth.visualization_old import GridVisualizer
 
 def print_separator():
     print("-" * 60)
