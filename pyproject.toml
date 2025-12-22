@@ -25,5 +25,5 @@ dev = [
 
 [project.urls]
 "Homepage" = "https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer"
-"Documentation" = "https://Chung_Lu_Chain-synthesizer.readthedocs.io/"
+"Documentation" = "https://power-grid-synthesizer.readthedocs.io/en/latest/"
 "Bug Tracker" = "https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/issues"

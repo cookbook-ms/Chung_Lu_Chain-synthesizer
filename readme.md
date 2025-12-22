@@ -8,6 +8,11 @@
 This generates the graphs based on Chung-Lu-Chain graph model for electric infrastructure networks, given as inputs the degree distribution and diameter. 
 On top of this grid topology, we follow MATPOWER to perform bus type assignment. The rest is WIP.
 
+## Documentations
+Check the documentation [here](https://power-grid-synthesizer.readthedocs.io/en/latest/index.html#)
+
+
+
 ## Features
 
 * **Multi-Level Generation:** Create grids with arbitrary voltage levels (e.g., High, Medium, Low Voltage).
