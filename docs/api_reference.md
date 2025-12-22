@@ -1,1 +1,71 @@
-API Reference
+
+
+```{eval-rst}
+.. autoclass:: powergrid_synth.PowerGridGenerator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+```{eval-rst}
+.. autoclass:: powergrid_synth.InputConfigurator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+Allocators (Physics & Engineering)
+```{eval-rst}
+.. autoclass:: powergrid_synth.BusTypeAllocator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+```{eval-rst}
+.. autoclass:: powergrid_synth.CapacityAllocator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+```{eval-rst}
+.. autoclass:: powergrid_synth.LoadAllocator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+```{eval-rst}
+.. autoclass:: powergrid_synth.TransmissionLineAllocator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+```{eval-rst}
+.. autoclass:: powergrid_synth.GenerationDispatcher
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+Utilities
+```{eval-rst}
+.. autoclass:: powergrid_synth.GridVisualizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+```{eval-rst}
+.. autoclass:: powergrid_synth.GridExporter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+Reference Data
+```{eval-rst}
+.. autofunction:: powergrid_synth.get_reference_stat
+```
