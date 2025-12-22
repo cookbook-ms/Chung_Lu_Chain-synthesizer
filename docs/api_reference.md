@@ -1,4 +1,4 @@
-
+# topology generator
 
 ```{eval-rst}
 .. autoclass:: powergrid_synth.PowerGridGenerator
@@ -14,7 +14,7 @@
    :show-inheritance:
 ```
 
-Allocators (Physics & Engineering)
+# grid data generator
 ```{eval-rst}
 .. autoclass:: powergrid_synth.BusTypeAllocator
    :members:
@@ -63,9 +63,4 @@ Utilities
    :members:
    :undoc-members:
    :show-inheritance:
-```
-
-Reference Data
-```{eval-rst}
-.. autofunction:: powergrid_synth.get_reference_stat
 ```

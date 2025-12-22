@@ -1,0 +1,75 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter A
+  \item \spxentry{allocate()}\spxextra{powergrid\_synth.BusTypeAllocator method}, \hyperpage{5}
+  \item \spxentry{allocate()}\spxextra{powergrid\_synth.CapacityAllocator method}, \hyperpage{5}
+  \item \spxentry{allocate()}\spxextra{powergrid\_synth.LoadAllocator method}, \hyperpage{5}
+  \item \spxentry{allocate()}\spxextra{powergrid\_synth.TransmissionLineAllocator method}, 
+		\hyperpage{6}
+
+  \indexspace
+  \bigletter B
+  \item \spxentry{BusTypeAllocator}\spxextra{class in powergrid\_synth}, \hyperpage{5}
+
+  \indexspace
+  \bigletter C
+  \item \spxentry{CapacityAllocator}\spxextra{class in powergrid\_synth}, \hyperpage{5}
+  \item \spxentry{create\_params()}\spxextra{powergrid\_synth.InputConfigurator method}, 
+		\hyperpage{3}
+
+  \indexspace
+  \bigletter D
+  \item \spxentry{dispatch()}\spxextra{powergrid\_synth.GenerationDispatcher method}, \hyperpage{6}
+
+  \indexspace
+  \bigletter E
+  \item \spxentry{export\_to\_matpower()}\spxextra{powergrid\_synth.GridExporter method}, 
+		\hyperpage{7}
+  \item \spxentry{export\_to\_pandapower\_csv()}\spxextra{powergrid\_synth.GridExporter method}, 
+		\hyperpage{7}
+
+  \indexspace
+  \bigletter G
+  \item \spxentry{generate\_grid()}\spxextra{powergrid\_synth.PowerGridGenerator method}, 
+		\hyperpage{3}
+  \item \spxentry{GenerationDispatcher}\spxextra{class in powergrid\_synth}, \hyperpage{6}
+  \item \spxentry{GridExporter}\spxextra{class in powergrid\_synth}, \hyperpage{7}
+  \item \spxentry{GridVisualizer}\spxextra{class in powergrid\_synth}, \hyperpage{6}
+
+  \indexspace
+  \bigletter I
+  \item \spxentry{InputConfigurator}\spxextra{class in powergrid\_synth}, \hyperpage{3}
+
+  \indexspace
+  \bigletter L
+  \item \spxentry{LoadAllocator}\spxextra{class in powergrid\_synth}, \hyperpage{5}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{plot\_bus\_types()}\spxextra{powergrid\_synth.GridVisualizer method}, 
+		\hyperpage{6}
+  \item \spxentry{plot\_grid()}\spxextra{powergrid\_synth.GridVisualizer method}, \hyperpage{6}
+  \item \spxentry{plot\_impedance()}\spxextra{powergrid\_synth.GridVisualizer method}, 
+		\hyperpage{6}
+  \item \spxentry{plot\_interactive()}\spxextra{powergrid\_synth.GridVisualizer method}, 
+		\hyperpage{6}
+  \item \spxentry{plot\_interactive\_bus\_types()}\spxextra{powergrid\_synth.GridVisualizer method}, 
+		\hyperpage{6}
+  \item \spxentry{plot\_interactive\_voltage\_level()}\spxextra{powergrid\_synth.GridVisualizer method}, 
+		\hyperpage{6}
+  \item \spxentry{plot\_load\_gen\_bubbles()}\spxextra{powergrid\_synth.GridVisualizer method}, 
+		\hyperpage{6}
+  \item \spxentry{PowerGridGenerator}\spxextra{class in powergrid\_synth}, \hyperpage{3}
+
+  \indexspace
+  \bigletter T
+  \item \spxentry{TransmissionLineAllocator}\spxextra{class in powergrid\_synth}, \hyperpage{6}
+  \item \spxentry{TYPE\_CONN}\spxextra{powergrid\_synth.BusTypeAllocator attribute}, \hyperpage{5}
+  \item \spxentry{TYPE\_GEN}\spxextra{powergrid\_synth.BusTypeAllocator attribute}, \hyperpage{5}
+  \item \spxentry{TYPE\_LOAD}\spxextra{powergrid\_synth.BusTypeAllocator attribute}, \hyperpage{5}
+
+\end{sphinxtheindex}
