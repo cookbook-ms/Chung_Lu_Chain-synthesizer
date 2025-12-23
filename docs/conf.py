@@ -29,3 +29,14 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to match ReadTheDocs.org
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+html_theme_options = {
+    # 1. Stop the menu from collapsing when you click a page
+    'collapse_navigation': False,
+    
+    # 2. Keep the sidebar stickied as you scroll
+    'sticky_navigation': True,
+    
+    # 3. How many levels deep to show (default is usually 4)
+    'navigation_depth': 4,
+}

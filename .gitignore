@@ -57,3 +57,10 @@ coverage.xml
 # OS specific files
 .DS_Store
 Thumbs.db
+
+
+# Sphinx documentation
+docs/_build/
+docs/generated/
+docs/autoapi/
+docs/bin

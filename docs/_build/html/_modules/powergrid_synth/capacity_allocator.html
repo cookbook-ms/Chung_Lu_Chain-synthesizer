@@ -13,8 +13,8 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -39,10 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Getting started</a></li>
+</ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">topology generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#grid-data-generator">grid data generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api_reference.html">API reference</a></li>
 </ul>
 
         </div>
@@ -77,7 +78,7 @@
 <span class="kn">from</span> <span class="nn">.reference_data</span> <span class="kn">import</span> <span class="n">get_reference_stats</span>
 
 <div class="viewcode-block" id="CapacityAllocator">
-<a class="viewcode-back" href="../../api_reference.html#powergrid_synth.CapacityAllocator">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.capacity_allocator.CapacityAllocator">[docs]</a>
 <span class="k">class</span> <span class="nc">CapacityAllocator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assigns generation capacities (PgMax) to generator buses in the grid.</span>
@@ -102,6 +103,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gen_buses</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bus_type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Gen&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_gen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gen_buses</span><span class="p">)</span>
 
+<div class="viewcode-block" id="CapacityAllocator._generate_heuristic_tab_2d">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.capacity_allocator.CapacityAllocator._generate_heuristic_tab_2d">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_heuristic_tab_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a heuristic 14x14 correlation table (previous default).</span>
@@ -119,8 +122,11 @@
                 <span class="n">matrix</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">dist</span><span class="p">)</span> 
         
         <span class="c1"># Normalize to sum to 1</span>
-        <span class="k">return</span> <span class="n">matrix</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">matrix</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="CapacityAllocator._get_default_tab_2d">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.capacity_allocator.CapacityAllocator._get_default_tab_2d">[docs]</a>
     <span class="k">def</span> <span class="nf">_get_default_tab_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Tab_2D_Pgmax from the selected reference system.</span>
@@ -136,8 +142,11 @@
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> Defaulting to Reference System 1.&quot;</span><span class="p">)</span>
             <span class="n">stats</span> <span class="o">=</span> <span class="n">get_reference_stats</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;Tab_2D_Pgmax&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;Tab_2D_Pgmax&#39;</span><span class="p">]</span></div>
 
+
+<div class="viewcode-block" id="CapacityAllocator._initial_generation_distribution">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.capacity_allocator.CapacityAllocator._initial_generation_distribution">[docs]</a>
     <span class="k">def</span> <span class="nf">_initial_generation_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_gen</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates generation capacities based on empirical distributions.</span>
@@ -171,8 +180,11 @@
         <span class="n">max_r_pgmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">p_caps</span><span class="p">)</span>
         <span class="n">normalized_r_pgmax</span> <span class="o">=</span> <span class="n">p_caps</span> <span class="o">/</span> <span class="n">max_r_pgmax</span>
         
-        <span class="k">return</span> <span class="n">p_caps</span><span class="p">,</span> <span class="n">max_r_pgmax</span><span class="p">,</span> <span class="n">normalized_r_pgmax</span>
+        <span class="k">return</span> <span class="n">p_caps</span><span class="p">,</span> <span class="n">max_r_pgmax</span><span class="p">,</span> <span class="n">normalized_r_pgmax</span></div>
 
+
+<div class="viewcode-block" id="CapacityAllocator._assignment_logic">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.capacity_allocator.CapacityAllocator._assignment_logic">[docs]</a>
     <span class="k">def</span> <span class="nf">_assignment_logic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm_deg_pairs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">norm_caps</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tab_2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The core binning and assignment logic (Algorithm described in &#39;Assignment&#39; function).</span>
@@ -287,10 +299,11 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
             
         <span class="n">gen_setting</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">final_list</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">gen_setting</span>
+        <span class="k">return</span> <span class="n">gen_setting</span></div>
+
 
 <div class="viewcode-block" id="CapacityAllocator.allocate">
-<a class="viewcode-back" href="../../api_reference.html#powergrid_synth.CapacityAllocator.allocate">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.capacity_allocator.CapacityAllocator.allocate">[docs]</a>
     <span class="k">def</span> <span class="nf">allocate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tab_2d</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Main execution method.</span>

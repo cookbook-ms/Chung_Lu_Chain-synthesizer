@@ -13,8 +13,8 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -39,10 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Getting started</a></li>
+</ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">topology generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#grid-data-generator">grid data generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api_reference.html">API reference</a></li>
 </ul>
 
         </div>
@@ -78,7 +79,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <div class="viewcode-block" id="GridExporter">
-<a class="viewcode-back" href="../../api_reference.html#powergrid_synth.GridExporter">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.exporter.GridExporter">[docs]</a>
 <span class="k">class</span> <span class="nc">GridExporter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exports the generated synthetic grid to standard file formats.</span>
@@ -105,6 +106,8 @@
         <span class="c1"># I_base = S / (sqrt(3) * V)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i_base_ka</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_mva</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kv</span><span class="p">)</span>
 
+<div class="viewcode-block" id="GridExporter._get_matpower_header">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.exporter.GridExporter._get_matpower_header">[docs]</a>
     <span class="k">def</span> <span class="nf">_get_matpower_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_name</span><span class="o">=</span><span class="s2">&quot;SyntheticGrid&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;function mpc = </span><span class="si">{</span><span class="n">case_name</span><span class="si">}</span>
@@ -113,10 +116,11 @@
 
 <span class="s2">mpc.version = &#39;2&#39;;</span>
 <span class="s2">mpc.baseMVA = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_mva</span><span class="si">}</span><span class="s2">;</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="GridExporter.export_to_matpower">
-<a class="viewcode-back" href="../../api_reference.html#powergrid_synth.GridExporter.export_to_matpower">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.exporter.GridExporter.export_to_matpower">[docs]</a>
     <span class="k">def</span> <span class="nf">export_to_matpower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the grid to a MATPOWER (.m) file.</span>
@@ -200,7 +204,7 @@
 
 
 <div class="viewcode-block" id="GridExporter.export_to_pandapower_csv">
-<a class="viewcode-back" href="../../api_reference.html#powergrid_synth.GridExporter.export_to_pandapower_csv">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.exporter.GridExporter.export_to_pandapower_csv">[docs]</a>
     <span class="k">def</span> <span class="nf">export_to_pandapower_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Exports CSVs with Physical Units (Ohm, kA) for Pandapower.</span>

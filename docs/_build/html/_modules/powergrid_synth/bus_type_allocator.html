@@ -13,8 +13,8 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -39,10 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Getting started</a></li>
+</ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">topology generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#grid-data-generator">grid data generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api_reference.html">API reference</a></li>
 </ul>
 
         </div>
@@ -77,7 +78,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
 
 <div class="viewcode-block" id="BusTypeAllocator">
-<a class="viewcode-back" href="../../api_reference.html#powergrid_synth.BusTypeAllocator">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.bus_type_allocator.BusTypeAllocator">[docs]</a>
 <span class="k">class</span> <span class="nc">BusTypeAllocator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assigns bus types (Generator, Load, Connection) to a power grid topology</span>
@@ -122,6 +123,8 @@
         <span class="c1"># Determine Ratios [G, L, C] based on network size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ratio_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_ratios</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
         
+<div class="viewcode-block" id="BusTypeAllocator._get_ratios">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._get_ratios">[docs]</a>
     <span class="k">def</span> <span class="nf">_get_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Defined in code: G/L/C ratios based on network size.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2000</span><span class="p">:</span>
@@ -129,8 +132,11 @@
         <span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.44</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">]</span> <span class="c1"># NYISO like</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>    <span class="c1"># WECC like</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>    <span class="c1"># WECC like</span></div>
 
+
+<div class="viewcode-block" id="BusTypeAllocator._get_d_parameter">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._get_d_parameter">[docs]</a>
     <span class="k">def</span> <span class="nf">_get_d_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates distance parameter for W_star estimation.&quot;&quot;&quot;</span>
         <span class="n">log_n</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
@@ -143,8 +149,11 @@
             <span class="k">if</span> <span class="n">log_n</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">:</span>
                 <span class="k">return</span> <span class="o">-</span><span class="mf">1.748</span> <span class="o">*</span> <span class="n">log_n</span> <span class="o">+</span> <span class="mf">8.576</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="o">-</span><span class="mf">6.053e-22</span> <span class="o">*</span> <span class="p">(</span><span class="n">log_n</span><span class="o">**</span><span class="mf">24.1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mf">6.053e-22</span> <span class="o">*</span> <span class="p">(</span><span class="n">log_n</span><span class="o">**</span><span class="mf">24.1</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="BusTypeAllocator._generate_random_assignment">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._generate_random_assignment">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_random_assignment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a valid random bus type assignment vector (1xN).</span>
@@ -181,8 +190,11 @@
         <span class="c1"># 3. Assign Load Buses (Type 2) to remainder</span>
         <span class="n">assignment</span><span class="p">[</span><span class="n">assignment</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TYPE_LOAD</span>
         
-        <span class="k">return</span> <span class="n">assignment</span>
+        <span class="k">return</span> <span class="n">assignment</span></div>
 
+
+<div class="viewcode-block" id="BusTypeAllocator._calculate_link_ratios">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._calculate_link_ratios">[docs]</a>
     <span class="k">def</span> <span class="nf">_calculate_link_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assignment</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates ratios of the 6 link types: GG, LL, CC, GL, GC, LC.&quot;&quot;&quot;</span>
         <span class="c1"># Vectorized link type check</span>
@@ -219,8 +231,11 @@
             <span class="n">counts</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">/</span> <span class="n">M</span><span class="p">,</span> <span class="c1"># GL</span>
             <span class="n">counts</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span> <span class="o">/</span> <span class="n">M</span><span class="p">,</span> <span class="c1"># GC</span>
             <span class="n">counts</span><span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span> <span class="o">/</span> <span class="n">M</span>  <span class="c1"># LC</span>
-        <span class="p">]</span>
+        <span class="p">]</span></div>
 
+
+<div class="viewcode-block" id="BusTypeAllocator._calculate_entropy_score">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._calculate_entropy_score">[docs]</a>
     <span class="k">def</span> <span class="nf">_calculate_entropy_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bus_ratios</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">link_ratios</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates W score based on entropy model.&quot;&quot;&quot;</span>
         <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-12</span> <span class="c1"># Avoid log(0)</span>
@@ -234,8 +249,11 @@
             <span class="n">x1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">bus_ratios</span><span class="p">)</span>
             <span class="n">x2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_edges</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">link_ratios</span> <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
             
-        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="BusTypeAllocator._estimate_w_star">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._estimate_w_star">[docs]</a>
     <span class="k">def</span> <span class="nf">_estimate_w_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monte_carlo_iters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs Monte Carlo simulation to estimate target W* value.</span>
@@ -251,10 +269,11 @@
         <span class="n">std_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">w_samples</span><span class="p">)</span>
         <span class="n">d_param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_d_parameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">d_param</span> <span class="o">*</span> <span class="n">std_w</span><span class="p">)</span> <span class="o">+</span> <span class="n">mean_w</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">d_param</span> <span class="o">*</span> <span class="n">std_w</span><span class="p">)</span> <span class="o">+</span> <span class="n">mean_w</span></div>
+
 
 <div class="viewcode-block" id="BusTypeAllocator.allocate">
-<a class="viewcode-back" href="../../api_reference.html#powergrid_synth.BusTypeAllocator.allocate">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.bus_type_allocator.BusTypeAllocator.allocate">[docs]</a>
     <span class="k">def</span> <span class="nf">allocate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">population_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Main execution method. Runs the AIS optimization.</span>
