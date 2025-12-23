@@ -215,23 +215,28 @@ Ported and adapted from ‘sg_load.m’ (SynGrid).</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Allocates impedance (X, R) and Capacity Limits to transmission lines.
 Based on ‘sg_flow_lim.m’ from SynGrid.</p>
-<p>Steps:
-1. Initialize random impedances (Zpr) based on LogNormal distribution.
-2. Run iterative DCPF (Swapping Logic):</p>
-<blockquote>
-<div><ul class="simple">
+<p>Steps:</p>
+<ol class="arabic simple">
+<li><p>Initialize random impedances (Zpr) based on LogNormal distribution.</p></li>
+<li><p>Run iterative DCPF (Swapping Logic):</p>
+<ul class="simple">
 <li><p>Calculate flows.</p></li>
 <li><p>Assign lower Impedance (Z) to lines with higher Flow.</p></li>
 <li><p>Perform random swaps to introduce variance.</p></li>
 </ul>
-</div></blockquote>
-<ol class="arabic simple" start="3">
-<li><p>(Optional) Topology Refinement:
-- Add low-impedance lines to bridge large phase angle differences.
-- Remove weak (high-impedance) lines to maintain grid density.</p></li>
-<li><p>Allocate Capacity:
-- Use ‘Tab_2D_FlBeta’ to assign Capacity Factors (Beta).
-- Capacity = Flow / Beta.</p></li>
+</li>
+<li><p>(Optional) Topology Refinement:</p>
+<ul class="simple">
+<li><p>Add low-impedance lines to bridge large phase angle differences.</p></li>
+<li><p>Remove weak (high-impedance) lines to maintain grid density.</p></li>
+</ul>
+</li>
+<li><p>Allocate Capacity:</p>
+<ul class="simple">
+<li><p>Use ‘Tab_2D_FlBeta’ to assign Capacity Factors (Beta).</p></li>
+<li><p>Capacity = Flow / Beta.</p></li>
+</ul>
+</li>
 </ol>
 <dl class="py method">
 <dt class="sig sig-object py" id="powergrid_synth.TransmissionLineAllocator.allocate">

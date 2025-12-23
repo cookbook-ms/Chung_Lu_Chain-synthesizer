@@ -43,6 +43,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">Getting started</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/api_reference.html">API reference</a></li>
 </ul>
 
@@ -81,8 +84,6 @@
 <span class="kn">from</span> <span class="nn">matplotlib.widgets</span> <span class="kn">import</span> <span class="n">Button</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<div class="viewcode-block" id="MatplotlibDropdown">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.MatplotlibDropdown">[docs]</a>
 <span class="k">class</span> <span class="nc">MatplotlibDropdown</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A custom Dropdown widget for Matplotlib, created by combining Buttons.</span>
@@ -126,17 +127,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">option_axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax_opt</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">option_btns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">btn</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MatplotlibDropdown.toggle_menu">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.MatplotlibDropdown.toggle_menu">[docs]</a>
     <span class="k">def</span> <span class="nf">toggle_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_menu_open</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_menu_open</span>
         <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_axes</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_menu_open</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw_idle</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw_idle</span><span class="p">()</span>
 
-
-<div class="viewcode-block" id="MatplotlibDropdown.select_option">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.MatplotlibDropdown.select_option">[docs]</a>
     <span class="k">def</span> <span class="nf">select_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
         <span class="c1"># Update state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_idx</span> <span class="o">=</span> <span class="n">idx</span>
@@ -151,9 +147,7 @@
         
         <span class="c1"># Trigger callback</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_select</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">on_select</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
-</div>
-
+            <span class="bp">self</span><span class="o">.</span><span class="n">on_select</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GridVisualizer">
 <a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.GridVisualizer">[docs]</a>
@@ -174,19 +168,14 @@
         <span class="c1"># Keep references to widgets to prevent garbage collection</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_widgets</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="GridVisualizer._get_node_colors">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.GridVisualizer._get_node_colors">[docs]</a>
     <span class="k">def</span> <span class="nf">_get_node_colors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assigns colors to nodes based on their &#39;voltage_level&#39; attribute.&quot;&quot;&quot;</span>
         <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
             <span class="n">level</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;voltage_level&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmap</span><span class="p">(</span><span class="n">level</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">colors</span></div>
+        <span class="k">return</span> <span class="n">colors</span>
 
-
-<div class="viewcode-block" id="GridVisualizer._get_layered_layout">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.GridVisualizer._get_layered_layout">[docs]</a>
     <span class="k">def</span> <span class="nf">_get_layered_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Custom layout: Places nodes in horizontal bands based on voltage level.&quot;&quot;&quot;</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="p">{}</span>
@@ -204,11 +193,8 @@
             <span class="n">x_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">max_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
                 <span class="n">pos</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">pos</span></div>
+        <span class="k">return</span> <span class="n">pos</span>
 
-
-<div class="viewcode-block" id="GridVisualizer._yifan_hu_layout">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.GridVisualizer._yifan_hu_layout">[docs]</a>
     <span class="k">def</span> <span class="nf">_yifan_hu_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Implementation of the Yifan Hu force-directed layout algorithm.&quot;&quot;&quot;</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
@@ -253,11 +239,8 @@
             <span class="n">pos</span> <span class="o">+=</span> <span class="n">displacement</span> <span class="o">*</span> <span class="n">scale</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
             <span class="n">step</span> <span class="o">*=</span> <span class="mf">0.95</span> 
 
-        <span class="k">return</span> <span class="p">{</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span></div>
-
+        <span class="k">return</span> <span class="p">{</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span>
     
-<div class="viewcode-block" id="GridVisualizer._draw_edges_impedance">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.GridVisualizer._draw_edges_impedance">[docs]</a>
     <span class="k">def</span> <span class="nf">_draw_edges_impedance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper to draw edges colored by impedance.&quot;&quot;&quot;</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
@@ -277,8 +260,7 @@
                 <span class="n">ax</span><span class="o">=</span><span class="n">ax</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">edge_collection</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
+        <span class="k">return</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="GridVisualizer.plot_grid">
 <a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.GridVisualizer.plot_grid">[docs]</a>
@@ -370,8 +352,6 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="GridVisualizer._draw_bus_types_on_ax">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.GridVisualizer._draw_bus_types_on_ax">[docs]</a>
     <span class="k">def</span> <span class="nf">_draw_bus_types_on_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">layout_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
                               <span class="n">legend_loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">legend_bbox</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">bbox_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                               <span class="n">show_impedance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -469,8 +449,7 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n</span><span class="s2">Layout: </span><span class="si">{</span><span class="n">layout_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span></div>
-
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GridVisualizer.plot_bus_types">
 <a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.GridVisualizer.plot_bus_types">[docs]</a>
@@ -515,8 +494,6 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="GridVisualizer._draw_graph_on_ax">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.GridVisualizer._draw_graph_on_ax">[docs]</a>
     <span class="k">def</span> <span class="nf">_draw_graph_on_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">layout_name</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">show_labels</span><span class="p">,</span>
                           <span class="n">legend_loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">legend_bbox</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bbox_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">show_impedance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -564,11 +541,8 @@
         <span class="k">if</span> <span class="n">legend_bbox</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bbox_to_anchor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">legend_bbox</span>
         <span class="k">if</span> <span class="n">bbox_transform</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bbox_transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bbox_transform</span>
             
-        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="GridVisualizer._create_interactive_window">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/visualization/index.html#powergrid_synth.GridVisualizer._create_interactive_window">[docs]</a>
     <span class="k">def</span> <span class="nf">_create_interactive_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper to create a figure with a Dropdown menu for layout selection.&quot;&quot;&quot;</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
@@ -601,8 +575,7 @@
         
         <span class="c1"># Initial draw</span>
         <span class="n">update_layout</span><span class="p">(</span><span class="n">layout_options</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
-
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <div class="viewcode-block" id="GridVisualizer.plot_interactive">
 <a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.GridVisualizer.plot_interactive">[docs]</a>

@@ -43,6 +43,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">Getting started</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/api_reference.html">API reference</a></li>
 </ul>
 
@@ -81,7 +84,7 @@
 <span class="kn">from</span> <span class="nn">.transformer_edges</span> <span class="kn">import</span> <span class="n">TransformerConnector</span>
 
 <div class="viewcode-block" id="PowerGridGenerator">
-<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.generator.PowerGridGenerator">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.PowerGridGenerator">[docs]</a>
 <span class="k">class</span> <span class="nc">PowerGridGenerator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements Algorithm 4: Generative model for entire power grid graph on k voltage levels.</span>
@@ -97,7 +100,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">transformer_connector</span> <span class="o">=</span> <span class="n">TransformerConnector</span><span class="p">()</span>
 
 <div class="viewcode-block" id="PowerGridGenerator.generate_grid">
-<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.generator.PowerGridGenerator.generate_grid">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.PowerGridGenerator.generate_grid">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                       <span class="n">degrees_by_level</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> 
                       <span class="n">diameters_by_level</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> 

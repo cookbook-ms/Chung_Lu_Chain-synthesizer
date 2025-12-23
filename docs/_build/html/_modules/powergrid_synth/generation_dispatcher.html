@@ -43,6 +43,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">Getting started</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/api_reference.html">API reference</a></li>
 </ul>
 
@@ -77,7 +80,7 @@
 <span class="kn">from</span> <span class="nn">.reference_data</span> <span class="kn">import</span> <span class="n">get_reference_stats</span>
 
 <div class="viewcode-block" id="GenerationDispatcher">
-<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.generation_dispatcher.GenerationDispatcher">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.GenerationDispatcher">[docs]</a>
 <span class="k">class</span> <span class="nc">GenerationDispatcher</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allocates active power setpoints (Pg) to generators.</span>
@@ -99,8 +102,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mu_committed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;mu_committed&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tab_2d_pg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;Tab_2D_Pg&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="GenerationDispatcher._select_uncommitted">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher._select_uncommitted">[docs]</a>
     <span class="k">def</span> <span class="nf">_select_uncommitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm_pg_max</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Selects 10-20% of units as Uncommitted (Pg = 0).</span>
@@ -124,11 +125,8 @@
             <span class="n">uncommitted</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># [ID, NormCap, Alpha=0]</span>
             <span class="n">remaining</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">remaining</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">uncommitted</span><span class="p">),</span> <span class="n">remaining</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">uncommitted</span><span class="p">),</span> <span class="n">remaining</span>
 
-
-<div class="viewcode-block" id="GenerationDispatcher._select_committed">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher._select_committed">[docs]</a>
     <span class="k">def</span> <span class="nf">_select_committed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm_pg_max</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">total_units_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Selects 40-50% of TOTAL units as Committed.</span>
@@ -161,11 +159,8 @@
             <span class="n">committed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">remaining</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
             <span class="n">remaining</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">remaining</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">committed</span><span class="p">),</span> <span class="n">remaining</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">committed</span><span class="p">),</span> <span class="n">remaining</span>
 
-
-<div class="viewcode-block" id="GenerationDispatcher._generate_alphas">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher._generate_alphas">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_alphas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_comm</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">n_comm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_mod</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -177,11 +172,8 @@
             <span class="k">if</span> <span class="n">n_005</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">a2</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_005</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">a1</span></div>
+            <span class="k">return</span> <span class="n">a1</span>
 
-
-<div class="viewcode-block" id="GenerationDispatcher._assign_alphas">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher._assign_alphas">[docs]</a>
     <span class="k">def</span> <span class="nf">_assign_alphas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">alphas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="n">n_items</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">n_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
@@ -236,11 +228,10 @@
              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_len</span><span class="p">):</span>
                  <span class="n">final_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">remaining_units</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">remaining_units</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">remaining_alphas</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">final_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">final_list</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
-
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">final_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">final_list</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
 
 <div class="viewcode-block" id="GenerationDispatcher.dispatch">
-<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.generation_dispatcher.GenerationDispatcher.dispatch">[docs]</a>
+<a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.GenerationDispatcher.dispatch">[docs]</a>
     <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="c1"># 1. Prepare Data</span>
         <span class="n">gen_data</span> <span class="o">=</span> <span class="p">[]</span>

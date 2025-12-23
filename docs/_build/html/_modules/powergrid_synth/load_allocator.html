@@ -43,6 +43,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">Getting started</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/api_reference.html">API reference</a></li>
 </ul>
 
@@ -102,8 +105,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">load_buses</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bus_type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Load&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_load</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_buses</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LoadAllocator._get_tab_2d_load">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/load_allocator/index.html#powergrid_synth.LoadAllocator._get_tab_2d_load">[docs]</a>
     <span class="k">def</span> <span class="nf">_get_tab_2d_load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Tab_2D_load from the selected reference system.</span>
@@ -124,11 +125,8 @@
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> Defaulting to Reference System 1.&quot;</span><span class="p">)</span>
             <span class="n">stats</span> <span class="o">=</span> <span class="n">get_reference_stats</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;Tab_2D_load&#39;</span><span class="p">]</span></div>
+            <span class="k">return</span> <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;Tab_2D_load&#39;</span><span class="p">]</span>
 
-
-<div class="viewcode-block" id="LoadAllocator._calculate_total_load">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/load_allocator/index.html#powergrid_synth.LoadAllocator._calculate_total_load">[docs]</a>
     <span class="k">def</span> <span class="nf">_calculate_total_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loading_level</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">total_gen_capacity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates Total Load based on the loading level strategy.</span>
@@ -157,11 +155,8 @@
             <span class="k">return</span> <span class="n">total_gen_capacity</span> <span class="o">*</span> <span class="n">factor</span>
             
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid loading level. Choose &#39;D&#39;, &#39;L&#39;, &#39;M&#39;, or &#39;H&#39;.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid loading level. Choose &#39;D&#39;, &#39;L&#39;, &#39;M&#39;, or &#39;H&#39;.&quot;</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="LoadAllocator._initial_load_distribution">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/load_allocator/index.html#powergrid_synth.LoadAllocator._initial_load_distribution">[docs]</a>
     <span class="k">def</span> <span class="nf">_initial_load_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_load</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates load sizes based on empirical distributions.</span>
@@ -194,11 +189,8 @@
         <span class="n">max_r_pl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">p_loads</span><span class="p">)</span>
         <span class="n">normalized_r_pl</span> <span class="o">=</span> <span class="n">p_loads</span> <span class="o">/</span> <span class="n">max_r_pl</span>
         
-        <span class="k">return</span> <span class="n">p_loads</span><span class="p">,</span> <span class="n">max_r_pl</span><span class="p">,</span> <span class="n">normalized_r_pl</span></div>
+        <span class="k">return</span> <span class="n">p_loads</span><span class="p">,</span> <span class="n">max_r_pl</span><span class="p">,</span> <span class="n">normalized_r_pl</span>
 
-
-<div class="viewcode-block" id="LoadAllocator._assignment_logic">
-<a class="viewcode-back" href="../../autoapi/powergrid_synth/load_allocator/index.html#powergrid_synth.LoadAllocator._assignment_logic">[docs]</a>
     <span class="k">def</span> <span class="nf">_assignment_logic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm_deg_pairs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">norm_vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tab_2d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generic binning assignment logic (Shared logic with CapacityAllocator).</span>
@@ -266,8 +258,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">final_list</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
             
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">final_list</span><span class="p">)</span></div>
-
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">final_list</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LoadAllocator.allocate">
 <a class="viewcode-back" href="../../reference/api_reference.html#powergrid_synth.LoadAllocator.allocate">[docs]</a>

@@ -9,19 +9,26 @@ class TransmissionLineAllocator:
     """
     Allocates impedance (X, R) and Capacity Limits to transmission lines.
     Based on 'sg_flow_lim.m' from SynGrid.
-    
+
     Steps:
+
     1. Initialize random impedances (Zpr) based on LogNormal distribution.
+
     2. Run iterative DCPF (Swapping Logic):
-       - Calculate flows.
-       - Assign lower Impedance (Z) to lines with higher Flow.
-       - Perform random swaps to introduce variance.
+
+       * Calculate flows.
+       * Assign lower Impedance (Z) to lines with higher Flow.
+       * Perform random swaps to introduce variance.
+
     3. (Optional) Topology Refinement:
-       - Add low-impedance lines to bridge large phase angle differences.
-       - Remove weak (high-impedance) lines to maintain grid density.
+
+       * Add low-impedance lines to bridge large phase angle differences.
+       * Remove weak (high-impedance) lines to maintain grid density.
+
     4. Allocate Capacity:
-       - Use 'Tab_2D_FlBeta' to assign Capacity Factors (Beta).
-       - Capacity = Flow / Beta.
+
+       * Use 'Tab_2D_FlBeta' to assign Capacity Factors (Beta).
+       * Capacity = Flow / Beta.
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):
