@@ -1,10 +1,11 @@
 Examples
 =============
 
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
 
-Grid topology generation
-------------------------
-
+   Topology Generation <TopologyGeneration>
 
 Here is a complete example showing how to configure, generate, and visualize a synthetic power grid.
 
@@ -44,3 +45,6 @@ Here is a complete example showing how to configure, generate, and visualize a s
     # 4. Visualize
     viz = GridVisualizer()
     viz.plot_grid(grid, layout='yifan_hu', title="Synthetic Grid")
+
+
+
