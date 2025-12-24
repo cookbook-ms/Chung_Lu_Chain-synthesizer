@@ -4,8 +4,8 @@ from .deg_dist_optimizer import DegreeDistributionOptimizer
 
 class InputConfigurator:
     """
-    Helper class to generate the detailed input arrays (degrees, transformer connections)
-    required by PowerGridGenerator from high-level parameters.
+    Helper class to artifically generate the detailed input sequences (degrees, transformer connections)
+    required by PowerGridGenerator from high-level parameters like the number of vertices, and some hyperparameters for the used fitting functions or distributions.
     """
     def __init__(self, seed: Optional[int] = None):
         self.rng = np.random.default_rng(seed)
@@ -20,6 +20,10 @@ class InputConfigurator:
         """
         Generates degrees by first optimizing parameters for DGLN/DPL to match 
         the target average, then sampling from that distribution.
+        
+        Args: 
+            n_nodes: Number of nodes in each same-voltage subgraph. 
+            
         """
         # 1. Optimize parameters to find the ideal PDF
         _, pdf = self.optimizer.optimize(

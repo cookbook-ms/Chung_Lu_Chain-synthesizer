@@ -11,13 +11,11 @@ from powergrid_synth.input_configurator import InputConfigurator
 from powergrid_synth.hierarchical_analysis import HierarchicalAnalyzer
 
 def main():
-    print("--- 1. Configuration: Setting up 5-Level Hierarchy ---")
+    print("--- 1. Configuration: Setting up 3-Level Hierarchy ---")
     
     # Initialize Configurator
     configurator = InputConfigurator(seed=100)
 
-    # Define Specs for 5 Voltage Levels
-    # We use a mix of distributions to simulate realistic grid topology
     # Define 3 voltage levels mimicking a transmission -> sub-transmission -> distribution hierarchy
     level_specs = [
         # Level 0: Transmission (High Connectivity)

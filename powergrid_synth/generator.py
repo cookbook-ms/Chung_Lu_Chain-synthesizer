@@ -1,8 +1,6 @@
 import numpy as np
 import networkx as nx
 from typing import List, Dict, Tuple, Optional
-
-# Import the components we built previously
 from .preprocessing import Preprocessor
 from .edge_creation import EdgeCreator
 from .transformer_edges import TransformerConnector
