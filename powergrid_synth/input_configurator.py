@@ -4,7 +4,7 @@ from .deg_dist_optimizer import DegreeDistributionOptimizer
 
 class InputConfigurator:
     """
-    Helper class to artifically generate the detailed input sequences (degrees, transformer connections)
+    Helper class to artificially generate the detailed input sequences (degrees, transformer connections)
     required by PowerGridGenerator from high-level parameters like the number of vertices, and some hyperparameters for the used fitting functions or distributions.
     """
     def __init__(self, seed: Optional[int] = None):
