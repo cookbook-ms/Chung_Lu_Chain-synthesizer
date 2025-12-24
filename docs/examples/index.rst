@@ -5,7 +5,7 @@ Examples
    :titlesonly:
    :maxdepth: 1
 
-   Topology Generation <TopologyGeneration>
+   Topology Generation <TopologyGeneration.nblink>
 
 Here is a complete example showing how to configure, generate, and visualize a synthetic power grid.
 
