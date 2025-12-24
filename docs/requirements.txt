@@ -4,4 +4,4 @@ nbsphinx
 myst-parser
 pypandoc
 nbsphinx_link
-ipython
+pygments
