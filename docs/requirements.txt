@@ -5,3 +5,4 @@ myst-parser
 pypandoc
 nbsphinx_link
 pygments
+ipython
