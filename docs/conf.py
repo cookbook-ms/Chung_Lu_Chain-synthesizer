@@ -16,6 +16,7 @@ extensions = [
     'sphinx.ext.autodoc',      # Generates docs from code docstrings
     'sphinx.ext.napoleon',     # Parses Google-style docstrings
     'sphinx.ext.viewcode',     # Adds links to source code
+    'sphinx.ext.mathjax',
     'myst_parser',             # Allows using Markdown (.md) instead of .rst
     'nbsphinx',
     'nbsphinx_link',
