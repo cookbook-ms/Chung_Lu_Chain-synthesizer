@@ -30,4 +30,4 @@ It contains three main components:
    :titlesonly:
    :hidden:
 
-   API reference <reference/api_reference>
+   API reference <autoapi/index>

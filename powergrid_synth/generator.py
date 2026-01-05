@@ -1,9 +1,29 @@
 import numpy as np
 import networkx as nx
 from typing import List, Dict, Tuple, Optional
+
+# Import the components we built previously
 from .preprocessing import Preprocessor
 from .edge_creation import EdgeCreator
 from .transformer_edges import TransformerConnector
+
+class PowerGridGraph(nx.Graph):
+    """
+    Custom NetworkX Graph for Power Grids.
+    Extends nx.Graph to support subgraph extraction by voltage level.
+    """
+    def level(self, voltage_level: int) -> nx.Graph:
+        """
+        Returns a subgraph view containing only nodes at the specified voltage level.
+        
+        Args:
+            voltage_level (int): The voltage level index (e.g., 0, 1).
+            
+        Returns:
+            nx.Graph: A subgraph view of the grid.
+        """
+        nodes = [n for n, d in self.nodes(data=True) if d.get('voltage_level') == voltage_level]
+        return self.subgraph(nodes)
 
 class PowerGridGenerator:
     """
@@ -23,7 +43,7 @@ class PowerGridGenerator:
                       degrees_by_level: List[List[int]], 
                       diameters_by_level: List[int], 
                       transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
-                      keep_lcc: bool = True) -> nx.Graph:
+                      keep_lcc: bool = False) -> PowerGridGraph:
         """
         Procedure CLCSTARS({d_xi}, {delta_xi}, {t[Xi, Xj]}) -> E
         
@@ -31,21 +51,17 @@ class PowerGridGenerator:
             degrees_by_level: List of degree sequences, one for each voltage level.
             diameters_by_level: List of target diameters, one for each voltage level.
             transformer_degrees: Dictionary mapping level pairs (i, j) to a tuple of transformer degree lists.
-            keep_lcc: If True, returns only the Largest Connected Component of the generated grid, removing isolated islands. Default: True
+            keep_lcc: If True, returns only the Largest Connected Component of the generated grid.
 
         Returns:
-            A NetworkX graph representing the entire multi-level grid.
+            A PowerGridGraph representing the entire multi-level grid.
         """
         k = len(degrees_by_level)
         all_edges = set()
         
-        # We need to track the global index offset for each level
-        # to ensure node IDs don't clash between levels.
-        # e.g., Level 0: 0-99, Level 1: 100-149
         level_offsets = [0] * k
         level_node_counts = [0] * k
-        level_nodes_local_to_global = [] # List of mappings for each level
-
+        
         current_global_offset = 0
 
         print(f"--- Starting Generation for {k} Voltage Levels ---")
@@ -56,27 +72,21 @@ class PowerGridGenerator:
         for i in range(k):
             print(f"Generating Level {i}...")
             
-            # 1. Run Algorithm 1 (SETUP)
             d_input = degrees_by_level[i]
             delta_input = diameters_by_level[i]
             
             d_prime, v, D, S = self.preprocessor.run_setup(d_input, delta_input)
-            
-            # 2. Run Algorithm 2 (CLC)
             local_edges = self.edge_creator.generate_edges(d_prime, v, D, S)
             
-            # 3. Store Offset and Count
             n_nodes = len(d_prime)
             level_node_counts[i] = n_nodes
             level_offsets[i] = current_global_offset
             
-            # 4. Convert local edges to global IDs and add to E
             for u, w in local_edges:
                 global_u = u + current_global_offset
                 global_w = w + current_global_offset
                 all_edges.add((global_u, global_w))
                 
-            # Update offset for next level
             current_global_offset += n_nodes
             print(f"  -> Level {i} Complete. Nodes: {n_nodes}, Edges: {len(local_edges)}")
 
@@ -94,7 +104,6 @@ class PowerGridGenerator:
                 
                 t_i_j_input, t_j_i_input = transformer_degrees[(i, j)]
                 
-                # Resize/Pad transformer degrees to match actual inflated node counts
                 actual_n_i = level_node_counts[i]
                 t_i_j = list(t_i_j_input)
                 if len(t_i_j) < actual_n_i:
@@ -109,10 +118,8 @@ class PowerGridGenerator:
                 elif len(t_j_i) > actual_n_j:
                     t_j_i = t_j_i[:actual_n_j]
 
-                # Run Algorithm 3 (STARS)
                 trans_edges = self.transformer_connector.generate_transformer_edges(t_i_j, t_j_i)
                 
-                # Convert to global IDs
                 offset_i = level_offsets[i]
                 offset_j = level_offsets[j]
                 
@@ -124,10 +131,9 @@ class PowerGridGenerator:
         # =========================================================
         # Build Final Graph
         # =========================================================
-        G = nx.Graph()
+        G = PowerGridGraph() # Use Custom Class directly
         G.add_edges_from(all_edges)
         
-        # Add metadata to nodes (ensure even isolated nodes are created with attrs)
         for i in range(k):
             start = level_offsets[i]
             end = start + level_node_counts[i]
@@ -142,9 +148,18 @@ class PowerGridGenerator:
                 print("Filtering for Largest Connected Component (LCC)...")
                 original_n = G.number_of_nodes()
                 largest_cc_nodes = max(nx.connected_components(G), key=len)
-                G = G.subgraph(largest_cc_nodes).copy()
+                
+                # We need to preserve the PowerGridGraph class type
+                sub_view = G.subgraph(largest_cc_nodes)
+                G_new = PowerGridGraph()
+                G_new.add_nodes_from(sub_view.nodes(data=True))
+                G_new.add_edges_from(sub_view.edges(data=True))
+                # Update graph-level attributes
+                G_new.graph.update(sub_view.graph)
+                G = G_new
+                
                 new_n = G.number_of_nodes()
-                print(f"  -> Kept {new_n} nodes (removed {original_n - new_n} isolated/disconnected nodes).")
+                print(f"  -> Kept {new_n} nodes (removed {original_n - new_n} isolated nodes).")
             else:
                 print("Warning: Graph is empty, cannot filter for LCC.")
         

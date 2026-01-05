@@ -202,6 +202,68 @@ class GridVisualizer:
         plt.tight_layout()
         plt.show()
 
+    def plot_subgraphs(self, grid: nx.Graph, layout: str = 'kamada_kawai', title: str = "Subgraphs by Voltage Level", 
+                       show_impedance: bool = False, figsize: Tuple[int, int] = (15, 5)):
+        """
+        Plots subgraphs for each voltage level side-by-side (max 3 per row).
+        
+        Args:
+            grid (nx.Graph): The main power grid graph.
+            layout (str): Layout algorithm to use.
+            title (str): Main title for the figure.
+            show_impedance (bool): Whether to color edges by impedance.
+            figsize (Tuple[int, int]): Base size for the figure (width, height for one row). 
+                                       Height will scale with the number of rows.
+        """
+        # Identify levels
+        levels = sorted(list(set(nx.get_node_attributes(grid, 'voltage_level').values())))
+        n_plots = len(levels)
+        
+        if n_plots == 0:
+            print("No voltage levels found in grid.")
+            return
+
+        # Calculate grid dimensions (max 3 cols)
+        n_cols = 3
+        n_rows = (n_plots + n_cols - 1) // n_cols  # Ceiling division
+        
+        # Adjust figsize based on rows
+        base_w, base_h = figsize
+        final_figsize = (base_w, base_h * n_rows)
+        
+        fig, axes = plt.subplots(n_rows, n_cols, figsize=final_figsize)
+        
+        # Standardize axes to a list/flat array
+        if n_plots == 1:
+            axes_flat = [axes] if n_rows == 1 and n_cols == 1 else axes.flatten()
+        else:
+            axes_flat = axes.flatten()
+            
+        # Iterate and plot
+        for i, level in enumerate(levels):
+            ax = axes_flat[i]
+            
+            # Extract nodes for this level
+            nodes = [n for n, d in grid.nodes(data=True) if d.get('voltage_level') == level]
+            subgraph = grid.subgraph(nodes)
+            
+            sub_title = f"Level {level} ({len(nodes)} nodes)"
+            
+            # Use existing helper
+            self._draw_graph_on_ax(ax, subgraph, layout, sub_title, show_labels=False, 
+                                   legend_loc='best', show_impedance=show_impedance)
+            
+        # Hide empty subplots if any
+        for j in range(i + 1, len(axes_flat)):
+            axes_flat[j].axis('off')
+            
+        if title:
+            # Adjust title position based on number of rows
+            plt.suptitle(title, y=1.02 if n_rows > 1 else 1.05, fontsize=16)
+            
+        plt.tight_layout()
+        plt.show()
+
     def plot_load_gen_bubbles(self, grid: nx.Graph, layout: str = 'kamada_kawai', title: str = "Generation vs Load", 
                             show_impedance: bool = False, figsize: Tuple[int, int] = (12, 10)):
         """

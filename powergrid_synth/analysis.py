@@ -1,3 +1,13 @@
+"""
+Grid Analysis Module
+====================
+
+This module provides tools for analyzing the topological properties of power grid graphs.
+It includes the :class:`GridAnalyzer` for calculating metrics like degree distribution,
+path lengths, and clustering coefficients.
+"""
+
+
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,12 +17,20 @@ class GridAnalyzer:
     """
     A class to perform topological analysis on power grid graphs.
     Can be used for both synthetic and real-world grids.
+    
+    Args:
+        graph (nx.Graph): The networkx graph object representing the power grid.
     """
     def __init__(self, graph: nx.Graph):
         self.graph = graph
 
     def get_basic_stats(self) -> Dict[str, Any]:
-        """Returns fundamental counts."""
+        """
+        Returns fundamental counts (nodes, edges, density).
+        
+        Returns: 
+            Dict[str, Any]: A dictionary containing 'num_nodes', 'num_edges', and 'density'.
+        """
         return {
             "num_nodes": self.graph.number_of_nodes(),
             "num_edges": self.graph.number_of_edges(),

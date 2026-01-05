@@ -1,8 +1,15 @@
 sphinx
+sphinx-autoapi
 sphinx-rtd-theme
+sphinx-math-dollar
+sphinxcontrib.bibtex
+
 nbsphinx
-myst-parser
-pypandoc
 nbsphinx_link
+
 pygments
+pypandoc
+myst-parser
 ipython
+
+docutils
