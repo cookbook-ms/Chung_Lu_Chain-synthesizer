@@ -1,9 +1,20 @@
+r"""
+This module aims to convert the generated data, including the grid topology (nx.Graph), and other data like bus types, generations and loads, into the other required data formats: 
+- powersybl
+- pandapower
+- ... 
+
+or the other way around
+"""
+
 import networkx as nx
 import pandas as pd
 import numpy as np
 
 def pandapower_to_nx(net) -> nx.Graph:
     """
+    TODO: pandapower.topology.create_graph might be able to do a better job? 
+
     Converts a Pandapower network to a NetworkX graph compatible with powergrid_synth.
     
     It maps:

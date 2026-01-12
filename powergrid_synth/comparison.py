@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import math
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from .analysis import GridAnalyzer
 
 class GraphComparator:
@@ -73,6 +73,8 @@ class GraphComparator:
                              ref_graph: Optional[nx.Graph] = None, 
                              ax: Optional[plt.Axes] = None,
                              log_scale: bool = True,
+                             fig_size: Tuple = (8, 5),
+                             show_lines: bool = False,
                              title: str = "Degree Distribution Comparison"):
         """
         Plots overlaid degree distributions.
@@ -96,7 +98,7 @@ class GraphComparator:
         
         created_figure = False
         if ax is None:
-            fig, ax = plt.subplots(figsize=(8, 5))
+            fig, ax = plt.subplots(figsize=fig_size)
             created_figure = True
         
         if log_scale:
@@ -110,41 +112,57 @@ class GraphComparator:
             x_s, y_s = get_log_coords(deg_synth)
             x_r, y_r = get_log_coords(deg_ref)
             
-            ax.loglog(x_s, y_s, 'bo', markersize=5, alpha=0.6, label=self.synth_label)
-            ax.loglog(x_r, y_r, 'r^', markersize=5, alpha=0.6, label=self.ref_label)
+            ax.loglog(x_s, y_s, 'bo', markersize=5, alpha=0.7, label=self.synth_label)
+            ax.loglog(x_r, y_r, 'r^', markersize=5, alpha=0.7, label=self.ref_label)
+            
+            if show_lines:
+                ax.loglog(x_s, y_s, '-', linewidth=1, alpha=0.2)
+                ax.loglog(x_r, y_r, '-', linewidth=1, alpha=0.2)
             
             ax.set_xlabel("Degree (log)")
             ax.set_ylabel("Count (log)")
         else:
             # Side-by-Side Bar Chart for Linear Scale
-            max_deg = max(max(deg_synth), max(deg_ref))
+            # Use discrete integer counting for precise alignment
+            from collections import Counter
+            import matplotlib.ticker as ticker
+            
+            counts_s = Counter(deg_synth)
+            counts_r = Counter(deg_ref)
+            
             min_deg = min(min(deg_synth), min(deg_ref))
+            max_deg = max(max(deg_synth), max(deg_ref))
             
-            # Create integer bins covering the full range
-            bins = np.arange(min_deg, max_deg + 2)
+            # Create array of all integers in range
+            all_k = np.arange(min_deg, max_deg + 1)
             
-            # Calculate densities (frequencies)
-            hist_synth, _ = np.histogram(deg_synth, bins=bins, density=True)
-            hist_ref, _ = np.histogram(deg_ref, bins=bins, density=True)
+            # Calculate probabilities
+            n_s = len(deg_synth)
+            n_r = len(deg_ref)
+            probs_s = [counts_s.get(k, 0) / n_s for k in all_k]
+            probs_r = [counts_r.get(k, 0) / n_r for k in all_k]
             
-            # X locations for the groups (centers)
-            x = bins[:-1]
-            width = 0.4  # Width of each bar
+            # Width of bars
+            width = 0.35
             
-            # Plot bars side-by-side
-            # Ref on left, Synth on right
-            ax.bar(x - width/2, hist_ref, width, label=self.ref_label, color='orange', alpha=0.7)
-            ax.bar(x + width/2, hist_synth, width, label=self.synth_label, color='blue', alpha=0.7)
+            # Plot Ref on left, Synth on right
+            ax.bar(all_k - width/2, probs_r, width, label=self.ref_label, color='orange', alpha=0.8)
+            ax.bar(all_k + width/2, probs_s, width, label=self.synth_label, color='blue', alpha=0.8)
             
             ax.set_xlabel("Degree")
-            ax.set_ylabel("Probability Density")
+            ax.set_ylabel("Probability")
             
-            # Set x-ticks to integers if range is small enough
-            if max_deg - min_deg <= 20:
-                ax.set_xticks(x)
+            # Ensure integer ticks centered between the bars
+            ax.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+            
+            # Add some padding to x-axis
+            # Ensure a minimum visible range so bars don't look excessively wide if degree variance is low
+            deg_span = max_deg - min_deg
+            if deg_span < 5:
+                center = (min_deg + max_deg) / 2
+                ax.set_xlim(center - 3, center + 3)
             else:
-                import matplotlib.ticker as ticker
-                ax.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+                ax.set_xlim(min_deg - 1, max_deg + 1)
 
         ax.set_title(title)
         ax.legend()
@@ -178,6 +196,115 @@ class GraphComparator:
             
             # Print Comparison
             self.print_metric_comparison(sub_s, sub_r, title=f"LEVEL {level} COMPARISON")
+
+    def plot_level_topology_comparison(self, figsize: Tuple[int, int] = (15, 10)):
+        """
+        Plots side-by-side bar comparisons for topology metrics per voltage level:
+        Nodes, Edges, Diameter, Avg Path Length, Avg Clustering.
+        """
+        levels_s = set(nx.get_node_attributes(self.synth_graph, 'voltage_level').values())
+        levels_r = set(nx.get_node_attributes(self.ref_graph, 'voltage_level').values())
+        common_levels = sorted(list(levels_s.intersection(levels_r)))
+        
+        if not common_levels:
+            print("No common levels found for topology comparison.")
+            return
+
+        # Prepare Data Containers
+        metrics_map = {
+            'Nodes': {'r': [], 's': []},
+            'Edges': {'r': [], 's': []},
+            'Diameter': {'r': [], 's': []},
+            'Avg Distance': {'r': [], 's': []},
+            'Clustering Coeff': {'r': [], 's': []}
+        }
+        
+        # Mapping for better y-axis labels
+        y_labels = {
+            'Nodes': 'Count',
+            'Edges': 'Count',
+            'Diameter': 'Hop Count',
+            'Avg Distance': 'Avg Hops',
+            'Clustering Coeff': 'Coefficient'
+        }
+        
+        for level in common_levels:
+            # Extract Subgraphs
+            n_s = [n for n, d in self.synth_graph.nodes(data=True) if d.get('voltage_level') == level]
+            n_r = [n for n, d in self.ref_graph.nodes(data=True) if d.get('voltage_level') == level]
+            
+            sub_s = self.synth_graph.subgraph(n_s)
+            sub_r = self.ref_graph.subgraph(n_r)
+            
+            # Analyze (Using GridAnalyzer for consistency)
+            an_s = GridAnalyzer(sub_s)
+            an_r = GridAnalyzer(sub_r)
+            
+            s_basic = an_s.get_basic_stats()
+            s_path = an_s.get_path_metrics()
+            s_clust = an_s.get_clustering_metrics()
+            
+            r_basic = an_r.get_basic_stats()
+            r_path = an_r.get_path_metrics()
+            r_clust = an_r.get_clustering_metrics()
+            
+            # Store
+            metrics_map['Nodes']['s'].append(s_basic['num_nodes'])
+            metrics_map['Nodes']['r'].append(r_basic['num_nodes'])
+            
+            metrics_map['Edges']['s'].append(s_basic['num_edges'])
+            metrics_map['Edges']['r'].append(r_basic['num_edges'])
+            
+            metrics_map['Diameter']['s'].append(s_path['diameter'])
+            metrics_map['Diameter']['r'].append(r_path['diameter'])
+            
+            metrics_map['Avg Distance']['s'].append(s_path['avg_path_length'])
+            metrics_map['Avg Distance']['r'].append(r_path['avg_path_length'])
+            
+            metrics_map['Clustering Coeff']['s'].append(s_clust['avg_clustering_coef'])
+            metrics_map['Clustering Coeff']['r'].append(r_clust['avg_clustering_coef'])
+
+        # Plotting
+        metric_names = list(metrics_map.keys())
+        n_metrics = len(metric_names)
+        
+        # Grid layout (e.g., 2 rows x 3 cols)
+        cols = 3
+        rows = math.ceil(n_metrics / cols)
+        
+        fig, axes = plt.subplots(rows, cols, figsize=figsize)
+        axes = axes.flatten()
+        
+        x = np.arange(len(common_levels))
+        width = 0.35
+        
+        for i, metric in enumerate(metric_names):
+            ax = axes[i]
+            data = metrics_map[metric]
+            
+            ax.bar(x - width/2, data['r'], width, label=self.ref_label, color='orange', alpha=0.8)
+            ax.bar(x + width/2, data['s'], width, label=self.synth_label, color='blue', alpha=0.8)
+            
+            ax.set_title(metric)
+            ax.set_xticks(x)
+            # Rotate x-labels slightly for readability
+            ax.set_xticklabels([f"Level {l}" for l in common_levels], rotation=45, ha='right')
+            # Add descriptive y-label
+            ax.set_ylabel(y_labels.get(metric, "Value"))
+            
+            # Set x limits to prevent single bars from becoming too wide
+            ax.set_xlim(-1, len(common_levels))
+            
+            if i == 0:
+                ax.legend()
+            ax.grid(True, which="both", ls="--", alpha=0.3, axis='y')
+        
+        # Turn off unused subplots
+        for j in range(i + 1, len(axes)):
+            axes[j].axis('off')
+            
+        plt.tight_layout()
+        plt.show()
 
     def plot_all_levels_comparison(self, log_scale: bool = True):
         """
@@ -229,5 +356,8 @@ class GraphComparator:
         print(">>> Running Per-Level Metric Comparison")
         self.print_level_metrics()
         
-        print(">>> Plotting Per-Level Comparisons")
+        print(">>> Plotting Per-Level Topology Metrics")
+        self.plot_level_topology_comparison()
+
+        print(">>> Plotting Per-Level Degree Distributions")
         self.plot_all_levels_comparison(log_scale=log_scale)
