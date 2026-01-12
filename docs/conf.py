@@ -88,6 +88,7 @@ html_theme_options = {
     'sticky_navigation': True,
     'navigation_depth': 4,
 }
+html_css_files = ['custom.css']
 
 
 # For sphinx_math_dollar

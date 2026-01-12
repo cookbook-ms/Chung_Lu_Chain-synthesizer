@@ -20,14 +20,14 @@ def main():
     print("\n[1] Configuring 3-Level Hierarchy...")
     configurator = InputConfigurator(seed=100)
     
-    # Define 3 voltage levels mimicking a transmission -> sub-transmission -> distribution hierarchy
+    # Define 3 voltage levels 
     level_specs = [
         # Level 0: Transmission (High Connectivity)
         {'n': 20, 'avg_k': 4.0, 'diam': 6, 'dist_type': 'dgln'},
         # Level 1: Sub-Transmission
         {'n': 20, 'avg_k': 3.0, 'diam': 10, 'dist_type': 'dpl'},
         # Level 2: Distribution (More Radial)
-        {'n': 10, 'avg_k': 2.0, 'diam': 10, 'dist_type': 'poisson'}
+        {'n': 10, 'avg_k': 2.0, 'diam': 10, 'dist_type': 'dgln'}
     ]
     
     connection_specs = {
@@ -62,7 +62,7 @@ def main():
     print("\n[4] Allocating Bus Types (AIS Optimization)...")
     allocator = BusTypeAllocator(grid, entropy_model=1)
     # We use a moderate iteration count for the demo
-    bus_types = allocator.allocate(max_iter=100, population_size=20)
+    bus_types = allocator.allocate(max_iter=100, population_size=10)
     
     # Assign attributes to the graph nodes
     nx.set_node_attributes(grid, bus_types, name="bus_type")

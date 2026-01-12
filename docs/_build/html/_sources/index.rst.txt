@@ -30,4 +30,11 @@ It contains three main components:
    :titlesonly:
    :hidden:
 
+   Theory  <theory/index>
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+   :hidden:
+
    API reference <autoapi/index>

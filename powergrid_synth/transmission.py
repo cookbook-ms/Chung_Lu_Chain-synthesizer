@@ -1,3 +1,7 @@
+r"""
+TODO: note that [Reed et al. 2006](https://www.tandfonline.com/doi/full/10.1081/STA-120037438) argues that the magnitude of the line impedances exhibits a heavy-tailed distribution that is well-fitted bya clipped double-Pareto-logNormal distribution 
+"""
+
 import numpy as np
 import networkx as nx
 from scipy.stats import levy_stable
@@ -6,7 +10,7 @@ from .reference_data import get_reference_stats
 from .dcpf import DCPowerFlow
 
 class TransmissionLineAllocator:
-    """
+    r"""
     Allocates impedance (X, R) and Capacity Limits to transmission lines.
     Based on 'sg_flow_lim.m' from SynGrid.
 

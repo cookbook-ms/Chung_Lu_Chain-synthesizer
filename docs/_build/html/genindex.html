@@ -9,6 +9,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6230b2d3" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -46,6 +47,17 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples/TopologyGeneration.html">Topology Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="theory/index.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/topology_generation.html">Topology Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/bus_type_assignment.html">Bus Type Assignment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/ais_bus_type_assignment.html">Artificial Immune System (AIS) for Bus Type Allocation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -54,6 +66,7 @@
 <li class="toctree-l2"><a class="reference internal" href="autoapi/powergrid_synth/index.html">powergrid_synth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/analysis/index.html">powergrid_synth.analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/bus_type_allocator/index.html">powergrid_synth.bus_type_allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/transmission/index.html">powergrid_synth.transmission</a></li>
 </ul>
 </li>
 </ul>
@@ -93,24 +106,33 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator._assign_betas">_assign_betas() (powergrid_synth.transmission.TransmissionLineAllocator method)</a>
+</li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._calculate_entropy_score">_calculate_entropy_score() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 </li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._calculate_link_ratios">_calculate_link_ratios() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 </li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._estimate_w_star">_estimate_w_star() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 </li>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator._generate_beta">_generate_beta() (powergrid_synth.transmission.TransmissionLineAllocator method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator._generate_phi">_generate_phi() (powergrid_synth.transmission.TransmissionLineAllocator method)</a>
+</li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._generate_random_assignment">_generate_random_assignment() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 </li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._get_d_parameter">_get_d_parameter() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 </li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._get_ratios">_get_ratios() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
+</li>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator._refine_topology">_refine_topology() (powergrid_synth.transmission.TransmissionLineAllocator method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -119,7 +141,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator.allocate">allocate() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator.allocate">(powergrid_synth.transmission.TransmissionLineAllocator method)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/powergrid_synth/analysis/index.html#powergrid_synth.analysis.GridAnalyzer.analyze">analyze() (powergrid_synth.analysis.GridAnalyzer method)</a>
@@ -164,6 +190,8 @@
 </li>
         <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#module-powergrid_synth.bus_type_allocator">powergrid_synth.bus_type_allocator</a>
 </li>
+        <li><a href="autoapi/powergrid_synth/transmission/index.html#module-powergrid_synth.transmission">powergrid_synth.transmission</a>
+</li>
       </ul></li>
   </ul></td>
 </tr></table>
@@ -173,6 +201,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/powergrid_synth/analysis/index.html#powergrid_synth.analysis.GridAnalyzer.plot_degree_distribution">plot_degree_distribution() (powergrid_synth.analysis.GridAnalyzer method)</a>
 </li>
+      <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator.plot_entropy_pdf">plot_entropy_pdf() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
+</li>
       <li>
     powergrid_synth
 
@@ -180,8 +210,6 @@
         <li><a href="autoapi/powergrid_synth/index.html#module-powergrid_synth">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     powergrid_synth.analysis
 
@@ -189,6 +217,8 @@
         <li><a href="autoapi/powergrid_synth/analysis/index.html#module-powergrid_synth.analysis">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     powergrid_synth.bus_type_allocator
 
@@ -196,6 +226,21 @@
         <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#module-powergrid_synth.bus_type_allocator">module</a>
 </li>
       </ul></li>
+      <li>
+    powergrid_synth.transmission
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/transmission/index.html#module-powergrid_synth.transmission">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator">TransmissionLineAllocator (class in powergrid_synth.transmission)</a>
+</li>
   </ul></td>
 </tr></table>
 

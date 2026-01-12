@@ -1,7 +1,6 @@
+r"""
+This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :doc:`Bus Type Assignment based on Bus Type Entropy <../docs/theory/bus_type_assignment.rst>`.
 """
-TODO: 
-"""
-
 
 import numpy as np
 import networkx as nx
@@ -9,13 +8,16 @@ import math
 import random
 from typing import List, Dict, Tuple, Optional
 
+
 class BusTypeAllocator:
-    """
-    Assigns bus types (Generator, Load, Connection) to a power grid topology
+    r"""
+    This class assigns bus types (Generator, Load, Connection) to a raw power grid topology
     using an Artificial Immune System (AIS) optimization algorithm to match
     target topological entropy properties.
-    
-    Ported and adapted from 'sg_bus_type.m' (SynGrid).
+
+    Args:
+        graph: NetworkX graph representing the grid topology.
+        entropy_model: 0 or 1, determines the entropy definition used (W parameter).
     """
     
     TYPE_GEN = 1
@@ -23,11 +25,6 @@ class BusTypeAllocator:
     TYPE_CONN = 3
 
     def __init__(self, graph: nx.Graph, entropy_model: int = 0):
-        """
-        Args:
-            graph: NetworkX graph representing the grid topology.
-            entropy_model: 0 or 1, determines the entropy definition used (W parameter).
-        """
         self.graph = graph
         self.entropy_model = entropy_model
         
@@ -53,8 +50,13 @@ class BusTypeAllocator:
         # Determine Ratios [G, L, C] based on network size
         self.ratio_types = self._get_ratios(self.n_nodes)
         
+        # Store entropy samples for plotting
+        self.w_samples: List[float] = []
+        
     def _get_ratios(self, n: int) -> List[float]:
-        """Defined in code: G/L/C ratios based on network size."""
+        r"""
+        Bus type G/L/C ratio settings based on network size.
+        """
         if n < 2000:
             return [0.23, 0.55, 0.22] # IEEE-300 like
         elif n < 10000:
@@ -63,7 +65,7 @@ class BusTypeAllocator:
             return [0.2, 0.4, 0.4]    # WECC like
 
     def _get_d_parameter(self, n: int) -> float:
-        """Calculates distance parameter for W_star estimation."""
+        """Calculates the normalized parameter for W_star estimation."""
         log_n = math.log(n)
         if self.entropy_model == 0:
             if log_n <= 8:
@@ -84,9 +86,6 @@ class BusTypeAllocator:
         """
         assignment = np.zeros(self.n_nodes, dtype=int)
         
-        # Counts based on ratios
-        # Note: The MATLAB code had a specific logic where loop 1 used Ratio(2) for Type 3.
-        # Here we implement the logical mapping: Ratio[0]->Gen, Ratio[1]->Load, Ratio[2]->Conn.
         n_gen = int(round(self.n_nodes * self.ratio_types[0]))
         n_conn = int(round(self.n_nodes * self.ratio_types[2]))
         # Load is remainder
@@ -115,23 +114,21 @@ class BusTypeAllocator:
         return assignment
 
     def _calculate_link_ratios(self, assignment: np.ndarray) -> List[float]:
-        """Calculates ratios of the 6 link types: GG, LL, CC, GL, GC, LC."""
+        r"""
+        Calculates ratios of the 6 link types: GG, LL, CC, GL, GC, LC.
+        Encode links using the follwoing mappings:
+        
+        .. math::
+            11 \to \text{GG}, 22 \to \text{LL}, 33 \to \text{CC}, 
+            12 \to \text{GL}, 13 \to \text{GC}, 23 \to \text{LC}
+        """
         # Vectorized link type check
         u_types = assignment[self.link_ids[:, 0]]
         v_types = assignment[self.link_ids[:, 1]]
         
         # Sort pair so (1,2) is same as (2,1)
         pairs = np.sort(np.vstack((u_types, v_types)).T, axis=1)
-        
-        # Encode pairs: 11(GG), 22(LL), 33(CC), 12(GL), 13(GC), 23(LC)
-        # Mappings:
-        # 1-1 -> GG
-        # 2-2 -> LL
-        # 3-3 -> CC
-        # 1-2 -> GL
-        # 1-3 -> GC
-        # 2-3 -> LC
-        
+
         counts = {
             (1, 1): 0, (2, 2): 0, (3, 3): 0,
             (1, 2): 0, (1, 3): 0, (2, 3): 0
@@ -167,9 +164,11 @@ class BusTypeAllocator:
             
         return -(x1 + x2)
 
-    def _estimate_w_star(self, monte_carlo_iters: int = 2000) -> float:
-        """
+    def _estimate_w_star(self, monte_carlo_iters: int = 10_000) -> Tuple[float, float]:
+        r"""
         Runs Monte Carlo simulation to estimate target W* value.
+        Returns:
+            Tuple of (W_star, Standard_Deviation_of_W)
         """
         w_samples = []
         for _ in range(monte_carlo_iters):
@@ -177,26 +176,42 @@ class BusTypeAllocator:
             l_ratios = self._calculate_link_ratios(assign)
             w = self._calculate_entropy_score(self.ratio_types, l_ratios)
             w_samples.append(w)
+        
+        # Store for plotting
+        self.w_samples = w_samples
             
         mean_w = np.mean(w_samples)
         std_w = np.std(w_samples)
         d_param = self._get_d_parameter(self.n_nodes)
         
-        return (d_param * std_w) + mean_w
+        w_star = (d_param * std_w) + mean_w
+        return w_star, std_w
 
     def allocate(self, max_iter: int = 100, population_size: int = 20) -> Dict[int, str]:
-        """
-        Main execution method. Runs the AIS optimization.
+        r"""
+        Main AIS optimization method.
         
-        Returns:
-            Dictionary mapping node_id -> 'Gen', 'Load', or 'Conn'
+        Improved based on SynGrid 'sg_bus_type.m':
+        1. Uses dynamic convergence criteria based on MC std deviation.
+        2. Implements Clonal and Mutation operators with rank-based intensity.
+        3. Injects fresh random solutions every iteration for diversity.
+
+        Args:
+            max_iter: Maximum optimization iterations.
+            population_size: Size of the surviving population (default 20, as in MATLAB).
         """
         print(f"Starting Bus Type Allocation (N={self.n_nodes}, M={self.n_edges})...")
         
-        # 1. Target W*
-        w_star = self._estimate_w_star()
-        print(f"  Target Entropy Score (W*): {w_star:.4f}")
+        # 1. Estimate Target W* and Standard Deviation
+        w_star, std_w = self._estimate_w_star()
+        print(f"  Target Entropy Score (W*): {w_star:.4f}, Std Dev: {std_w:.4f}")
         
+        # Determine Convergence Criteria (Logic from MATLAB)
+        if self.n_nodes < 50:
+            criteria = std_w / 2 if self.entropy_model == 1 else std_w / 10
+        else:
+            criteria = std_w / 1000
+
         # 2. Initialize Population
         population = []
         for _ in range(population_size):
@@ -207,7 +222,7 @@ class BusTypeAllocator:
         
         # 3. Optimization Loop
         for it in range(max_iter):
-            # Evaluate Fitness (Error = abs(W* - W))
+            # A. Evaluate Fitness
             scores = []
             for indiv in population:
                 l_ratios = self._calculate_link_ratios(indiv)
@@ -218,69 +233,138 @@ class BusTypeAllocator:
             # Sort by error (Ascending)
             scores.sort(key=lambda x: x[0])
             
+            # Update Global Best
             current_best_error, current_best_sol = scores[0]
             if current_best_error < best_error:
                 best_error = current_best_error
                 best_solution = current_best_sol
             
-            # Convergence check (Thresholds from MATLAB code)
-            threshold = 0.001 # Simplified threshold
-            if best_error < threshold:
-                print(f"  Converged at iteration {it}. Error: {best_error:.6f}")
+            # Check Convergence
+            if best_error < criteria:
+                print(f"  Converged at iteration {it}. Error: {best_error:.6f} < Criteria: {criteria:.6f}")
                 break
-                
-            # --- Clonal Selection & Mutation ---
-            # Select top half to clone
-            top_half = [s[1] for s in scores[:population_size//2]]
-            new_population = []
-            
-            # Cloning & Mutating
-            # Better solutions get cloned more, but mutated less? 
-            # MATLAB logic: 
-            #   Cloning: Count decreases with rank.
-            #   Mutation: Probability increases with rank (worse solutions mutated more).
-            
-            B, s = 0.4, 100
-            
-            for rank, indiv in enumerate(top_half):
-                # Number of clones
-                n_clones = int(round(B * s / (rank + 1)))
-                
-                for _ in range(n_clones):
-                    clone = indiv.copy()
-                    
-                    # Mutation
-                    # Logic adapted: rank 0 (best) mutates little, rank N mutates more
-                    # Rate increases with rank
-                    mutation_rate = 0.01 + (rank / len(top_half)) * 0.1
-                    
-                    if np.random.random() < mutation_rate:
-                        # Pick random node and change type
-                        idx_to_mut = np.random.randint(0, self.n_nodes)
-                        # Pick new type (1, 2, or 3)
-                        new_type = np.random.choice([1, 2, 3])
-                        clone[idx_to_mut] = new_type
-                        
-                    new_population.append(clone)
-            
-            # Fill remainder with random new solutions (Diversity)
-            while len(new_population) < population_size:
-                new_population.append(self._generate_random_assignment())
-                
-            # Truncate if too huge (optimization)
-            if len(new_population) > population_size * 5:
-                new_population = new_population[:population_size*5]
-                
-            population = new_population
             
             if it % 10 == 0:
                 print(f"  Iter {it}: Best Error = {best_error:.6f}")
 
+            # B. Clonal Selection
+            # Select top solutions to clone. 
+            # Logic: B=0.4, s=100. nc = round(B*s/rank).
+            # MATLAB uses the whole population here as source? Yes, iterates 1:L.
+            clones = []
+            B, s = 0.4, 100
+            
+            # Limit cloning to existing population size (sorted)
+            for rank, item in enumerate(scores):
+                indiv = item[1]
+                # Rank is 1-based in formula
+                n_clones = int(round((B * s) / (rank + 1)))
+                for _ in range(n_clones):
+                    clones.append(indiv.copy())
+            
+            # C. Mutation Operator
+            # Mutates the clones.
+            # Logic: Split clones into 10 groups. 
+            # Worse groups get MORE mutations (higher intensity).
+            mutated_clones = []
+            L_clones = len(clones)
+            chunk_size = L_clones / 10.0
+            
+            for j in range(L_clones):
+                clone = clones[j]
+                
+                # Determine "group" (b) from 1 to 10
+                # j starts at 0 (best clones) to L_clones-1 (worst clones)
+                # Actually, clones are generated from best to worst parents, so order is roughly preserved.
+                group_idx = int(j / chunk_size) + 1 # 1 to 10
+                if group_idx > 10: group_idx = 10
+                
+                # Apply mutation 'group_idx' times
+                for _ in range(group_idx):
+                    # Pick random node
+                    node_idx = np.random.randint(0, self.n_nodes)
+                    
+                    # Random flip to any other type (1, 2, or 3)
+                    # MATLAB code bias: if rand<0.5 -> 1 else -> 2. 
+                    # We will allow all 3 to maintain topological diversity.
+                    new_type = np.random.choice([1, 2, 3])
+                    clone[node_idx] = new_type
+                
+                mutated_clones.append(clone)
+            
+            # D. Diversity Injection
+            # Add fresh random solutions. MATLAB adds 10% of new population size.
+            n_fresh = max(1, int(len(mutated_clones) / 10))
+            fresh_solutions = []
+            for _ in range(n_fresh):
+                fresh_solutions.append(self._generate_random_assignment())
+                
+            # E. Selection (Next Generation)
+            # Combine: Fresh + Mutated Clones + Original Clones (MATLAB logic combines pop4, pop3, pop2)
+            combined_population = fresh_solutions + mutated_clones + clones
+            
+            # Re-evaluate Combined Population
+            combined_scores = []
+            for indiv in combined_population:
+                l_ratios = self._calculate_link_ratios(indiv)
+                w = self._calculate_entropy_score(self.ratio_types, l_ratios)
+                err = abs(w_star - w)
+                combined_scores.append((err, indiv))
+            
+            # Sort and Truncate to original population size
+            combined_scores.sort(key=lambda x: x[0])
+            
+            # Keep top 'population_size'
+            population = [x[1] for x in combined_scores[:population_size]]
+
         # 4. Final mapping
-        result_mapping = {}
+        bus_types = {}
         type_labels = {1: 'Gen', 2: 'Load', 3: 'Conn'}
+        # Use best_solution found across all iterations
         for i, type_code in enumerate(best_solution):
             node_id = self.idx_to_node[i]
-            result_mapping[node_id] = type_labels[type_code]
+            bus_types[int(node_id)] = type_labels[type_code]
             
-        return result_mapping
+        return bus_types
+
+    def plot_entropy_pdf(self, figsize: Tuple[int, int] = (10, 6)):
+        """
+        Plots the empirical Probability Density Function (PDF) of the entropy values (W) 
+        gathered during estimation, optionally fitting a Normal Distribution.
+        
+        Must be called after `allocate()` or `_estimate_w_star()`.
+        """
+        try:
+            import matplotlib.pyplot as plt
+            from scipy.stats import norm
+        except ImportError:
+            print("Matplotlib or Scipy not installed. Cannot plot PDF.")
+            return
+
+        if not hasattr(self, 'w_samples') or not self.w_samples:
+            print("No entropy samples available. Please run allocate() first.")
+            return
+
+        plt.figure(figsize=figsize)
+        
+        # Plot Histogram
+        # density=True ensures the area under the histogram sums to 1 (probability density)
+        count, bins, ignored = plt.hist(self.w_samples, bins=50, density=True, 
+                                      alpha=0.6, color='skyblue', edgecolor='black', 
+                                      label='Empirical Data')
+        
+        # Fit and plot Normal Distribution
+        mu, std = norm.fit(self.w_samples)
+        xmin, xmax = plt.xlim()
+        x = np.linspace(xmin, xmax, 100)
+        p = norm.pdf(x, mu, std)
+        
+        plt.plot(x, p, 'r', linewidth=2, label=f'Normal Fit\n$\mu={mu:.3f}$, $\sigma={std:.3f}$')
+        
+        plt.title(f'Bus Type Entropy Distribution (N={self.n_nodes})')
+        plt.xlabel('Bus Type Entropy (W)')
+        plt.ylabel('Probability Density')
+        plt.legend()
+        plt.grid(True, linestyle='--', alpha=0.5)
+        plt.tight_layout()
+        plt.show()

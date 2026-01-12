@@ -1,5 +1,4 @@
-Examples
-=============
+.. include:: intro.rst
 
 .. toctree::
    :titlesonly:
@@ -7,7 +6,7 @@ Examples
 
    Topology Generation <TopologyGeneration.nblink>
 
-Here is a complete example showing how to configure, generate, and visualize a synthetic power grid.
+Here is a brief example showing how to configure the user input, and then generate, and visualize a synthetic power grid.
 
 .. code-block:: python
    :linenos:
@@ -42,9 +41,8 @@ Here is a complete example showing how to configure, generate, and visualize a s
         transformer_degrees=params['transformer_degrees']
     )
 
-    # 4. Visualize
-    viz = GridVisualizer()
-    viz.plot_grid(grid, layout='yifan_hu', title="Synthetic Grid")
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
 
-
-
+   Bus Type Assignment <BusTypeAssignment.nblink>
