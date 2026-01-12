@@ -6,6 +6,12 @@
 
    Topology Generation <TopologyGeneration.nblink>
 
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   IEEE Test <IEEETest.nblink>
+
 Here is a brief example showing how to configure the user input, and then generate, and visualize a synthetic power grid.
 
 .. code-block:: python
