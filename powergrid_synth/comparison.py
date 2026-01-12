@@ -116,15 +116,35 @@ class GraphComparator:
             ax.set_xlabel("Degree (log)")
             ax.set_ylabel("Count (log)")
         else:
-            # Linear Histogram
+            # Side-by-Side Bar Chart for Linear Scale
             max_deg = max(max(deg_synth), max(deg_ref))
-            bins = range(0, max_deg + 2)
+            min_deg = min(min(deg_synth), min(deg_ref))
             
-            ax.hist(deg_synth, bins=bins, density=True, alpha=0.5, label=self.synth_label, color='blue')
-            ax.hist(deg_ref, bins=bins, density=True, alpha=0.5, label=self.ref_label, color='orange')
+            # Create integer bins covering the full range
+            bins = np.arange(min_deg, max_deg + 2)
+            
+            # Calculate densities (frequencies)
+            hist_synth, _ = np.histogram(deg_synth, bins=bins, density=True)
+            hist_ref, _ = np.histogram(deg_ref, bins=bins, density=True)
+            
+            # X locations for the groups (centers)
+            x = bins[:-1]
+            width = 0.4  # Width of each bar
+            
+            # Plot bars side-by-side
+            # Ref on left, Synth on right
+            ax.bar(x - width/2, hist_ref, width, label=self.ref_label, color='orange', alpha=0.7)
+            ax.bar(x + width/2, hist_synth, width, label=self.synth_label, color='blue', alpha=0.7)
             
             ax.set_xlabel("Degree")
             ax.set_ylabel("Probability Density")
+            
+            # Set x-ticks to integers if range is small enough
+            if max_deg - min_deg <= 20:
+                ax.set_xticks(x)
+            else:
+                import matplotlib.ticker as ticker
+                ax.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
         ax.set_title(title)
         ax.legend()
