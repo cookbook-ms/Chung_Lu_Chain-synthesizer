@@ -1,3 +1,8 @@
+r"""
+This module conveniently compares the synthetically generated power grid topology with the real power grid topology. 
+TODO: perhaps also include another module that compares the other parts of the generated data like bus types and so on. 
+"""
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import pandas as pd

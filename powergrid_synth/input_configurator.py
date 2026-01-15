@@ -1,3 +1,32 @@
+r"""
+This calss assist the operation mode II in grid topology generation, where one takes as inputs 
+
+1. `n`: the number of nodes; `average-k`: the average node degree; and `diam`: the desired diameter for same-voltage level and the node degree distribution types
+
+- `dgln`: discrete generalized log-normal distribution 
+- `dpl`: discrete power-law distribution 
+
+2. the transformer line specs between different-voltage levels: `type`: `k-stars`, parameters `c` and `gamma` for the transformer degree distribution
+
+Example
+-------
+.. code-block:: python
+   :linenos:
+   
+    # Define the voltage levels (Node count, Avg Degree, Diameter, Distribution Type)
+    level_specs = [
+        {'n': 50,  'avg_k': 3.5, 'diam': 10, 'dist_type': 'dgln'},    # Backbone (Log-Normal)
+        {'n': 150, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl'},     # Distribution (Power Law)
+        {'n': 300, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'poisson'}  # Local (Poisson)
+    ]
+
+    # Define connections between levels (k-stars model)
+    connection_specs = {
+        (0, 1): {'type': 'k-stars', 'c': 0.174, 'gamma': 4.15},
+        (1, 2): {'type': 'k-stars', 'c': 0.15, 'gamma': 4.15}
+    }
+"""
+
 import numpy as np
 from typing import List, Dict, Tuple, Optional, Any
 from .deg_dist_optimizer import DegreeDistributionOptimizer

@@ -1,5 +1,6 @@
 r"""
 This module aims to convert the generated data, including the grid topology (nx.Graph), and other data like bus types, generations and loads, into the other required data formats: 
+
 - powersybl
 - pandapower
 - ... 

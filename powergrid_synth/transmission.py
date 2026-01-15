@@ -29,7 +29,7 @@ class TransmissionLineAllocator:
        * Add low-impedance lines to bridge large phase angle differences.
        * Remove weak (high-impedance) lines to maintain grid density.
 
-    4. Allocate Capacity:
+    4. Allocate Transmission line Capacity:
 
        * Use 'Tab_2D_FlBeta' to assign Capacity Factors (Beta).
        * Capacity = Flow / Beta.

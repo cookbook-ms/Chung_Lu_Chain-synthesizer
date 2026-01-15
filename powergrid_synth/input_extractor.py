@@ -1,3 +1,11 @@
+r"""
+This module extracts the topology parameters from realistic grids topology, acting as inputs for generate synthetic grids topology, namely
+
+- node degrees per voltage level 
+- node diameter per voltage level
+- transformer degrees between different-voltage levels
+"""
+
 import networkx as nx
 from typing import Dict, List, Tuple
 
