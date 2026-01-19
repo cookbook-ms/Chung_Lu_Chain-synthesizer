@@ -1,6 +1,6 @@
-########################################
+#############################################
 Bus Type Assignment based on Bus Type Entropy
-########################################
+#############################################
 
 Here we explain the statistical method used to assign the bus types given a grid topology. 
 In a typical power grid, $20-40\%$ of the buses are generation buses, $40-60\%$ load buses, and about $20\%$ connection buses. 

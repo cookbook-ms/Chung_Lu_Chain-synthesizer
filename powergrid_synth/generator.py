@@ -1,3 +1,15 @@
+r"""
+Main module for generating synthetic grid topology based on Chung-Lu-Chain star graph model. 
+
+Inputs: 
+    
+    * Desired same-voltage degrees: $\mathbf{d}^{X_1}, \dots, \mathbf{d}^{X_k}$ for each same-voltage graph $X_i$.
+    * Desured same-voltage diameters: $\delta^{X_1},\dots \delta^{X_k}$. 
+    * Transformer degrees: $\mathbf{t}[X_i,X_j]$ for each pair $i,j\in\{1,\dots,k\}$
+    
+Output: 
+    Full edge list. 
+"""
 import numpy as np
 import networkx as nx
 from typing import List, Dict, Tuple, Optional
@@ -6,28 +18,12 @@ from typing import List, Dict, Tuple, Optional
 from .preprocessing import Preprocessor
 from .edge_creation import EdgeCreator
 from .transformer_edges import TransformerConnector
+from .grid_graph import PowerGridGraph
 
-class PowerGridGraph(nx.Graph):
-    """
-    Custom NetworkX Graph for Power Grids.
-    Extends nx.Graph to support subgraph extraction by voltage level.
-    """
-    def level(self, voltage_level: int) -> nx.Graph:
-        """
-        Returns a subgraph view containing only nodes at the specified voltage level.
-        
-        Args:
-            voltage_level (int): The voltage level index (e.g., 0, 1).
-            
-        Returns:
-            nx.Graph: A subgraph view of the grid.
-        """
-        nodes = [n for n, d in self.nodes(data=True) if d.get('voltage_level') == voltage_level]
-        return self.subgraph(nodes)
 
 class PowerGridGenerator:
     """
-    Implements Algorithm 4: Generative model for entire power grid graph on k voltage levels.
+    Generative model for entire power grid graph on k voltage levels.
     """
     def __init__(self, seed: Optional[int] = None):
         if seed is not None:
@@ -44,9 +40,7 @@ class PowerGridGenerator:
                       diameters_by_level: List[int], 
                       transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
                       keep_lcc: bool = False) -> PowerGridGraph:
-        """
-        Procedure CLCSTARS({d_xi}, {delta_xi}, {t[Xi, Xj]}) -> E
-        
+        r"""
         Args:
             degrees_by_level: List of degree sequences, one for each voltage level.
             diameters_by_level: List of target diameters, one for each voltage level.
@@ -62,71 +56,19 @@ class PowerGridGenerator:
         level_offsets = [0] * k
         level_node_counts = [0] * k
         
-        current_global_offset = 0
-
         print(f"--- Starting Generation for {k} Voltage Levels ---")
 
         # =========================================================
         # Lines 3-7: Create each same-voltage subgraph
         # =========================================================
-        for i in range(k):
-            print(f"Generating Level {i}...")
-            
-            d_input = degrees_by_level[i]
-            delta_input = diameters_by_level[i]
-            
-            d_prime, v, D, S = self.preprocessor.run_setup(d_input, delta_input)
-            local_edges = self.edge_creator.generate_edges(d_prime, v, D, S)
-            
-            n_nodes = len(d_prime)
-            level_node_counts[i] = n_nodes
-            level_offsets[i] = current_global_offset
-            
-            for u, w in local_edges:
-                global_u = u + current_global_offset
-                global_w = w + current_global_offset
-                all_edges.add((global_u, global_w))
-                
-            current_global_offset += n_nodes
-            print(f"  -> Level {i} Complete. Nodes: {n_nodes}, Edges: {len(local_edges)}")
+        self._generate_subgraphs(k, degrees_by_level, diameters_by_level, 
+                               level_offsets, level_node_counts, all_edges)
 
         # =========================================================
         # Lines 8-13: Insert transformer edges between levels
         # =========================================================
-        print("Generating Transformer Connections...")
-        for i in range(k):
-            for j in range(i + 1, k):
-                
-                if (i, j) not in transformer_degrees:
-                    continue
-                
-                print(f"  -> Connecting Level {i} <-> Level {j}")
-                
-                t_i_j_input, t_j_i_input = transformer_degrees[(i, j)]
-                
-                actual_n_i = level_node_counts[i]
-                t_i_j = list(t_i_j_input)
-                if len(t_i_j) < actual_n_i:
-                    t_i_j.extend([0] * (actual_n_i - len(t_i_j)))
-                elif len(t_i_j) > actual_n_i:
-                    t_i_j = t_i_j[:actual_n_i]
-                
-                actual_n_j = level_node_counts[j]
-                t_j_i = list(t_j_i_input)
-                if len(t_j_i) < actual_n_j:
-                    t_j_i.extend([0] * (actual_n_j - len(t_j_i)))
-                elif len(t_j_i) > actual_n_j:
-                    t_j_i = t_j_i[:actual_n_j]
-
-                trans_edges = self.transformer_connector.generate_transformer_edges(t_i_j, t_j_i)
-                
-                offset_i = level_offsets[i]
-                offset_j = level_offsets[j]
-                
-                for u_local, v_local in trans_edges:
-                    u_global = u_local + offset_i
-                    v_global = v_local + offset_j
-                    all_edges.add((u_global, v_global))
+        self._generate_transformer_connections(k, transformer_degrees, 
+                                             level_node_counts, level_offsets, all_edges)
 
         # =========================================================
         # Build Final Graph
@@ -164,3 +106,94 @@ class PowerGridGenerator:
                 print("Warning: Graph is empty, cannot filter for LCC.")
         
         return G
+    
+    def _generate_subgraphs(self, k: int, 
+                          degrees_by_level: List[List[int]], 
+                          diameters_by_level: List[int],
+                          level_offsets: List[int],
+                          level_node_counts: List[int],
+                          all_edges: set):
+        r"""
+        Helper method to generate same-voltage subgraphs.
+        
+        offsets variables are used to assign nodes proper IDs
+        
+        Example
+        -------
+        .. code-block:: python
+            :linenos:
+            
+            # Level 0 generated (5 nodes) -> Local IDs: 0, 1, 2, 3, 4
+            level_offsets[0] = 0
+            current_global_offset becomes 5
+
+            # Level 1 generated (3 nodes) -> Local IDs: 0, 1, 2
+            # We shift them by current_global_offset (5):
+            # Global IDs: 5, 6, 7
+            level_offsets[1] = 5
+            current_global_offset becomes 8
+        """
+        current_global_offset = 0
+        for i in range(k):
+            print(f"Generating Level {i}...")
+            
+            d_input = degrees_by_level[i]
+            delta_input = diameters_by_level[i]
+            
+            d_prime, v, D, S = self.preprocessor.run_setup(d_input, delta_input)
+            local_edges = self.edge_creator.generate_edges(d_prime, v, D, S)
+            
+            n_nodes = len(d_prime)
+            level_node_counts[i] = n_nodes
+            level_offsets[i] = current_global_offset
+            
+            for u, w in local_edges:
+                global_u = u + current_global_offset
+                global_w = w + current_global_offset
+                all_edges.add((global_u, global_w))
+                
+            current_global_offset += n_nodes
+            print(f"  -> Level {i} Complete. Nodes: {n_nodes}, Edges: {len(local_edges)}")
+
+    def _generate_transformer_connections(self, k: int,
+                                        transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
+                                        level_node_counts: List[int],
+                                        level_offsets: List[int],
+                                        all_edges: set):
+        """
+        Helper method to insert transformer edges between levels.
+        """
+        print("Generating Transformer Connections...")
+        for i in range(k):
+            for j in range(i + 1, k):
+                
+                if (i, j) not in transformer_degrees:
+                    continue
+                
+                print(f"  -> Connecting Level {i} <-> Level {j}")
+                
+                t_i_j_input, t_j_i_input = transformer_degrees[(i, j)]
+                
+                actual_n_i = level_node_counts[i]
+                t_i_j = list(t_i_j_input)
+                if len(t_i_j) < actual_n_i:
+                    t_i_j.extend([0] * (actual_n_i - len(t_i_j)))
+                elif len(t_i_j) > actual_n_i:
+                    t_i_j = t_i_j[:actual_n_i]
+                
+                actual_n_j = level_node_counts[j]
+                t_j_i = list(t_j_i_input)
+                if len(t_j_i) < actual_n_j:
+                    t_j_i.extend([0] * (actual_n_j - len(t_j_i)))
+                elif len(t_j_i) > actual_n_j:
+                    t_j_i = t_j_i[:actual_n_j]
+
+                trans_edges = self.transformer_connector.generate_transformer_edges(t_i_j, t_j_i)
+                
+                offset_i = level_offsets[i]
+                offset_j = level_offsets[j]
+                
+                for u_local, v_local in trans_edges:
+                    u_global = u_local + offset_i
+                    v_global = v_local + offset_j
+                    all_edges.add((u_global, v_global))

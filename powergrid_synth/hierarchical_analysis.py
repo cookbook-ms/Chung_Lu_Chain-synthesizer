@@ -1,3 +1,6 @@
+r"""
+This module performs an analysis of the generated synthetic grid topology for each subgraph, as well as for the entire global graph. 
+"""
 import networkx as nx
 import matplotlib.pyplot as plt
 import math

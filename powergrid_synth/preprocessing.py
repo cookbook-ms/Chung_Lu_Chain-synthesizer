@@ -1,3 +1,6 @@
+r"""
+This module sets up the inputs for synthetic grid topology generation, namely, desired same-voltage degrees & diameters, and transformer degrees. 
+"""
 import numpy as np
 import math
 import random

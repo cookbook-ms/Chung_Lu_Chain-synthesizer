@@ -1,3 +1,6 @@
+"""
+TODO: This module outputs the synthetic data into the formats compatible with ..... 
+"""
 import networkx as nx
 import datetime
 import os

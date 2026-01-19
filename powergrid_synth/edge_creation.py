@@ -1,3 +1,7 @@
+r"""
+This module connects the edges within each same-voltage subgraph level. 
+"""
+
 import numpy as np
 import random
 from typing import List, Set, Tuple, Dict
