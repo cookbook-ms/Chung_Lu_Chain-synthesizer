@@ -9,27 +9,8 @@ This generates the graphs based on Chung-Lu-Chain graph model for electric infra
 On top of this grid topology, we follow MATPOWER to perform bus type assignment. The rest is WIP.
 
 ## Documentations
-Check the documentation [here](https://power-grid-synthesizer.readthedocs.io/en/latest/index.html#)
+Check the documentation [here](https://power-grid-synthesizer.readthedocs.io/en/latest/index.html#) (WIP).
 
-
-
-## Features
-
-* **Multi-Level Generation:** Create grids with arbitrary voltage levels (e.g., High, Medium, Low Voltage).
-* **Topological Algorithms:** Implements robust algorithms for:
-    * Degree sequence inflation and box assignment (Algorithm 1).
-    * Connectivity generation using Diameter Paths and Chung-Lu models (Algorithm 2).
-    * Hierarchical interconnections using k-Stars models (Algorithm 3).
-* **Advanced Parameter Configuration:**
-    * Support for **Poisson**, **Discrete Generalized Log-Normal (DGLN)**, and **Discrete Power Law (DPL)** degree distributions.
-    * Automatic parameter optimization to match target average degrees.
-* **Visualization:**
-    * **Yifan Hu** (Force-directed with adaptive cooling).
-    * **Voltage Layered** (Hierarchical view).
-    * **Kamada-Kawai** (Topology view).
-* **Analysis & Comparison:**
-    * Compare generated grids against real-world datasets or reference models (if the real-world graph is provided).
-    * Analyze metrics globally or per voltage level.
 
 ## Installation
 
@@ -51,9 +32,9 @@ Here is how to generate a simple 3-level grid, optimize the input distributions,
     # 1. Configuration
     # Define the voltage levels (Node count, Avg Degree, Diameter, Distribution Type)
     level_specs = [
-        {'n': 50,  'avg_k': 3.5, 'diam': 10, 'dist_type': 'dgln'},    # Backbone (Log-Normal)
-        {'n': 150, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl'},     # Distribution (Power Law)
-        {'n': 300, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'poisson'}  # Local (Poisson)
+        {'n': 50,  'avg_k': 3.5, 'diam': 10, 'dist_type': 'dgln'},    # (Log-Normal)
+        {'n': 150, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl'},     # (Power Law)
+        {'n': 300, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'poisson'}  # (Poisson)
     ]
 
     # Define connections between levels (k-stars model)
