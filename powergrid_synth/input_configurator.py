@@ -1,12 +1,12 @@
 r"""
-This calss assist the operation mode II in grid topology generation, where one takes as inputs 
+This calss assists the operation mode II in grid topology generation, where one takes as inputs 
 
-1. `n`: the number of nodes; `average-k`: the average node degree; and `diam`: the desired diameter for same-voltage level and the node degree distribution types
+1. `n`: the number of nodes; `ave_k`: the average node degree; and `diam`: the desired diameter for same-voltage level and the node degree distribution types
 
 - `dgln`: discrete generalized log-normal distribution 
 - `dpl`: discrete power-law distribution 
 
-2. the transformer line specs between different-voltage levels: `type`: `k-stars`, parameters `c` and `gamma` for the transformer degree distribution
+2. the transformer line specs between different-voltage levels: `type`: `k-stars`, parameters `c` and `gamma` for the transformer degree distribution.
 
 Example
 -------
@@ -15,16 +15,19 @@ Example
    
     # Define the voltage levels (Node count, Avg Degree, Diameter, Distribution Type)
     level_specs = [
-        {'n': 50,  'avg_k': 3.5, 'diam': 10, 'dist_type': 'dgln'},    # Backbone (Log-Normal)
-        {'n': 150, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl'},     # Distribution (Power Law)
-        {'n': 300, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'poisson'}  # Local (Poisson)
+        {'n': 50,  'avg_k': 3.5, 'diam': 10, 'dist_type': 'dgln'},    # (Log-Normal)
+        {'n': 150, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl'},     # (Power Law)
+        {'n': 300, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'poisson'}  # (Poisson)
     ]
-
     # Define connections between levels (k-stars model)
     connection_specs = {
         (0, 1): {'type': 'k-stars', 'c': 0.174, 'gamma': 4.15},
         (1, 2): {'type': 'k-stars', 'c': 0.15, 'gamma': 4.15}
     }
+    # Initialize Configurator
+    configurator = InputConfigurator(seed=100)
+    # Generating Input Parameters
+    params = configurator.create_params(level_specs, connection_specs)
 """
 
 import numpy as np
@@ -147,9 +150,12 @@ class InputConfigurator:
         Generates the full parameter set.
         
         Args:
+            levels: TODO: 
             inter_connections: Dict mapping (i, j) to config.
                                Config can be {'type': 'simple', 'p_i_j': ..., 'p_j_i': ...}
                                OR {'type': 'k-stars', 'c': 0.174, 'gamma': 4.15}
+        
+        TODO: We can further improve the setup for `max_d`. For `dgln`, the paper suggests $\bar{d}=2.425\pm 0.1846$ and $d_{\max}$ is rather difficult to generalize as a function of $n$. For `dpl`, some work suggests $d_\max\sim n^{1/\gamma}$ with $\gamma\in[1,4]$. Using $g(n)=c\cdot n^{1/4}$ to fit some data yields $c\approx 1.517$. 
         """
         degrees_by_level = []
         diameters_by_level = []

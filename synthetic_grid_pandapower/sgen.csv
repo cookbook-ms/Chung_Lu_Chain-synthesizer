@@ -1,0 +1,5 @@
+bus,p_mw,q_mvar,sn_mva,name,type,in_service
+2,2.7923558963622997e-05,0.0,100.0,Gen 2,SGEN,True
+6,95.45415747224347,0.0,100.0,Gen 6,SGEN,True
+8,3.41796117214165e-05,0.0,100.0,Gen 9,SGEN,True
+9,0.0,0.0,100.0,Gen 10,SGEN,True

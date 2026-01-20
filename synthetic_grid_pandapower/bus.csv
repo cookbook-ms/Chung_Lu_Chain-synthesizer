@@ -1,0 +1,11 @@
+name,vn_kv,type,zone,in_service
+Bus 0,230.0,n,1,True
+Bus 1,230.0,b,1,True
+Bus 2,230.0,b,1,True
+Bus 3,230.0,n,1,True
+Bus 4,230.0,b,1,True
+Bus 5,230.0,b,1,True
+Bus 6,230.0,b,1,True
+Bus 7,230.0,b,1,True
+Bus 9,230.0,b,1,True
+Bus 10,230.0,b,1,True

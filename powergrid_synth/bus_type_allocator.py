@@ -1,5 +1,5 @@
 r"""
-This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :doc:`Bus Type Assignment based on Bus Type Entropy </theory/bus_type_assignment>`.
+This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :doc:`Bus Type Assignment based on Bus Type Entropy</theory/bus_type_assignment>`.
 """
 
 import numpy as np

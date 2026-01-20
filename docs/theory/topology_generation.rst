@@ -87,3 +87,28 @@ Validation metrics
   * ratio of total lengths of all lines to the length of the minimum spanning tree
 
 
+
+
+Synthetic generation of topology generation inputs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Diameter $\delta$: The diameter of same-voltage subgraphs is on the order of $\sqrt{n}$, also suggested by `Young et al. (2018) <https://ieeexplore.ieee.org/document/8586475>`_. E.g., one can use the approximate function of the form $f(n) = c\cdot n^k$ to estimate the diameter. In this work, it yields $c\approx 1.301$ and $k\approx 0.574$ using the three sets of data. 
+
+
+* Same-voltage degree sequence $\mathbf{d}^X$: It was suggested to use the following 
+
+  * a generalized log-normal degree distribution, where the number $n_d$ of degree $d$ nodes follows
+      
+      .. math:: n_d \propto \exp\Big(-\bigg(\frac{\log d}{\alpha}\bigg)^\beta\Big)
+      
+      for some parameters $\alpha, \beta$. To optimize $\alpha, \beta$, one needs user-specified target values for average degree $\bar{d}$ and maximum degree $d_\max$. This work finds a consistent average degree across same-voltage subgraphs, with mean $\bar{d}=2.425$ and standard deviation $0.1846$ and coefficient of variation $7.6\%$. 
+
+  * a power law (a scale-free network) where the degree distribution follows a power law
+
+      .. math:: n_d \propto d^{-\gamma}
+      
+      for some parameter $\gamma$. To optimizer $\gamma$, the maximum degree $d_\max$ is required, which is suggested $d_\max \sim n^{1/\gamma'}$ with some $\gamma'$. Fitting $d_\max$ in the three sets of data of this work using $g(n)=c\cdot n^{1/4}$ yields $c\approx 1.517$.
+
+  Given the required parameter(s), average and/or maximum degree, we can use `Kolda et al. (2014) <https://arxiv.org/abs/1302.6636>`_ to optimize the distribution parameters and obtain the degree sequences. 
+  
+* Transformer degree sequence $\mathbf{t}[X,Y]$: 

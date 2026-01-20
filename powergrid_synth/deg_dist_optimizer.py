@@ -1,10 +1,28 @@
+r"""
+Given the size `n` and the average degree `ave_k`, This module returns the degree distribution with optimized distribution parameters for 
+
+* `dgln`: discrete generalized log-normal --- the number $n_d$ of degree $d$ nodes
+    
+    .. math:: n_d \propto \exp\Big(-\bigg(\frac{\log d}{\alpha}\bigg)^\beta\Big)
+    
+    for some parameters $\alpha, \beta$. 
+
+* `dpl`: discrete power law --- a scale-free network where the degree distribution follows a power law
+
+    .. math:: n_d \propto d^{-\gamma}
+    
+    for some parameter $\gamma$. 
+
+This optimizer is based on `Kolda et al. (2014) <https://arxiv.org/abs/1302.6636>`_, where users specify target values for average degree and/or maximum degree. See :doc:`Topology Generation</theory/topology_generation>` on how to set them.
+"""
+
 import numpy as np
 from scipy.optimize import minimize
 from typing import Tuple, List, Optional
 
 class DegreeDistributionOptimizer:
     """
-    Finds parameters for 'ideal' degree distributions (DGLN or Power Law)
+    Finds parameters for 'ideal' degree distributions (`dgln` or `dpl`)
     matching a target average degree and maximum degree bound.
     
     Ported from MATLAB 'degdist_param_search.m' (Sandia National Labs).
