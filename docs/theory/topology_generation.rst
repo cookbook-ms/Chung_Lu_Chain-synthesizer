@@ -19,6 +19,27 @@ The method proposed by the authors includes two phases:
 2. the second phase uses a simple **random start graph model** to connect the subgraphs of different voltage levels. 
 
 
+Preliminaries
+^^^^^^^^^^^^^
+For a graph $G=(V,E)$ with $n$ nodes, we denote the degree of a node $i$ as $d_i$, and the degree sequence as $\mathbf{d}=[d_1,d_2,\dots,d_n]$. 
+Some graph metrics. 
+
+* average distance in a connected graph is the average distance between all pairs of vertices 
+
+.. math:: \text{avgDist} = \frac{1}{n(n-1)} \sum_{i\in V} \sum_{j\in V, j\neq i} d(i,j)
+
+* diameter $\delta$ of a connected graph is the maximum distance over all pairs of nodes 
+
+.. math:: \delta = \max_{i,j\in V, i\neq j} d(i,j)
+
+* local clustering coefficient (LCC) of a vertex is to measure how tightly connected the neighborhood of a vertex is: 
+
+.. math:: lcc(i) = \frac{# \text{triangles incident to vertex } i}{d_i(d_i -1)/2}
+
+The LCC of a degree-1 vertex is undefined, and the local clustering coefficient of a graph is the average LCC over all vertices for which the LCC is defined. 
+
+Power grid as network-of-networks
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 
@@ -111,4 +132,4 @@ Synthetic generation of topology generation inputs
 
   Given the required parameter(s), average and/or maximum degree, we can use `Kolda et al. (2014) <https://arxiv.org/abs/1302.6636>`_ to optimize the distribution parameters and obtain the degree sequences. 
   
-* Transformer degree sequence $\mathbf{t}[X,Y]$: 
+* Transformer degree sequence $\mathbf{t}[X,Y]$: For any given transformer subgraph between voltage levels $X_i$ and $X_j$, there are two related transformer degree sequences $\mathbf{t}[X_i, X_j]$ and $\mathbf{t}[X_j,X_i]$. 

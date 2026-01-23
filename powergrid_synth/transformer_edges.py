@@ -1,3 +1,6 @@
+r"""
+This module connects the transformer edges between different-voltage level subgraphs.
+"""
 import numpy as np
 import random
 from typing import List, Set, Tuple, Dict

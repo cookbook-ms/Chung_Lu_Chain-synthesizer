@@ -1,5 +1,5 @@
 r"""
-TODO: note that [Reed et al. 2006](https://www.tandfonline.com/doi/full/10.1081/STA-120037438) argues that the magnitude of the line impedances exhibits a heavy-tailed distribution that is well-fitted bya clipped double-Pareto-logNormal distribution 
+TODO: note that `Reed et al. (2006) <https://www.tandfonline.com/doi/full/10.1081/STA-120037438>`_ argues that the magnitude of the line impedances exhibits a heavy-tailed distribution that is well-fitted bya clipped double-Pareto-logNormal distribution 
 """
 
 import numpy as np
