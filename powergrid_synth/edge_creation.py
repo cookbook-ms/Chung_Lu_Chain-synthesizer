@@ -1,5 +1,5 @@
 r"""
-This module connects the edges within each same-voltage subgraph level. 
+This module connects the edges within each same-voltage level subgraph. 
 """
 
 import numpy as np
@@ -8,7 +8,7 @@ from typing import List, Set, Tuple, Dict
 
 class EdgeCreator:
     """
-    Implements Algorithm 2: Generative model for subgraph (Edge Creation).
+    Generative model for subgraph (Edge Creation).
     """
 
     def generate_edges(self, d_prime: np.ndarray, v: np.ndarray, D: Set[int], S: Set[int]) -> List[Tuple[int, int]]:

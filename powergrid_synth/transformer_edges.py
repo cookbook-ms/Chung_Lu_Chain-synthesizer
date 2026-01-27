@@ -7,7 +7,7 @@ from typing import List, Set, Tuple, Dict
 
 class TransformerConnector:
     """
-    Implements Algorithm 3: Insert transformer edges between subgraphs of voltage X and Y.
+    Insert transformer edges between subgraphs of voltage X and Y.
     """
 
     def generate_transformer_edges(self, t_xy: List[int], t_yx: List[int]) -> List[Tuple[int, int]]:

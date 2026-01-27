@@ -34,7 +34,7 @@ Some graph metrics.
 
 * local clustering coefficient (LCC) of a vertex is to measure how tightly connected the neighborhood of a vertex is: 
 
-.. math:: lcc(i) = \frac{# \text{triangles incident to vertex } i}{d_i(d_i -1)/2}
+.. math:: lcc(i) = \frac{\# \text{triangles incident to vertex } i}{d_i(d_i -1)/2}
 
 The LCC of a degree-1 vertex is undefined, and the local clustering coefficient of a graph is the average LCC over all vertices for which the LCC is defined. 
 
@@ -132,4 +132,14 @@ Synthetic generation of topology generation inputs
 
   Given the required parameter(s), average and/or maximum degree, we can use `Kolda et al. (2014) <https://arxiv.org/abs/1302.6636>`_ to optimize the distribution parameters and obtain the degree sequences. 
   
-* Transformer degree sequence $\mathbf{t}[X,Y]$: For any given transformer subgraph between voltage levels $X_i$ and $X_j$, there are two related transformer degree sequences $\mathbf{t}[X_i, X_j]$ and $\mathbf{t}[X_j,X_i]$. 
+* Transformer degree sequence $\mathbf{t}[X,Y]$: For any given transformer subgraph between voltage levels $X_i$ and $X_j$, there are two related transformer degree sequences $\mathbf{t}[X_i, X_j]$ and $\mathbf{t}[X_j,X_i].$ The first step to synthetically generating these, one needs to specify how many vertices participate in each transformer graph, i.e., how many vertices of voltage $X_i$ are incident to a transformer edge having the other endpoint in voltage $X_j$, and vice versa for $X_j$. This number can also be approximated based on the number of vertices in the same-voltage subgraphs. 
+
+Given a set of $k$ voltage levels $\mathcal{X}=\{X_1,\dots,X_k\}$, denote the number of voltage $X_i$ vertices by $n_i$, and the number of $X_i$ vertices that are incident via a transformer to a voltage $X_j$ vertex by $t_i^j$. A function $h(n_i,n_j)\approx t_i^j$ of the following form 
+
+.. math:: h(n_i,n_j) = c \cdot \min \{n_i,n_j\}
+
+is used to approximate this number with an optimal $c\approx 0.174$. 
+
+Then, since transformer subgraphs are relatively small graphs consisting almost entirely of disjoint, small $k$-stars, where the number of $k$-stars decreases exponentially in $k$, their degree distributions are short and steep. Thus, one can consider simple power-law degree distributions for some large power-law exponent $\gamma$. An optimal $\gamma\approx4.5$ is found by fitting the data. 
+
+Finally, for each pair of voltage levels $(X_i,X_j)$, one may draw a single power law degree distribution on $h(n_i,n_j)$ vertices. Note that since transformer subgraphs are bipartitie graphs, the degree sequences $\mathbf{t}[X_i, X_j]$ and $\mathbf{t}[X_j,X_i]$ must sum to the same value for each pair of voltage levels (a necessary condition). This constraint can be achieved by iteratively modifying the outputted degree sequences --- nullifying the degree of randomly chosen vertices from the larger-sum sequence while redrawing degrees for null-degreed vertices in the smaller-sum sequence, until the sums are equal. 

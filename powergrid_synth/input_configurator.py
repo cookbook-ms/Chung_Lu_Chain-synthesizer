@@ -146,7 +146,7 @@ class InputConfigurator:
     def create_params(self, 
                       levels: List[Dict[str, Any]], 
                       inter_connections: Dict[Tuple[int, int], Dict[str, Any]]) -> Dict[str, Any]:
-        """
+        r"""
         Generates the full parameter set.
         
         Args:

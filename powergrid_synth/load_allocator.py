@@ -7,9 +7,6 @@ from .reference_data import get_reference_stats
 class LoadAllocator:
     """
     Assigns active power loads (PL) to load buses in the grid.
-    
-    .. note::
-        This is based on ... 
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):

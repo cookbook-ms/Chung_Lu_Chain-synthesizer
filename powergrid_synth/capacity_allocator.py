@@ -1,3 +1,7 @@
+"""
+This module creates generation capacities to generator buses. The idea is the same as the load settings in `load_allocator.py`.
+"""
+
 import numpy as np
 import networkx as nx
 import math
@@ -7,7 +11,6 @@ from .reference_data import get_reference_stats
 class CapacityAllocator:
     """
     Assigns generation capacities (PgMax) to generator buses in the grid.
-    Ported and adapted from 'sg_gen_capacity.m' (SynGrid).
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):
