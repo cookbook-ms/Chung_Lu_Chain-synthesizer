@@ -52,3 +52,9 @@ Here is a brief example showing how to configure the user input, and then genera
    :maxdepth: 1
 
    Bus Type Assignment <BusTypeAssignment.nblink>
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   Generation and Load Settings <GenLoadSettings.nblink>
