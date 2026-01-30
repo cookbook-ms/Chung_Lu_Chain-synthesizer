@@ -1,5 +1,5 @@
 r"""
-This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :doc:`Bus Type Assignment based on Bus Type Entropy</theory/bus_type_assignment>`.
+This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :ref:`Bus Type Assignment based on Bus Type Entropy <../docs/theory/bus_type_assignment.rst>`.
 """
 
 import numpy as np
@@ -18,13 +18,15 @@ class BusTypeAllocator:
     Args:
         graph: NetworkX graph representing the grid topology.
         entropy_model: 0 or 1, determines the entropy definition used (W parameter).
+        bus_type_ratio: Optional list of 3 floats/ints representing the ratio of [Gen, Load, Conn].
+                        Example: [1, 2, 3] or [0.2, 0.5, 0.3]. If provided, overrides default sizing logic.
     """
     
     TYPE_GEN = 1
     TYPE_LOAD = 2
     TYPE_CONN = 3
 
-    def __init__(self, graph: nx.Graph, entropy_model: int = 0):
+    def __init__(self, graph: nx.Graph, entropy_model: int = 0, bus_type_ratio: Optional[List[float]] = None):
         self.graph = graph
         self.entropy_model = entropy_model
         
@@ -47,11 +49,25 @@ class BusTypeAllocator:
         self.degrees = np.array([graph.degree(n) for n in self.nodes])
         self.non_leaf_indices = np.where(self.degrees > 1)[0]
 
-        # Determine Ratios [G, L, C] based on network size
-        self.ratio_types = self._get_ratios(self.n_nodes)
+        # Determine Ratios [G, L, C]
+        if bus_type_ratio is not None:
+            self.ratio_types = self._normalize_ratio(bus_type_ratio)
+        else:
+            self.ratio_types = self._get_ratios(self.n_nodes)
         
         # Store entropy samples for plotting
         self.w_samples: List[float] = []
+
+    def _normalize_ratio(self, ratio: List[float]) -> List[float]:
+        """Normalizes the input ratio list so it sums to 1.0."""
+        if len(ratio) != 3:
+            raise ValueError("Bus type ratio must contain exactly 3 values [Gen, Load, Conn].")
+        
+        total = sum(ratio)
+        if total <= 0:
+             raise ValueError("Sum of bus type ratios must be positive.")
+             
+        return [x / total for x in ratio]
         
     def _get_ratios(self, n: int) -> List[float]:
         r"""
@@ -164,7 +180,7 @@ class BusTypeAllocator:
             
         return -(x1 + x2)
 
-    def _estimate_w_star(self, monte_carlo_iters: int = 10_000) -> Tuple[float, float]:
+    def _estimate_w_star(self, monte_carlo_iters: int = 2000) -> Tuple[float, float]:
         r"""
         Runs Monte Carlo simulation to estimate target W* value.
         Returns:

@@ -7,7 +7,7 @@ from inspect import getsourcefile
 sys.path.insert(0, os.path.abspath('../'))
 
 project = 'PowerGridSynth'
-copyright = '2025, PowerGridSynth Developers'
+copyright = '2025-2026, PowerGridSynth Developers'
 author = 'PowerGridSynth Developers'
 release = '0.1.0'
 
@@ -90,9 +90,22 @@ html_theme_options = {
 }
 html_css_files = ['custom.css']
 
+# furo theme
+# html_theme = "furo"
+# html_theme_options = {
+#     "light_css_variables": {
+#         "color-brand-primary": "red",
+#         "color-brand-content": "#CC3333",
+#         "color-admonition-background": "orange",
+#     },
+#     "navigation_with_keys": True,
+#     "sidebar_hide_name": True,
+#     "top_of_page_buttons": ["view", "edit"],
+# }
+
+
 
 # For sphinx_math_dollar
-
 mathjax3_config = {
   "tex": {
     "inlineMath": [['\\(', '\\)']],

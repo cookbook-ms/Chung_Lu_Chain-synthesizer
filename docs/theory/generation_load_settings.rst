@@ -34,6 +34,39 @@ Authors first examined the statistical features of generation capacities in real
 
 A scaling function of aggreated generation capacity in a grid w.r.t. its network size is derived as 
 
+.. math:: \log P_g^{\text{tot}}(N) = -0.21 \log^2 N + 2.06 \log N + 0.66
+
+where $P_g^{\text{tot}}=\sum_{n=1}^{N_g}P_{g_n}^\max$ denotes the total generation capacity, and $N_g$ is the total number of generation buses. 
+
+This scaling law indicates that the total generation capacity in a grid tends to grow as a power function when the network size is small; whereas as the network size becomes larger, the total generation begins to slow down than the power function. 
+
+For individual generation capacities (or load demands), some study on realistic grid data like NYISO-2935, and the WECC-16944 systems in this work shows that more than 99% of the generation units (and the loads as well) follow an exponential distribution with about 1% having extremely large capacities (or demands) falling out of the normal range defined by the expected exponential distribution. We refer to the Figure 1 in the paper for some empirical observations. (What's the reason behind this? Either an inherent heavy tailed distribution or due to the boundary equalization in a network reduction modeling.)
+
+After analyese on the scaling property and the distribution of generation capacities in a grid, one proceeds further by looking into the correlation between the generation capacities and other topology metrics. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

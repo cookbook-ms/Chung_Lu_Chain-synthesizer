@@ -1,5 +1,6 @@
 # Getting started
 
+### [Github repository](https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer)
 
 ## Installation
 

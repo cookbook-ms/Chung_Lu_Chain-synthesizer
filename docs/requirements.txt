@@ -1,6 +1,7 @@
 sphinx
 sphinx-autoapi
 sphinx-rtd-theme
+furo
 sphinx-math-dollar
 sphinxcontrib.bibtex
 
