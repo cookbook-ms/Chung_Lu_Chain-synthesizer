@@ -51,7 +51,7 @@ The buy type entropy is given in two definitions:
   
       W_0(\mathbb{T}) = - \sum_{k=1}^3 r_k \cdot \log(r_k) - \sum_{i,j=1}^3 R_{ij} \cdot \log(R_{ij})
 
-      W_1(\mathbb{T}) = -\sum_{k=1}^{3} \log(r_k) \cdot N_k - \sum_{i,j=1}^{6} \log(R_{ij}) \cdot M_{ij} 
+      W_1(\mathbb{T}) = -\sum_{k=1}^{3} \log(r_k) \cdot N_k - \sum_{i,j=1}^{3} \log(R_{ij}) \cdot M_{ij} 
 
 where the variables are defined as:
 

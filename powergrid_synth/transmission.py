@@ -12,7 +12,6 @@ from .dcpf import DCPowerFlow
 class TransmissionLineAllocator:
     r"""
     Allocates impedance (X, R) and Capacity Limits to transmission lines.
-    Based on 'sg_flow_lim.m' from SynGrid.
 
     Steps:
 

@@ -10,7 +10,6 @@ from .reference_data import get_reference_stats
 class GenerationDispatcher:
     """
     Allocates active power setpoints (Pg) to generators.
-    Ported and adapted from 'sg_gen_dispatch.m' (SynGrid).
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):

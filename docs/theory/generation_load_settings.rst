@@ -24,7 +24,7 @@ where $\mathbf{P}(t) = [\mathbf{P}_g(t), -\mathbf{P}_l(t), \mathbf{P}_l(t)]^\top
 
 More importantly, grid operations also needs to account for the constraints of generation capcacity, load settings and transmission capcacity such as 
 
-.. math:: P_g^\max \leq & P_g \leq P_g^\max \\ P_l^\max \leq & P_l \leq P_l^\max \\ F^\max \leq & F \leq F_c^\max
+.. math:: P_g^\min \leq & P_g \leq P_g^\max \\ P_l^\min \leq & P_l \leq P_l^\max \\ F^\min \leq & F \leq F_c^\max
 
 
 --------------------------------
@@ -43,6 +43,26 @@ This scaling law indicates that the total generation capacity in a grid tends to
 For individual generation capacities (or load demands), some study on realistic grid data like NYISO-2935, and the WECC-16944 systems in this work shows that more than 99% of the generation units (and the loads as well) follow an exponential distribution with about 1% having extremely large capacities (or demands) falling out of the normal range defined by the expected exponential distribution. We refer to the Figure 1 in the paper for some empirical observations. (What's the reason behind this? Either an inherent heavy tailed distribution or due to the boundary equalization in a network reduction modeling.)
 
 After analyese on the scaling property and the distribution of generation capacities in a grid, one proceeds further by looking into the correlation between the generation capacities and other topology metrics. 
+
+One first normalize the generation capacity and nodal degree by their maximum as 
+
+.. math:: \bar{P}_{g_n}^\max & = P_{g_n}^\max / \max_i P_{g_i}^\max \in [0,1] \\ \bar{k}_n & = k_n / \max_i k_i \in [0,1]
+
+From a number of realistic grids, it shows there exists a correlation between these two values with a Pearson coefficient of 
+
+.. math:: \rho(\bar{P}_{g_n}^\max, \bar{k}_n) \in [0.25, 0.5]; 
+
+and most data points lie in the region of 
+
+.. math:: \bar{P}_{g_n}^\max \in [0, 0.2] \quad \bar{k}_n \in [0, 0.5]
+
+with few $\bar{P}_{g_n}^\max \geq 0.6$. 
+
+Now we consider a 2D space of points $(\bar{P}_{g_n}^\max, \bar{k}_n)$, and calculate the empirical 2D PDF of the normalized variables in the set $A$
+
+.. math:: \text{Pr}(A) = \text{Pr} \Big( (\bar{P}_{g_n}^\max, \bar{k}_n) \in A \Big)
+
+
 
 
 

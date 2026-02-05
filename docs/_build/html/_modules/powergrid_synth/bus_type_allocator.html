@@ -49,6 +49,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../examples/TopologyGeneration.html">Topology Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/IEEETest.html">IEEE Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/GenLoadSettings.html">Generation and Load Settings</a></li>
 </ul>
 </li>
 </ul>
@@ -59,6 +60,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/ais_bus_type_assignment.html">Artificial Immune System (AIS) for Bus Type Allocation</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../theory/generation_load_settings.html">Generation and Load Settings</a></li>
 </ul>
 </li>
 </ul>
@@ -67,6 +69,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/powergrid_synth/index.html">powergrid_synth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/analysis/index.html">powergrid_synth.analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/bus_type_allocator/index.html">powergrid_synth.bus_type_allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/capacity_allocator/index.html">powergrid_synth.capacity_allocator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/comparison/index.html">powergrid_synth.comparison</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/data_format_converter/index.html">powergrid_synth.data_format_converter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/deg_dist_optimizer/index.html">powergrid_synth.deg_dist_optimizer</a></li>
@@ -79,7 +82,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/input_configurator/index.html">powergrid_synth.input_configurator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/input_extractor/index.html">powergrid_synth.input_extractor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/preprocessing/index.html">powergrid_synth.preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/transformer_edges/index.html">powergrid_synth.transformer_edges</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/transmission/index.html">powergrid_synth.transmission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/powergrid_synth/visualization/index.html">powergrid_synth.visualization</a></li>
 </ul>
 </li>
 </ul>
@@ -112,7 +117,7 @@
              
   <h1>Source code for powergrid_synth.bus_type_allocator</h1><div class="highlight"><pre>
 <span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :doc:`Bus Type Assignment based on Bus Type Entropy&lt;/theory/bus_type_assignment&gt;`.</span>
+<span class="sd">This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :ref:`Bus Type Assignment based on Bus Type Entropy &lt;../docs/theory/bus_type_assignment.rst&gt;`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -133,13 +138,15 @@
 <span class="sd">    Args:</span>
 <span class="sd">        graph: NetworkX graph representing the grid topology.</span>
 <span class="sd">        entropy_model: 0 or 1, determines the entropy definition used (W parameter).</span>
+<span class="sd">        bus_type_ratio: Optional list of 3 floats/ints representing the ratio of [Gen, Load, Conn].</span>
+<span class="sd">                        Example: [1, 2, 3] or [0.2, 0.5, 0.3]. If provided, overrides default sizing logic.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">TYPE_GEN</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">TYPE_LOAD</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">TYPE_CONN</span> <span class="o">=</span> <span class="mi">3</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">entropy_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">entropy_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bus_type_ratio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entropy_model</span> <span class="o">=</span> <span class="n">entropy_model</span>
         
@@ -162,11 +169,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">non_leaf_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">degrees</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="c1"># Determine Ratios [G, L, C] based on network size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ratio_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_ratios</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+        <span class="c1"># Determine Ratios [G, L, C]</span>
+        <span class="k">if</span> <span class="n">bus_type_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratio_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_ratio</span><span class="p">(</span><span class="n">bus_type_ratio</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratio_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_ratios</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
         
         <span class="c1"># Store entropy samples for plotting</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w_samples</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="BusTypeAllocator._normalize_ratio">
+<a class="viewcode-back" href="../../autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._normalize_ratio">[docs]</a>
+    <span class="k">def</span> <span class="nf">_normalize_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ratio</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalizes the input ratio list so it sums to 1.0.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bus type ratio must contain exactly 3 values [Gen, Load, Conn].&quot;</span><span class="p">)</span>
+        
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">total</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sum of bus type ratios must be positive.&quot;</span><span class="p">)</span>
+             
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="n">total</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ratio</span><span class="p">]</span></div>
+
         
 <div class="viewcode-block" id="BusTypeAllocator._get_ratios">
 <a class="viewcode-back" href="../../autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._get_ratios">[docs]</a>
@@ -296,7 +320,7 @@
 
 <div class="viewcode-block" id="BusTypeAllocator._estimate_w_star">
 <a class="viewcode-back" href="../../autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._estimate_w_star">[docs]</a>
-    <span class="k">def</span> <span class="nf">_estimate_w_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monte_carlo_iters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10_000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_estimate_w_star</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monte_carlo_iters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs Monte Carlo simulation to estimate target W* value.</span>
 <span class="sd">        Returns:</span>
@@ -517,7 +541,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, PowerGridSynth Developers.</p>
+    <p>&#169; Copyright 2025-2026, PowerGridSynth Developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
