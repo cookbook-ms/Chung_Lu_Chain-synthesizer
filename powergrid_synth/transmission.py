@@ -52,11 +52,9 @@ class TransmissionLineAllocator:
         """Generates line angles (phi) using stable distribution."""
         alpha, beta, gamma, delta = self.stab_params
         
-        # sg_random_stable implementation via scipy
         phi = levy_stable.rvs(alpha, beta, loc=delta, scale=gamma, size=num_lines)
         
         # Ensure phi is within logical bounds [0, 90] degrees mostly
-        # MATLAB loops indefinitely until valid; we use a cap to prevent infinite loops
         mask = (phi > 90) | (phi < 0)
         max_retries = 20
         count = 0
@@ -73,9 +71,7 @@ class TransmissionLineAllocator:
 
     def _generate_beta(self, num_lines: int) -> np.ndarray:
         """Generates capacity factors (beta) using exponential distribution."""
-        # sg_exprnd -> numpy.random.exponential (scale = mean)
         beta = np.random.exponential(scale=self.mu_beta, size=num_lines)
-        
         # Handle outliers (beta > 1)
         mask = beta > 1.0
         max_retries = 10
@@ -292,7 +288,7 @@ class TransmissionLineAllocator:
             self.graph[u][v]['z'] = zpr[i] 
             self.graph[u][v]['edge_idx'] = i
 
-        # 3. Iterative Refinement (The 'kk' loop)
+        # 3. Iterative Refinement
         iterations = 2 if n_nodes >= 300 else 1
         dcpf = DCPowerFlow(self.graph)
         

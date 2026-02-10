@@ -9,7 +9,7 @@ from .reference_data import get_reference_stats
 
 class GenerationDispatcher:
     """
-    Allocates active power setpoints (Pg) to generators.
+    Allocates active power (Pg) to generators.
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):
@@ -23,19 +23,22 @@ class GenerationDispatcher:
              print(f"Warning: Invalid ref_sys_id {ref_sys_id}. Defaulting to 1.")
              self.stats = get_reference_stats(1)
         
-        self.alpha_mod = self.stats['Alpha_mod']
+        self.alpha_mod = self.stats['Alpha_mod'] # loading level 
         self.mu_committed = self.stats['mu_committed']
         self.tab_2d_pg = self.stats['Tab_2D_Pg']
 
     def _select_uncommitted(self, norm_pg_max: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
+        input: 
+        - norm_pg_max: (ID, Gen Cap)
+        
         Selects 10-20% of units as Uncommitted (Pg = 0).
         """
         ng = len(norm_pg_max)
         if ng == 0:
             return np.array([]), norm_pg_max
 
-        # 10% to 20%
+        # 10% to 20% of the total as uncommitted
         ng_uncomm = int(round(ng * (0.10 + np.random.rand() * 0.10)))
         
         uncommitted = []
@@ -43,9 +46,9 @@ class GenerationDispatcher:
         
         for _ in range(ng_uncomm):
             if len(remaining) == 0: break
-            t_uncomm = 0.6 * np.random.rand()
-            dists = np.abs(remaining[:, 1] - t_uncomm)
-            idx = np.argmin(dists)
+            t_uncomm = 0.6 * np.random.rand() # uniform distribution 0-0.6
+            dists = np.abs(remaining[:, 1] - t_uncomm) 
+            idx = np.argmin(dists) # select the unit closest to the random number 
             row = remaining[idx]
             uncommitted.append([row[0], row[1], 0.0]) # [ID, NormCap, Alpha=0]
             remaining = np.delete(remaining, idx, axis=0)
@@ -72,14 +75,14 @@ class GenerationDispatcher:
         
         for _ in range(ng_99):
             if len(remaining) == 0: break
-            t_unit = np.random.exponential(self.mu_committed)
+            t_unit = np.random.exponential(self.mu_committed) # the exp distribution of the commited units' capacities
             idx = np.argmin(np.abs(remaining[:, 1] - t_unit))
             committed.append(remaining[idx])
             remaining = np.delete(remaining, idx, axis=0)
             
         for _ in range(ng_01):
             if len(remaining) == 0: break
-            t_comm = 0.5 + 0.5 * np.random.rand()
+            t_comm = 0.5 + 0.5 * np.random.rand() # the extreme value of the 1% commited units' capacities
             idx = np.argmin(np.abs(remaining[:, 1] - t_comm))
             committed.append(remaining[idx])
             remaining = np.delete(remaining, idx, axis=0)
@@ -87,15 +90,16 @@ class GenerationDispatcher:
         return np.array(committed), remaining
 
     def _generate_alphas(self, n_comm: int) -> np.ndarray:
+        # generate alphas for the partially committed
         if n_comm == 0: return np.array([])
         if self.alpha_mod == 0:
             return np.random.rand(n_comm, 1)
         else:
             n_995 = int(round(n_comm * 0.995))
             n_005 = n_comm - n_995
-            a1 = np.random.rand(n_995, 1)
+            a1 = np.random.rand(n_995, 1) # 99.5% --- uniform[0, 1]
             if n_005 > 0:
-                a2 = -np.random.rand(n_005, 1)
+                a2 = -np.random.rand(n_005, 1) # 0.5% --- negative dispatch value 
                 return np.vstack((a1, a2))
             return a1
 
@@ -156,7 +160,7 @@ class GenerationDispatcher:
         return np.array(final_list) if final_list else np.array([])
 
     def dispatch(self) -> Dict[int, float]:
-        # 1. Prepare Data
+        # 1. Prepare Buses into (Id, Gen) and (Id, Load)
         gen_data = []
         for n, d in self.graph.nodes(data=True):
             if d.get('bus_type') == 'Gen':
@@ -173,7 +177,7 @@ class GenerationDispatcher:
         total_load = sum(d.get('pl', 0.0) for n, d in self.graph.nodes(data=True) if d.get('bus_type') == 'Load')
         norm_total_load = total_load / max_pg
         
-        # 2. Partitioning
+        # 2. Partitioning --- uncommited, partially commited, and fully committed
         uncomm_units, remaining = self._select_uncommitted(norm_pg)
         comm_units_raw, remaining = self._select_committed(remaining, len(gen_arr))
         
@@ -182,7 +186,7 @@ class GenerationDispatcher:
             full_units.append([row[0], row[1], 1.0])
         full_units = np.array(full_units)
 
-        # 3. Alpha Assignment
+        # 3. Alpha Assignment for the partially committed
         if len(comm_units_raw) > 0:
             alphas = self._generate_alphas(len(comm_units_raw))
             comm_units = self._assign_alphas(comm_units_raw, alphas)
