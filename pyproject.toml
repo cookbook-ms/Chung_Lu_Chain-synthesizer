@@ -16,6 +16,12 @@ dependencies = [
     "pandas>=1.3"
 ]
 
+
+[tool.setuptools.packages.find]
+where = ["."] 
+include = ["powergrid_synth*"] 
+exclude = ["demos*", "tests*"] 
+
 [project.optional-dependencies]
 dev = [
     "pytest",
