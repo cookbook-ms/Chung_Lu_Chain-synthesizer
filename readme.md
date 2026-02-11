@@ -15,7 +15,8 @@ Check the documentation [here](https://power-grid-synthesizer.readthedocs.io/en/
 ## Installation
 
 1.  Clone the repository.
-2.  Install the package in editable mode:
+2.  Create an environment in your preferred way
+3.  Install the package in editable mode:
 ```bash
     pip install -e .
 ```
