@@ -15,10 +15,13 @@ Check the documentation [here](https://power-grid-synthesizer.readthedocs.io/en/
 ## Installation
 
 1.  Clone the repository.
-2.  Create an environment in your preferred way
+2.  Create an environment using `uv`
+```bash
+    uv venv xxxx
+```
 3.  Install the package in editable mode:
 ```bash
-    pip install -e .
+    uv pip install -e .
 ```
 *Requirements:* `numpy`, `scipy`, `networkx`, `matplotlib`, `pandas`.
 
