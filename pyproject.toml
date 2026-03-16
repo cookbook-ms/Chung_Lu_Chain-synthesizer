@@ -11,7 +11,7 @@ requires-python = ">=3.10"
 dependencies = [
     "numpy>=2.0",
     "networkx>=3.0",
-    "scipy>=1.16",
+    "scipy>=1.15",
     "matplotlib>=3.5",
     "pandas==2.3.3",
     "pandapower==3.3.0",
