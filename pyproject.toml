@@ -7,13 +7,16 @@ name = "powergrid_synth"
 version = "0.1.0"
 description = "Synthetic power grid generator based on Chung-Lu-Chain model and MATPOWER SynGrid." 
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "numpy>=1.21",
-    "networkx>=3.0",
-    "scipy>=1.7",
+    "numpy>=2.0",
+    "networkx>=3.5",
+    "scipy>=1.16",
     "matplotlib>=3.5",
-    "pandas>=1.3"
+    "pandas==2.3.3",
+    "pandapower==3.3.0",
+    "numba",
+    "lightsim2grid"
 ]
 
 

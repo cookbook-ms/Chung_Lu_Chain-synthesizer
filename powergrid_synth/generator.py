@@ -1,5 +1,5 @@
 r"""
-Main module for generating synthetic grid topology based on Chung-Lu-Chain star graph model. 
+Main module for generating synthetic grid topology based on Chung-Lu-Chain start graph model. 
 
 Inputs: 
     
@@ -14,7 +14,6 @@ import numpy as np
 import networkx as nx
 from typing import List, Dict, Tuple, Optional
 
-# Import the components we built previously
 from .preprocessing import Preprocessor
 from .edge_creation import EdgeCreator
 from .transformer_edges import TransformerConnector
@@ -35,84 +34,12 @@ class PowerGridGenerator:
         self.edge_creator = EdgeCreator()
         self.transformer_connector = TransformerConnector()
 
-    def generate_grid(self, 
-                      degrees_by_level: List[List[int]], 
-                      diameters_by_level: List[int], 
-                      transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
-                      keep_lcc: bool = False) -> PowerGridGraph:
-        r"""
-        Args:
-            degrees_by_level: List of degree sequences, one for each voltage level.
-            diameters_by_level: List of target diameters, one for each voltage level.
-            transformer_degrees: Dictionary mapping level pairs (i, j) to a tuple of transformer degree lists.
-            keep_lcc: If True, returns only the Largest Connected Component of the generated grid.
-
-        Returns:
-            A PowerGridGraph representing the entire multi-level grid.
-        """
-        k = len(degrees_by_level)
-        all_edges = set()
-        
-        level_offsets = [0] * k
-        level_node_counts = [0] * k
-        
-        print(f"--- Starting Generation for {k} Voltage Levels ---")
-
-        # =========================================================
-        # Lines 3-7: Create each same-voltage subgraph
-        # =========================================================
-        self._generate_subgraphs(k, degrees_by_level, diameters_by_level, 
-                               level_offsets, level_node_counts, all_edges)
-
-        # =========================================================
-        # Lines 8-13: Insert transformer edges between levels
-        # =========================================================
-        self._generate_transformer_connections(k, transformer_degrees, 
-                                             level_node_counts, level_offsets, all_edges)
-
-        # =========================================================
-        # Build Final Graph
-        # =========================================================
-        G = PowerGridGraph() # Use Custom Class directly
-        G.add_edges_from(all_edges)
-        
-        for i in range(k):
-            start = level_offsets[i]
-            end = start + level_node_counts[i]
-            for node_id in range(start, end):
-                G.add_node(node_id, voltage_level=i)
-
-        # =========================================================
-        # Post-Processing: Largest Connected Component (Optional)
-        # =========================================================
-        if keep_lcc:
-            if G.number_of_nodes() > 0:
-                print("Filtering for Largest Connected Component (LCC)...")
-                original_n = G.number_of_nodes()
-                largest_cc_nodes = max(nx.connected_components(G), key=len)
-                
-                # We need to preserve the PowerGridGraph class type
-                sub_view = G.subgraph(largest_cc_nodes)
-                G_new = PowerGridGraph()
-                G_new.add_nodes_from(sub_view.nodes(data=True))
-                G_new.add_edges_from(sub_view.edges(data=True))
-                # Update graph-level attributes
-                G_new.graph.update(sub_view.graph)
-                G = G_new
-                
-                new_n = G.number_of_nodes()
-                print(f"  -> Kept {new_n} nodes (removed {original_n - new_n} isolated nodes).")
-            else:
-                print("Warning: Graph is empty, cannot filter for LCC.")
-        
-        return G
-    
     def _generate_subgraphs(self, k: int, 
                           degrees_by_level: List[List[int]], 
                           diameters_by_level: List[int],
                           level_offsets: List[int],
                           level_node_counts: List[int],
-                          all_edges: set):
+                          all_edges: dict):
         r"""
         Helper method to generate same-voltage subgraphs.
         
@@ -148,9 +75,10 @@ class PowerGridGenerator:
             level_offsets[i] = current_global_offset
             
             for u, w in local_edges:
-                global_u = u + current_global_offset
-                global_w = w + current_global_offset
-                all_edges.add((global_u, global_w))
+                global_u = int(u) + current_global_offset
+                global_w = int(w) + current_global_offset
+                edge = tuple(sorted((global_u, global_w)))
+                all_edges[edge] = {'type': 'line'}
                 
             current_global_offset += n_nodes
             print(f"  -> Level {i} Complete. Nodes: {n_nodes}, Edges: {len(local_edges)}")
@@ -159,7 +87,7 @@ class PowerGridGenerator:
                                         transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
                                         level_node_counts: List[int],
                                         level_offsets: List[int],
-                                        all_edges: set):
+                                        all_edges: dict):
         """
         Helper method to insert transformer edges between levels.
         """
@@ -194,6 +122,82 @@ class PowerGridGenerator:
                 offset_j = level_offsets[j]
                 
                 for u_local, v_local in trans_edges:
-                    u_global = u_local + offset_i
-                    v_global = v_local + offset_j
-                    all_edges.add((u_global, v_global))
+                    u_global = int(u_local) + offset_i
+                    v_global = int(v_local) + offset_j
+                    edge = tuple(sorted((u_global, v_global)))
+                    all_edges[edge] = {'type': 'transformer'}
+
+    def generate_grid(self, 
+                      degrees_by_level: List[List[int]], 
+                      diameters_by_level: List[int], 
+                      transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
+                      keep_lcc: bool = False) -> PowerGridGraph:
+        r"""
+        Args:
+            degrees_by_level: List of degree sequences, one for each voltage level.
+            diameters_by_level: List of target diameters, one for each voltage level.
+            transformer_degrees: Dictionary mapping level pairs (i, j) to a tuple of transformer degree lists.
+            keep_lcc: If True, returns only the Largest Connected Component of the generated grid.
+
+        Returns:
+            A PowerGridGraph representing the entire multi-level grid.
+        """
+        k = len(degrees_by_level)
+        all_edges = {}
+        
+        level_offsets = [0] * k
+        level_node_counts = [0] * k
+        
+        print(f"--- Starting Generation for {k} Voltage Levels ---")
+
+        # =========================================================
+        # Lines 3-7: Create each same-voltage subgraph
+        # =========================================================
+        self._generate_subgraphs(k, degrees_by_level, diameters_by_level, 
+                               level_offsets, level_node_counts, all_edges)
+
+        # =========================================================
+        # Lines 8-13: Insert transformer edges between levels
+        # =========================================================
+        self._generate_transformer_connections(k, transformer_degrees, 
+                                             level_node_counts, level_offsets, all_edges)
+
+        # =========================================================
+        # Build Final Graph
+        # =========================================================
+        G = PowerGridGraph() # Use Custom Class directly
+        G.add_edges_from([(u, v, attr) for (u, v), attr in all_edges.items()])
+        
+        for i in range(k):
+            start = level_offsets[i]
+            end = start + level_node_counts[i]
+            for node_id in range(start, end):
+                G.add_node(node_id, voltage_level=i)
+
+        # =========================================================
+        # Post-Processing: Largest Connected Component (Optional)
+        # =========================================================
+        if keep_lcc:
+            if G.number_of_nodes() > 0:
+                print("Filtering for Largest Connected Component (LCC)...")
+                original_n = G.number_of_nodes()
+                largest_cc_nodes = max(nx.connected_components(G), key=len)
+                
+                # We need to preserve the PowerGridGraph class type
+                sub_view = G.subgraph(largest_cc_nodes)
+                G_new = PowerGridGraph()
+                G_new.add_nodes_from(sub_view.nodes(data=True))
+                G_new.add_edges_from(sub_view.edges(data=True))
+                # Update graph-level attributes
+                G_new.graph.update(sub_view.graph)
+                
+                # Relabel nodes to ensure contiguous indices starting from 0
+                mapping = {old_id: new_id for new_id, old_id in enumerate(sorted(G_new.nodes()))}
+                G = nx.relabel_nodes(G_new, mapping)
+                
+                new_n = G.number_of_nodes()
+                print(f"  -> Kept {new_n} nodes (removed {original_n - new_n} isolated nodes)")
+            else:
+                print("Warning: Graph is empty, cannot filter for LCC.")
+        
+        return G
