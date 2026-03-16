@@ -164,15 +164,26 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
                     'in_service': True
                 })
             else:
+                # Generate random min/max reactive power limits for generators
+                # Typical values for synchronous machines: -0.3 to 0.7 times the rated capacity
+                gen_sn_mva = d.get('pg_max', base_mva)
+                # Generate random reactive power limits as fractions of rated capacity
+                min_q_fraction = np.random.uniform(-0.3, 0.0)  # Can absorb reactive power
+                max_q_fraction = np.random.uniform(0.3, 0.7)   # Can generate reactive power
+                min_q_mvar = min_q_fraction * gen_sn_mva
+                max_q_mvar = max_q_fraction * gen_sn_mva
+
                 gen_data.append({
                     'bus': n,
                     'p_mw': d.get('pg', 0.0),
                     'vm_pu': d.get('vm_pu', 1.0),
-                    'sn_mva': d.get('pg_max', base_mva),
+                    'sn_mva': gen_sn_mva,
                     'name': f"Gen_{n}",
                     'scaling': 1.0,
                     'in_service': True,
-                    'slack':False
+                    'slack': False,
+                    'min_q_mvar': min_q_mvar,
+                    'max_q_mvar': max_q_mvar
                 })
 
     # --- 2. Map Edges (Lines, Transformers) ---
@@ -274,3 +285,7 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
         net.trafo = pd.concat([net.trafo, new_trafo_df], ignore_index=True)
         
     return net
+
+
+
+

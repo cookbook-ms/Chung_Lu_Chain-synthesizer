@@ -168,7 +168,11 @@ mpc.baseMVA = {self.base_mva};
             for n in sorted_nodes:
                 d = self.graph.nodes[n]
                 if d.get('bus_type') == 'Gen':
-                    writer.writerow([node_mapping[n], d.get('pg', 0), 0.0, self.base_mva, f"Gen {n}", 'SGEN', True])
+                    # Generate random reactive power value within typical limits
+                    # For static generators, we'll use a fixed fraction of rated capacity
+                    gen_sn_mva = self.base_mva
+                    q_mvar = np.random.uniform(0.1, 0.3) * gen_sn_mva  # Positive reactive power generation
+                    writer.writerow([node_mapping[n], d.get('pg', 0), q_mvar, gen_sn_mva, f"Gen {n}", 'SGEN', True])
 
         # 4. line.csv
         # Pandapower: from_bus, to_bus, length_km, r_ohm_per_km, x_ohm_per_km, c_nf_per_km, max_i_ka, name, in_service
