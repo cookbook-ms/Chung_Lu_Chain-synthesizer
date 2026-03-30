@@ -16,6 +16,9 @@ def pandapower_to_nx(net: pp.pandapowerNet) -> nx.Graph:
     unique_voltages = sorted(valid_voltages, reverse=True)
     vol_to_level = {v: i for i, v in enumerate(unique_voltages)}
     
+    # Store the base kv mapping in the graph attributes
+    G.graph['base_kv_map'] = {i: v for i, v in enumerate(unique_voltages)}
+    
     # 2. Add Buses
     for idx, row in net.bus.iterrows():
         # Default all buses to 'Conn', later overwritten if they have Load/Gen
@@ -80,7 +83,7 @@ def pandapower_to_nx(net: pp.pandapowerNet) -> nx.Graph:
 def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict = None) -> pp.pandapowerNet:
     """
     Converts a synthetic NetworkX graph into a pandapowerNet object.
-    Stores the electrical elements directly into pandapower's internal Pandas DataFrames.
+    Uses native Pandapower creation functions to ensure memory safety for the solver.
     
     Args:
         graph: The synthetic power grid (NetworkX Graph) containing electrical properties.
@@ -95,14 +98,6 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
     if base_kv_map is None:
         base_kv_map = {0: 380.0, 1: 110.0, 2: 20.0, 3: 0.4, 4: 0.12}
         
-    # Containers for dataframe initialization
-    bus_data = []
-    load_data = []
-    gen_data = []
-    ext_grid_data = []
-    line_data = []
-    trafo_data = []
-    
     sorted_nodes = sorted(list(graph.nodes()))
     
     # Identify the slack bus (e.g., the largest generator) for power flow solution
@@ -126,65 +121,32 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
         # 'b' = busbar, 'n' = node
         b_type = 'n' if d.get('bus_type') == 'Conn' else 'b'
         
-        bus_data.append({
-            'name': f"Bus_{n}",
-            'vn_kv': vn_kv,
-            'type': b_type,
-            'zone': 1,
-            'in_service': True,
-            'max_vm_pu': d.get('max_vm_pu', 1.05),
-            'min_vm_pu': d.get('min_vm_pu', 0.95),
-        })
+        # Create Bus natively, preserving the exact NetworkX node ID as the dataframe index
+        pp.create_bus(net, vn_kv=vn_kv, name=f"Bus_{n}", type=b_type, zone=1,
+                      max_vm_pu=d.get('max_vm_pu', 1.05), min_vm_pu=d.get('min_vm_pu', 0.95), index=n)
         
         # Parse Loads
         if d.get('bus_type') == 'Load' and d.get('pl', 0) > 0:
-            load_data.append({
-                'bus': n,
-                'p_mw': d.get('pl', 0.0),
-                'q_mvar': d.get('ql', 0.0),
-                'const_z_percent': 0.0,
-                'const_i_percent': 0.0,
-                'sn_mva': base_mva,
-                'name': f"Load_{n}",
-                'scaling': 1.0,
-                'in_service': True,
-                'type': 'wye'
-            })
+            pp.create_load(net, bus=n, p_mw=d.get('pl', 0.0), q_mvar=d.get('ql', 0.0),
+                           sn_mva=base_mva, name=f"Load_{n}", type='wye')
             
         # Parse Generators
         if d.get('bus_type') == 'Gen':
+            gen_sn_mva = d.get('pg_max', base_mva)
+            # Generate random reactive power limits as fractions of rated capacity
+            min_q_fraction = np.random.uniform(-0.3, 0.0)  # Can absorb reactive power
+            max_q_fraction = np.random.uniform(0.3, 0.7)   # Can generate reactive power
+            min_q_mvar = float(min_q_fraction * gen_sn_mva)
+            max_q_mvar = float(max_q_fraction * gen_sn_mva)
+
             if n == slack_bus:
                 # Add as External Grid to provide a reference slack bus for power flow
-                ext_grid_data.append({
-                    'name': f"Ext_Grid_{n}",
-                    'bus': n,
-                    'vm_pu': 1.0,
-                    'va_degree': 0.0,
-                    'slack_weight': 1.0,
-                    'in_service': True
-                })
+                pp.create_ext_grid(net, bus=n, vm_pu=1.0, va_degree=0.0, name=f"Ext_Grid_{n}",
+                                   min_q_mvar=min_q_mvar, max_q_mvar=max_q_mvar)
             else:
-                # Generate random min/max reactive power limits for generators
-                # Typical values for synchronous machines: -0.3 to 0.7 times the rated capacity
-                gen_sn_mva = d.get('pg_max', base_mva)
-                # Generate random reactive power limits as fractions of rated capacity
-                min_q_fraction = np.random.uniform(-0.3, 0.0)  # Can absorb reactive power
-                max_q_fraction = np.random.uniform(0.3, 0.7)   # Can generate reactive power
-                min_q_mvar = min_q_fraction * gen_sn_mva
-                max_q_mvar = max_q_fraction * gen_sn_mva
-
-                gen_data.append({
-                    'bus': n,
-                    'p_mw': d.get('pg', 0.0),
-                    'vm_pu': d.get('vm_pu', 1.0),
-                    'sn_mva': gen_sn_mva,
-                    'name': f"Gen_{n}",
-                    'scaling': 1.0,
-                    'in_service': True,
-                    'slack': False,
-                    'min_q_mvar': min_q_mvar,
-                    'max_q_mvar': max_q_mvar
-                })
+                pp.create_gen(net, bus=n, p_mw=d.get('pg', 0.0), vm_pu=d.get('vm_pu', 1.0),
+                              sn_mva=gen_sn_mva, name=f"Gen_{n}",
+                              min_q_mvar=min_q_mvar, max_q_mvar=max_q_mvar)
 
     # --- 2. Map Edges (Lines, Transformers) ---
     for u, v, d in graph.edges(data=True):
@@ -208,28 +170,12 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
                 
             sn_mva = d.get('capacity', base_mva)
             
-            trafo_data.append({
-                'name': f"Trafo_{u}_{v}",
-                'hv_bus': hv_bus,
-                'lv_bus': lv_bus,
-                'sn_mva': sn_mva,
-                'vn_hv_kv': vn_hv,
-                'vn_lv_kv': vn_lv,
-                'vk_percent': 10.0,   # Default generic transformer values
-                'vkr_percent': 0.1,
-                'pfe_kw': 0.0,
-                'i0_percent': 0.0,
-                'shift_degree': 0.0,
-                'tap_side': None,
-                'tap_pos': np.nan,
-                'tap_neutral': np.nan,
-                'tap_max': np.nan,
-                'tap_min': np.nan,
-                'tap_step_percent': np.nan,
-                'tap_step_degree': np.nan,
-                'in_service': True,
-                'parallel': d.get('parallel', 1)
-            })
+            pp.create_transformer_from_parameters(
+                net, hv_bus=hv_bus, lv_bus=lv_bus, sn_mva=sn_mva,
+                vn_hv_kv=vn_hv, vn_lv_kv=vn_lv, vk_percent=10.0, vkr_percent=0.1,
+                pfe_kw=0.0, i0_percent=0.0, name=f"Trafo_{u}_{v}",
+                parallel=d.get('parallel', 1)
+            )
             
         else: # It's a standard transmission/distribution line
             vn_kv = base_kv_map.get(u_lvl, 110.0)
@@ -243,49 +189,11 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
             cap_mva = d.get('capacity', 999.0)
             max_i_ka = cap_mva / (np.sqrt(3) * vn_kv)
             
-            line_data.append({
-                'name': f"Line_{u}_{v}",
-                'from_bus': u,
-                'to_bus': v,
-                'length_km': 1.0, # Normalizing to 1km to embed absolute impedance into standard per-km metrics
-                'r_ohm_per_km': r_ohm,
-                'x_ohm_per_km': x_ohm,
-                'c_nf_per_km': d.get('c', 0.0),
-                'g_us_per_km': d.get('g', 0.0),
-                'max_i_ka': max_i_ka,
-                'df': 1.0,
-                'parallel': d.get('parallel', 1),
-                'type': 'ol',
-                'in_service': True
-            })
+            pp.create_line_from_parameters(
+                net, from_bus=u, to_bus=v, length_km=1.0,
+                r_ohm_per_km=r_ohm, x_ohm_per_km=x_ohm, c_nf_per_km=d.get('c', 0.0),
+                g_us_per_km=d.get('g', 0.0), max_i_ka=max_i_ka,
+                name=f"Line_{u}_{v}", type='ol', parallel=d.get('parallel', 1)
+            )
 
-    # --- 3. Directly Populate Internal Pandapower DataFrames ---
-    if bus_data:
-        new_bus_df = pd.DataFrame(bus_data)
-        net.bus = pd.concat([net.bus, new_bus_df], ignore_index=False)
-        
-    if load_data:
-        new_load_df = pd.DataFrame(load_data)
-        net.load = pd.concat([net.load, new_load_df], ignore_index=True)
-        
-    if gen_data:
-        new_gen_df = pd.DataFrame(gen_data)
-        net.gen = pd.concat([net.gen, new_gen_df], ignore_index=True)
-        
-    if ext_grid_data:
-        new_ext_grid_df = pd.DataFrame(ext_grid_data)
-        net.ext_grid = pd.concat([net.ext_grid, new_ext_grid_df], ignore_index=True)
-        
-    if line_data:
-        new_line_df = pd.DataFrame(line_data)
-        net.line = pd.concat([net.line, new_line_df], ignore_index=True)
-        
-    if trafo_data:
-        new_trafo_df = pd.DataFrame(trafo_data)
-        net.trafo = pd.concat([net.trafo, new_trafo_df], ignore_index=True)
-        
     return net
-
-
-
-

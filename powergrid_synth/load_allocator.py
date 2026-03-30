@@ -4,6 +4,7 @@ import math
 from typing import List, Dict, Tuple, Optional
 from .reference_data import get_reference_stats
 
+# TODO: Generate reactive power loads (QL) too. This is needed for more realistic power flow solutions and to enable testing of reactive power capabilities in the grid.
 class LoadAllocator:
     """
     Assigns active power loads (PL) to load buses in the grid.

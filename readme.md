@@ -15,10 +15,10 @@ Check the documentation [here](https://power-grid-synthesizer.readthedocs.io/en/
 ## Installation
 
 1.  Clone the repository.
-2.  Create an environment named `xxxx` using `uv` and activate it
+2.  Create an environment named `powergrid_studio` using `uv` and activate it
 ```bash
-    uv venv xxxx
-    source xxxx/bin/activate
+    uv venv powergrid_studio
+    source powergrid_studio/bin/activate
 ```
 3.  Install the package in editable mode:
 ```bash
