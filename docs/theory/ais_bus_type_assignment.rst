@@ -3,6 +3,14 @@ Artificial Immune System (AIS) for Bus Type Allocation
 
 This document outlines the pseudo-algorithm for the **Artificial Immune System (AIS)** used in ``BusTypeAllocator`` to assign bus types (Generator, Load, Connection) to a grid topology. The goal is to minimize the difference between the generated grid's entropy (:math:`W`) and a target entropy (:math:`W^*`) derived from reference statistics.
 
+The AIS approach is based on the Clonal Selection Principle from immunology and was proposed for synthetic grid modeling by Elyas and Wang :cite:p:`elyas2016improved`. The implementation is ported from the MATLAB SynGrid toolbox (``sg_bus_type.m``).
+
+.. note::
+
+   Full reference: S. H. Elyas and Z. Wang, "Improved Synthetic Power Grid Modeling With
+   Correlated Bus Type Assignments," *IEEE Transactions on Power Systems*, vol. 32, no. 5,
+   pp. 3391–3400, Sept. 2017, doi: `10.1109/TPWRS.2016.2634318 <https://doi.org/10.1109/TPWRS.2016.2634318>`_.
+
 Initialization
 --------------
 
@@ -50,11 +58,12 @@ Before optimization, we estimate the "natural" entropy of the specific topology 
    
       W^* = (d \times \sigma_W) + \mu_W
 
-6. **Set Convergence Criteria:** 
+6. **Set Convergence Criteria:** The convergence threshold :math:`\epsilon` is set dynamically based on the Monte Carlo standard deviation and the network size:
 
-.. math::
-   
-      \epsilon = \text{function}(\sigma_W, N)
+   * For small grids (:math:`N < 50`): :math:`\epsilon = \sigma_W / 2` (entropy model 1) or :math:`\epsilon = \sigma_W / 10` (entropy model 0).
+   * For larger grids (:math:`N \geq 50`): :math:`\epsilon = \sigma_W / 1000`.
+
+   A smaller :math:`\epsilon` demands a closer match to :math:`W^*` but requires more optimization iterations.
 
 AIS Optimization Loop
 ---------------------
@@ -109,6 +118,13 @@ The algorithm mimics the immune system's Clonal Selection Principle: best antibo
        * Flip type of :math:`u` to random valid type :math:`\{Gen, Load, Conn\}`.
 
    * Collect all mutated clones into ``ClonePool``.
+
+   .. note::
+
+      Because mutations randomly flip bus types without enforcing the original bus type ratios,
+      the actual G/L/C ratios in mutated solutions may drift from the target ratios. The entropy
+      calculation should therefore use the **actual** bus type ratios from the assignment vector,
+      not the fixed target ratios. See the implementation notes in ``bus_type_allocator.py``.
 
 5. **Receptor Editing (Diversity Injection):**
 

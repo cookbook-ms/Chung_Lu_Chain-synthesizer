@@ -1,5 +1,10 @@
 r"""
-This module provides the :class:`BusTypeAllocator` algorithm, a class for assigning bus types in a grid topology. Read more in :ref:`Bus Type Assignment based on Bus Type Entropy <../docs/theory/bus_type_assignment.rst>`.
+Assigns bus types (Generator, Load, Connection) to a raw power grid topology
+using an entropy-based optimization approach from Elyas and Wang (2016),
+"Improved Synthetic Power Grid Modeling With Correlated Bus Type Assignments"
+(https://doi.org/10.1109/TPWRS.2016.2634318).
+
+Ported from the MATLAB SynGrid toolbox (``sg_bus_type.m``).
 """
 
 import numpy as np
@@ -11,15 +16,50 @@ from typing import List, Dict, Tuple, Optional
 
 class BusTypeAllocator:
     r"""
-    This class assigns bus types (Generator, Load, Connection) to a raw power grid topology
-    using an Artificial Immune System (AIS) optimization algorithm to match
-    target topological entropy properties.
+    Assigns bus types (Generator, Load, Connection) to a raw power grid
+    topology using an Artificial Immune System (AIS) optimization algorithm.
 
-    Args:
-        graph: NetworkX graph representing the grid topology.
-        entropy_model: 0 or 1, determines the entropy definition used (W parameter).
-        bus_type_ratio: Optional list of 3 floats/ints representing the ratio of [Gen, Load, Conn].
-                        Example: [1, 2, 3] or [0.2, 0.5, 0.3]. If provided, overrides default sizing logic.
+    The method, from Elyas and Wang (2016), exploits the observed non-trivial
+    correlations between bus types and topology metrics (node degree, clustering
+    coefficient) in realistic grids.  A **bus type entropy** measure quantifies
+    these correlations, and a target entropy :math:`W^*` is derived from a
+    scaling property fitted to real-world systems.  The AIS then searches for
+    an assignment whose entropy matches :math:`W^*`.
+
+    The pipeline is:
+
+    1. Determine target bus type ratios :math:`(r_G, r_L, r_C)` from network
+       size.
+    2. Estimate :math:`W^*` via Monte Carlo sampling of random assignments
+       and the scaling relation :math:`W^* = \mu + \sigma \cdot d(N)`.
+    3. Run AIS optimization (clonal selection, hypermutation, receptor editing)
+       to find an assignment :math:`\mathbb{T}` such that
+       :math:`|W(\mathbb{T}) - W^*| < \epsilon`.
+
+    Two entropy definitions are supported:
+
+    - **Model 0** (:math:`W_0`): standard entropy of bus/link type ratios.
+      :math:`\mu` is stable across network sizes.
+    - **Model 1** (:math:`W_1`): generalized entropy weighted by :math:`N`
+      and :math:`M`.  :math:`\mu` grows with network size, giving better
+      discrimination in large grids.
+
+    Parameters
+    ----------
+    graph : nx.Graph
+        NetworkX graph representing the grid topology (nodes and edges only;
+        no bus type attributes required yet).
+    entropy_model : int
+        Selects the entropy definition: 0 for :math:`W_0`, 1 for :math:`W_1`.
+    bus_type_ratio : list of float or None
+        Optional target ratios ``[Gen, Load, Conn]``.  Values are normalized
+        to sum to 1.  If *None*, default ratios are chosen based on *N*.
+
+    References
+    ----------
+    .. [1] S. H. Elyas and Z. Wang, "Improved Synthetic Power Grid Modeling
+       With Correlated Bus Type Assignments," IEEE Trans. Power Syst.,
+       vol. 32, no. 5, pp. 3391–3400, Sept. 2017.
     """
     
     TYPE_GEN = 1
@@ -59,7 +99,24 @@ class BusTypeAllocator:
         self.w_samples: List[float] = []
 
     def _normalize_ratio(self, ratio: List[float]) -> List[float]:
-        """Normalizes the input ratio list so it sums to 1.0."""
+        """
+        Normalize a user-supplied bus type ratio to sum to 1.0.
+
+        Parameters
+        ----------
+        ratio : list of float
+            Three values ``[Gen, Load, Conn]``.
+
+        Returns
+        -------
+        list of float
+            Normalized ratios summing to 1.0.
+
+        Raises
+        ------
+        ValueError
+            If *ratio* does not contain exactly 3 positive values.
+        """
         if len(ratio) != 3:
             raise ValueError("Bus type ratio must contain exactly 3 values [Gen, Load, Conn].")
         
@@ -71,7 +128,22 @@ class BusTypeAllocator:
         
     def _get_ratios(self, n: int) -> List[float]:
         r"""
-        Bus type G/L/C ratio settings based on network size.
+        Return default bus type ratios ``[Gen, Load, Conn]`` based on network
+        size, derived from realistic reference systems.
+
+        - :math:`N < 2000` → ``[0.23, 0.55, 0.22]`` (IEEE-300-like)
+        - :math:`2000 \le N < 10000` → ``[0.33, 0.44, 0.23]`` (NYISO-like)
+        - :math:`N \ge 10000` → ``[0.20, 0.40, 0.40]`` (WECC-like)
+
+        Parameters
+        ----------
+        n : int
+            Network size (number of buses).
+
+        Returns
+        -------
+        list of float
+            ``[r_G, r_L, r_C]`` summing to 1.0.
         """
         if n < 2000:
             return [0.23, 0.55, 0.22] # IEEE-300 like
@@ -80,8 +152,66 @@ class BusTypeAllocator:
         else:
             return [0.2, 0.4, 0.4]    # WECC like
 
+    def _calculate_bus_ratios(self, assignment: np.ndarray) -> List[float]:
+        """
+        Compute actual bus type ratios from an assignment vector.
+
+        Parameters
+        ----------
+        assignment : np.ndarray
+            Bus type vector of shape ``(N,)`` with values in ``{1, 2, 3}``.
+
+        Returns
+        -------
+        list of float
+            ``[r_G, r_L, r_C]`` — actual ratios computed from the assignment.
+        """
+        n = len(assignment)
+        if n == 0:
+            return [0.0, 0.0, 0.0]
+        counts = np.bincount(assignment, minlength=4)  # index 0 unused
+        return [counts[1] / n, counts[2] / n, counts[3] / n]
+
     def _get_d_parameter(self, n: int) -> float:
-        """Calculates the normalized parameter for W_star estimation."""
+        r"""
+        Compute the normalized distance parameter :math:`d(N)` for estimating
+        the target entropy :math:`W^*`.
+
+        The piecewise scaling functions were fitted to realistic grids by
+        Elyas and Wang (2016).  For entropy model 0:
+
+        .. math::
+
+            d_0(N) = \begin{cases}
+              -1.39 \ln N + 6.79 & \text{if } \ln N \le 8 \\
+              -6.003 \times 10^{-14} (\ln N)^{15.48} & \text{if } \ln N > 8
+            \end{cases}
+
+        For entropy model 1:
+
+        .. math::
+
+            d_1(N) = \begin{cases}
+              -1.748 \ln N + 8.576 & \text{if } \ln N \le 8 \\
+              -6.053 \times 10^{-22} (\ln N)^{24.1} & \text{if } \ln N > 8
+            \end{cases}
+
+        .. note::
+
+           The :math:`d_0` linear-segment coefficients here (``-1.39``,
+           ``6.79``) follow the MATLAB SynGrid implementation and differ
+           from the values in the paper (``-1.721``, ``8``).
+
+        Parameters
+        ----------
+        n : int
+            Network size.
+
+        Returns
+        -------
+        float
+            The distance parameter :math:`d(N)`.
+        """
         log_n = math.log(n)
         if self.entropy_model == 0:
             if log_n <= 8:
@@ -95,10 +225,18 @@ class BusTypeAllocator:
                 return -6.053e-22 * (log_n**24.1)
 
     def _generate_random_assignment(self) -> np.ndarray:
-        """
-        Generates a valid random bus type assignment vector (1xN).
-        1=Gen, 2=Load, 3=Conn.
-        Constraint: Type 3 (Conn) should prefer non-leaf nodes (degree > 1).
+        r"""
+        Generate a random bus type assignment vector of length :math:`N`.
+
+        Types: 1 = Generator, 2 = Load, 3 = Connection.  The counts are
+        determined by ``self.ratio_types``.  Connection buses are preferentially
+        placed on non-leaf nodes (degree > 1) to reflect the hub-like role of
+        connection buses in realistic grids.
+
+        Returns
+        -------
+        np.ndarray
+            Integer array of shape ``(N,)`` with values in ``{1, 2, 3}``.
         """
         assignment = np.zeros(self.n_nodes, dtype=int)
         
@@ -131,12 +269,21 @@ class BusTypeAllocator:
 
     def _calculate_link_ratios(self, assignment: np.ndarray) -> List[float]:
         r"""
-        Calculates ratios of the 6 link types: GG, LL, CC, GL, GC, LC.
-        Encode links using the follwoing mappings:
-        
-        .. math::
-            11 \to \text{GG}, 22 \to \text{LL}, 33 \to \text{CC}, 
-            12 \to \text{GL}, 13 \to \text{GC}, 23 \to \text{LC}
+        Compute ratios of the 6 link (edge) types for a given assignment.
+
+        Each edge is classified by the sorted pair of its endpoint types:
+        GG (1,1), LL (2,2), CC (3,3), GL (1,2), GC (1,3), LC (2,3).
+        The ratio is :math:`R_{ij} = M_{ij} / M`.
+
+        Parameters
+        ----------
+        assignment : np.ndarray
+            Bus type vector of shape ``(N,)``.
+
+        Returns
+        -------
+        list of float
+            ``[R_GG, R_LL, R_CC, R_GL, R_GC, R_LC]``.
         """
         # Vectorized link type check
         u_types = assignment[self.link_ids[:, 0]]
@@ -166,7 +313,38 @@ class BusTypeAllocator:
         ]
 
     def _calculate_entropy_score(self, bus_ratios: List[float], link_ratios: List[float]) -> float:
-        """Calculates W score based on entropy model."""
+        r"""
+        Compute the bus type entropy :math:`W` for a given assignment.
+
+        **Model 0** (:math:`W_0`):
+
+        .. math::
+
+            W_0 = -\sum_{k=1}^{3} r_k \ln r_k
+                  -\sum_{i,j=1}^{3} R_{ij} \ln R_{ij}
+
+        **Model 1** (:math:`W_1`):
+
+        .. math::
+
+            W_1 = -\sum_{k=1}^{3} \ln(r_k) \cdot N_k
+                  -\sum_{i,j=1}^{3} \ln(R_{ij}) \cdot M_{ij}
+
+        where :math:`N_k = r_k \cdot N` and :math:`M_{ij} = R_{ij} \cdot M`.
+
+        Parameters
+        ----------
+        bus_ratios : list of float
+            ``[r_G, r_L, r_C]`` — bus type ratios (should reflect the
+            **actual** assignment, not necessarily the target ratios).
+        link_ratios : list of float
+            ``[R_GG, R_LL, R_CC, R_GL, R_GC, R_LC]``.
+
+        Returns
+        -------
+        float
+            Entropy score :math:`W`.
+        """
         EPS = 1e-12 # Avoid log(0)
         
         if self.entropy_model == 0:
@@ -182,15 +360,38 @@ class BusTypeAllocator:
 
     def _estimate_w_star(self, monte_carlo_iters: int = 2000) -> Tuple[float, float]:
         r"""
-        Runs Monte Carlo simulation to estimate target W* value.
-        Returns:
-            Tuple of (W_star, Standard_Deviation_of_W)
+        Estimate the target entropy :math:`W^*` via Monte Carlo sampling.
+
+        Generates ``monte_carlo_iters`` random bus type assignments (with
+        fixed target ratios), computes their entropies, and fits a normal
+        distribution :math:`\mathcal{N}(\mu, \sigma^2)`.  The target entropy
+        is then:
+
+        .. math::
+
+            W^* = \mu + \sigma \cdot d(N)
+
+        where :math:`d(N)` is the piecewise scaling function from
+        :meth:`_get_d_parameter`.
+
+        Parameters
+        ----------
+        monte_carlo_iters : int, optional
+            Number of random samples (default 2000).
+
+        Returns
+        -------
+        w_star : float
+            Target entropy value.
+        std_w : float
+            Standard deviation of the Monte Carlo entropy samples.
         """
         w_samples = []
         for _ in range(monte_carlo_iters):
             assign = self._generate_random_assignment()
+            b_ratios = self._calculate_bus_ratios(assign)
             l_ratios = self._calculate_link_ratios(assign)
-            w = self._calculate_entropy_score(self.ratio_types, l_ratios)
+            w = self._calculate_entropy_score(b_ratios, l_ratios)
             w_samples.append(w)
         
         # Store for plotting
@@ -205,16 +406,41 @@ class BusTypeAllocator:
 
     def allocate(self, max_iter: int = 100, population_size: int = 20) -> Dict[int, str]:
         r"""
-        Main AIS optimization method.
-        
-        Improved based on SynGrid 'sg_bus_type.m':
-        1. Uses dynamic convergence criteria based on MC std deviation.
-        2. Implements Clonal and Mutation operators with rank-based intensity.
-        3. Injects fresh random solutions every iteration for diversity.
+        Run the AIS optimization to find a bus type assignment.
 
-        Args:
-            max_iter: Maximum optimization iterations.
-            population_size: Size of the surviving population (default 20, as in MATLAB).
+        Implements the Clonal Selection Principle:
+
+        1. **Monte Carlo estimation** of :math:`W^*` and convergence
+           threshold :math:`\epsilon` (see :meth:`_estimate_w_star`).
+        2. **Initialize** a population of *K* random assignments.
+        3. **Iterate** until ``max_iter`` or ``best_error < epsilon``:
+
+           a. Evaluate fitness :math:`|W^* - W(\mathbb{T})|` for each
+              individual.
+           b. **Clonal selection** — top-ranked individuals produce more
+              clones: :math:`N_c = \text{round}(\beta \cdot s / r)` where
+              *r* is the rank.
+           c. **Hypermutation** — clones are mutated with intensity
+              proportional to their parent's rank (worse → more mutations).
+           d. **Receptor editing** — inject 10% fresh random solutions to
+              maintain diversity and avoid local optima.
+           e. **Selection** — combine elite, mutated clones, and fresh
+              solutions; keep the top *K*.
+
+        4. Return the best assignment found.
+
+        Parameters
+        ----------
+        max_iter : int, optional
+            Maximum number of AIS iterations (default 100).
+        population_size : int, optional
+            Number of individuals surviving each generation (default 20).
+
+        Returns
+        -------
+        dict[int, str]
+            Mapping from node ID to bus type label
+            (``'Gen'``, ``'Load'``, or ``'Conn'``).
         """
         print(f"Starting Bus Type Allocation (N={self.n_nodes}, M={self.n_edges})...")
         
@@ -241,8 +467,9 @@ class BusTypeAllocator:
             # A. Evaluate Fitness
             scores = []
             for indiv in population:
+                b_ratios = self._calculate_bus_ratios(indiv)
                 l_ratios = self._calculate_link_ratios(indiv)
-                w = self._calculate_entropy_score(self.ratio_types, l_ratios)
+                w = self._calculate_entropy_score(b_ratios, l_ratios)
                 error = abs(w_star - w)
                 scores.append((error, indiv))
             
@@ -322,8 +549,9 @@ class BusTypeAllocator:
             # Re-evaluate Combined Population
             combined_scores = []
             for indiv in combined_population:
+                b_ratios = self._calculate_bus_ratios(indiv)
                 l_ratios = self._calculate_link_ratios(indiv)
-                w = self._calculate_entropy_score(self.ratio_types, l_ratios)
+                w = self._calculate_entropy_score(b_ratios, l_ratios)
                 err = abs(w_star - w)
                 combined_scores.append((err, indiv))
             
@@ -345,10 +573,16 @@ class BusTypeAllocator:
 
     def plot_entropy_pdf(self, figsize: Tuple[int, int] = (10, 6)):
         """
-        Plots the empirical Probability Density Function (PDF) of the entropy values (W) 
-        gathered during estimation, optionally fitting a Normal Distribution.
-        
-        Must be called after `allocate()` or `_estimate_w_star()`.
+        Plot the empirical PDF of entropy samples from the Monte Carlo
+        estimation, with a fitted normal distribution overlay.
+
+        Must be called after :meth:`allocate` or :meth:`_estimate_w_star`
+        so that ``self.w_samples`` is populated.
+
+        Parameters
+        ----------
+        figsize : tuple of int, optional
+            Figure size ``(width, height)`` in inches.
         """
         try:
             import matplotlib.pyplot as plt
@@ -375,7 +609,7 @@ class BusTypeAllocator:
         x = np.linspace(xmin, xmax, 100)
         p = norm.pdf(x, mu, std)
         
-        plt.plot(x, p, 'r', linewidth=2, label=f'Normal Fit\n$\mu={mu:.3f}$, $\sigma={std:.3f}$')
+        plt.plot(x, p, 'r', linewidth=2, label=f'Normal Fit\n$\\mu={mu:.3f}$, $\\sigma={std:.3f}$')
         
         plt.title(f'Bus Type Entropy Distribution (N={self.n_nodes})')
         plt.xlabel('Bus Type Entropy (W)')

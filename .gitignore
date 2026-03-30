@@ -64,3 +64,9 @@ docs/_build/
 docs/generated/
 docs/autoapi/
 docs/bin
+
+
+
+program.md
+report_status_*.md
+workplan.md

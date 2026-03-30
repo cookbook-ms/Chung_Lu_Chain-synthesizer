@@ -1,5 +1,14 @@
 """
-This module creates generation capacities to generator buses. The idea is the same as the load settings in `load_allocator.py`.
+Assigns generation capacities to generator buses using a statistical approach
+based on Elyas et al. (2017), "On the Statistical Settings of Generation and
+Load in a Synthetic Grid Modeling" (https://arxiv.org/abs/1706.09294).
+
+The methodology uses the exponential distribution of individual generation
+capacities and the non-trivial correlation between generation capacity and
+nodal degree observed in realistic grids. An analogous approach for load
+allocation is implemented in :mod:`load_allocator`.
+
+Ported from the MATLAB SynGrid toolbox (``sg_refsys_stat.m``).
 """
 
 import numpy as np
@@ -11,14 +20,57 @@ from .reference_data import get_reference_stats
 class CapacityAllocator:
     """
     Assigns generation capacities (PgMax) to generator buses in the grid.
+
+    Implements the three-stage methodology from Elyas et al. (2017):
+
+    1. **Total generation:** Compute the aggregate generation capacity from a
+       scaling law fitted to realistic grids:
+       ``log Pg_tot(N) = -0.21 * log^2(N) + 2.06 * log(N) + 0.66``.
+    2. **Individual capacities:** Sample N_g individual capacities from an
+       exponential distribution (with ~1% super-large outliers to capture the
+       observed heavy tail).
+    3. **Correlated assignment:** Assign capacities to generator buses using a
+       14x14 empirical 2D probability table (``Tab_2D_Pgmax``) that encodes
+       the joint distribution of normalized capacity and normalized nodal
+       degree. This preserves the observed Pearson correlation
+       rho(P_bar, k_bar) in [0.25, 0.5] between capacity and degree.
+
+    Reference systems with pre-computed ``Tab_2D_Pgmax`` tables are available
+    for NYISO-2935 (id=1), WECC-16944 (id=2), and a third system (id=3).
+    A heuristic diagonal-bias table (id=0) is provided as a fallback.
+
+    Parameters
+    ----------
+    graph : nx.Graph
+        NetworkX graph with ``'bus_type'`` node attributes already set
+        (by :class:`BusTypeAllocator`).
+    ref_sys_id : int
+        Reference system for statistical tables (0=heuristic, 1=NYISO-2935,
+        2=WECC-16944, 3=additional reference).
+
+    References
+    ----------
+    .. [1] S. H. Elyas, Z. Wang, R. J. Thomas, "On the Statistical Settings
+       of Generation and Load in a Synthetic Grid Modeling," arXiv:1706.09294,
+       2017.
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):
         """
-        Args:
-            graph: The networkx graph with 'bus_type' attributes.
-            ref_sys_id: ID of reference system statistics to use (1, 2, or 3).
-                        Use 0 for the previous heuristic (diagonal correlation) default.
+        Parameters
+        ----------
+        graph : nx.Graph
+            NetworkX graph whose nodes carry a ``'bus_type'`` attribute
+            (``'Gen'``, ``'Load'``, or ``'Conn'``).  This attribute must be
+            set before instantiation, typically via :class:`BusTypeAllocator`.
+        ref_sys_id : int, optional
+            Selects which reference system statistics to use for the 2D
+            probability table ``Tab_2D_Pgmax``:
+
+            - 0 — heuristic diagonal-bias table (no real-grid data).
+            - 1 — NYISO-2935 (default).
+            - 2 — WECC-16944.
+            - 3 — additional reference system.
         """
         self.graph = graph
         self.ref_sys_id = ref_sys_id
@@ -33,9 +85,22 @@ class CapacityAllocator:
 
     def _generate_heuristic_tab_2d(self) -> np.ndarray:
         """
-        Generates a heuristic 14x14 correlation table (previous default).
-        This assumes a general positive correlation between node degree and capacity
-        (diagonal bias), without relying on specific reference system data.
+        Generate a heuristic 14x14 joint-probability table as a fallback.
+
+        When no reference system data is selected (``ref_sys_id=0``), this
+        method produces a synthetic table using a Gaussian-decay diagonal
+        bias: ``weight(r, c) = exp(-0.5 * |r - c|)``, where rows represent
+        capacity classes and columns represent degree classes (both ordered
+        low-to-high).  The matrix is normalized to sum to 1.
+
+        This simulates the positive correlation between nodal degree and
+        generation capacity observed in realistic grids, without relying on
+        empirical data from a specific reference system.
+
+        Returns
+        -------
+        np.ndarray
+            A 14x14 probability matrix (sums to 1).
         """
         # Create a matrix with some diagonal weight to simulate correlation
         # Rows = Capacity Classes (low to high), Cols = Degree Classes (low to high)
@@ -52,8 +117,19 @@ class CapacityAllocator:
 
     def _get_default_tab_2d(self) -> np.ndarray:
         """
-        Returns the Tab_2D_Pgmax from the selected reference system.
-        This represents the joint probability of (Node Degree Class, Capacity Class).
+        Return the ``Tab_2D_Pgmax`` table for the selected reference system.
+
+        The table is a 14x14 matrix representing the empirical joint PDF
+        ``Pr((P_bar_gn_max, k_bar_n) in A)`` discretized into 14 capacity
+        classes (rows, low-to-high) and 14 nodal-degree classes (columns,
+        low-to-high).  Tables for real reference systems are loaded from
+        :func:`reference_data.get_reference_stats` (ported from the MATLAB
+        SynGrid file ``sg_refsys_stat.m``).
+
+        Returns
+        -------
+        np.ndarray
+            A 14x14 probability matrix.
         """
         # Option 0: Use the heuristic generator (previous default)
         if self.ref_sys_id == 0:
@@ -67,10 +143,36 @@ class CapacityAllocator:
             stats = get_reference_stats(1)
             return stats['Tab_2D_Pgmax']
 
-    def _initial_generation_distribution(self, total_gen: float) -> Tuple[np.ndarray, float]:
+    def _initial_generation_distribution(self, total_gen: float) -> Tuple[np.ndarray, float, np.ndarray]:
         """
-        Generates generation capacities based on empirical distributions.
-        99% exponential, 1% super large (uniform).
+        Sample individual generation capacities from the empirical distribution.
+
+        Following Elyas et al. (2017), more than 99% of generation units in
+        realistic grids follow an exponential distribution.  About 1% have
+        extremely large capacities that fall outside the exponential range.
+
+        The procedure is:
+
+        1. Draw ``N_g`` samples from ``Exp(mu)`` where ``mu = total_gen / N_g``.
+        2. Replace ~1% of the samples with "super-large" values drawn
+           uniformly from ``[max(P), 3 * max(P)]``.
+        3. If the sum deviates more than 5% above or 10% below
+           ``total_gen``, rescale all values proportionally.
+        4. Normalize by the maximum capacity.
+
+        Parameters
+        ----------
+        total_gen : float
+            Target total generation capacity (MW).
+
+        Returns
+        -------
+        p_caps : np.ndarray
+            Raw (possibly rescaled) capacity values, shape ``(N_g,)``.
+        max_r_pgmax : float
+            Maximum capacity value, used for normalization.
+        normalized_r_pgmax : np.ndarray
+            Capacities normalized to [0, 1] by dividing by ``max_r_pgmax``.
         """
         if self.n_gen == 0:
             return np.array([]), 0.0
@@ -104,15 +206,43 @@ class CapacityAllocator:
 
     def _assignment_logic(self, norm_deg_pairs: np.ndarray, norm_caps: np.ndarray, tab_2d: np.ndarray) -> np.ndarray:
         """
-        The core binning and assignment logic (Algorithm described in 'Assignment' function).
-        
-        Args:
-            norm_deg_pairs: (N_gen x 2) array of [NodeID, NormDegree]
-            norm_caps: (N_gen x 1) array of normalized capacities
-            tab_2d: 14x14 probability matrix
-            
-        Returns:
-            Assigned capacities array (N_gen x 3): [NodeID, NormDegree, NormCapacity]
+        Assign normalized capacities to buses via 2D-binning (Stage 3).
+
+        This implements the correlated assignment algorithm from Elyas et al.
+        (2017) that preserves the empirical joint distribution of normalized
+        capacity and normalized nodal degree.  The steps are:
+
+        1. **Scale 2D table to counts:** multiply ``tab_2d`` by ``N_g`` and
+           round to integer targets ``n_rc`` for each (capacity-class *r*,
+           degree-class *c*) cell.  Adjust rounding so that the total equals
+           ``N_g`` exactly.
+        2. **Compute marginals:** column sums give degree-bin targets;
+           row sums give capacity-bin targets.
+        3. **Bin by degree:** sort generators by normalized degree, partition
+           into 14 degree bins according to column-sum targets.
+        4. **Bin by capacity:** sort normalized capacities, partition into 14
+           capacity bins according to row-sum targets.
+        5. **Nested assignment loop:** for each degree bin *c* = 1..14 and
+           each capacity bin *r* = 14..1 (high to low): randomly sample
+           ``n_rc`` capacities from capacity bin *r* (without replacement)
+           and assign them to unassigned generators in degree bin *c*.
+        6. **Reassemble** all bins into the output array.
+
+        Parameters
+        ----------
+        norm_deg_pairs : np.ndarray
+            Shape ``(N_g, 2)`` — columns are ``[NodeID, NormalizedDegree]``.
+        norm_caps : np.ndarray
+            Shape ``(N_g,)`` — normalized capacity values in [0, 1].
+        tab_2d : np.ndarray
+            A 14x14 joint-probability matrix (rows=capacity classes,
+            columns=degree classes).
+
+        Returns
+        -------
+        np.ndarray
+            Shape ``(N_g, 3)`` — columns are
+            ``[NodeID, NormalizedDegree, NormalizedCapacity]``.
         """
         ng = len(norm_caps)
         
@@ -220,13 +350,30 @@ class CapacityAllocator:
 
     def allocate(self, tab_2d: Optional[np.ndarray] = None) -> Dict[int, float]:
         """
-        Main execution method.
-        
-        Args:
-            tab_2d: Optional 14x14 probability matrix. If None, uses default based on ref_sys_id.
-            
-        Returns:
-            Dictionary mapping Generator Node ID -> Capacity (PgMax)
+        Run the full generation-capacity allocation pipeline.
+
+        Executes the three-stage methodology from Elyas et al. (2017):
+
+        1. Compute total generation capacity from the scaling law:
+           ``Pg_tot = 10^(-0.21 * log10(N)^2 + 2.06 * log10(N) + 0.66)``.
+        2. Sample individual capacities, normalize them and the generator
+           nodal degrees by their respective maxima so that both lie in
+           [0, 1]:  ``P_bar = P / max(P)``,  ``k_bar = k / max(k)``.
+        3. Assign normalized capacities to generator buses via 2D binning
+           using ``Tab_2D_Pgmax``.
+        4. Denormalize: ``Pg_max = P_bar * max(P)``.
+
+        Parameters
+        ----------
+        tab_2d : np.ndarray or None, optional
+            Custom 14x14 probability matrix.  If *None*, the default table
+            for the selected ``ref_sys_id`` is used.
+
+        Returns
+        -------
+        dict[int, float]
+            Mapping from generator node ID to its assigned capacity
+            ``Pg_max`` (MW).
         """
         if self.n_gen == 0:
             print("No generator buses found. Skipping capacity allocation.")

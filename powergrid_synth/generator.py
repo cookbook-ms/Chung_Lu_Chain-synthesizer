@@ -21,8 +21,18 @@ from .grid_graph import PowerGridGraph
 
 
 class PowerGridGenerator:
-    """
-    Generative model for entire power grid graph on k voltage levels.
+    r"""
+    Generative model for an entire power grid graph on *k* voltage levels.
+
+    Implements Algorithm 4 (CLCStars) from `Aksoy et al. (2018)
+    <https://doi.org/10.1093/comnet/cny016>`_ (arXiv:1711.11098).
+    Phase 1 generates each same-voltage subgraph via the CLC model,
+    and Phase 2 inserts transformer edges via the random-star model.
+
+    Parameters
+    ----------
+    seed : int or None, optional
+        Random seed for reproducibility. Default is None.
     """
     def __init__(self, seed: Optional[int] = None):
         if seed is not None:
@@ -41,10 +51,30 @@ class PowerGridGenerator:
                           level_node_counts: List[int],
                           all_edges: dict):
         r"""
-        Helper method to generate same-voltage subgraphs.
-        
-        offsets variables are used to assign nodes proper IDs
-        
+        Generate same-voltage subgraphs (Phase 1) for all *k* levels.
+
+        For each voltage level, runs :meth:`Preprocessor.run_setup` followed
+        by :meth:`EdgeCreator.generate_edges`, converting local node IDs to
+        global IDs using cumulative offsets.
+
+        Parameters
+        ----------
+        k : int
+            Number of voltage levels.
+        degrees_by_level : list of list of int
+            Desired degree sequences, one per voltage level.
+        diameters_by_level : list of int
+            Desired diameters, one per voltage level.
+        level_offsets : list of int
+            *Mutated in place* — filled with the global node-ID offset for
+            each level.
+        level_node_counts : list of int
+            *Mutated in place* — filled with the actual node count (after
+            degree-sequence inflation) for each level.
+        all_edges : dict
+            *Mutated in place* — ``{(u, v): {'type': 'line'}}`` entries are
+            added for each generated edge.
+
         Example
         -------
         .. code-block:: python
@@ -88,8 +118,26 @@ class PowerGridGenerator:
                                         level_node_counts: List[int],
                                         level_offsets: List[int],
                                         all_edges: dict):
-        """
-        Helper method to insert transformer edges between levels.
+        r"""
+        Insert transformer edges between voltage levels (Phase 2).
+
+        For each pair of levels ``(i, j)``, runs
+        :meth:`TransformerConnector.generate_transformer_edges` and converts
+        local node IDs to global IDs.
+
+        Parameters
+        ----------
+        k : int
+            Number of voltage levels.
+        transformer_degrees : dict
+            Mapping ``(i, j) -> (t_i_j, t_j_i)`` of transformer degree lists.
+        level_node_counts : list of int
+            Actual node counts per level (from Phase 1).
+        level_offsets : list of int
+            Global node-ID offsets per level (from Phase 1).
+        all_edges : dict
+            *Mutated in place* — ``{(u, v): {'type': 'transformer'}}`` entries
+            are added.
         """
         print("Generating Transformer Connections...")
         for i in range(k):
@@ -133,14 +181,32 @@ class PowerGridGenerator:
                       transformer_degrees: Dict[Tuple[int, int], Tuple[List[int], List[int]]],
                       keep_lcc: bool = False) -> PowerGridGraph:
         r"""
-        Args:
-            degrees_by_level: List of degree sequences, one for each voltage level.
-            diameters_by_level: List of target diameters, one for each voltage level.
-            transformer_degrees: Dictionary mapping level pairs (i, j) to a tuple of transformer degree lists.
-            keep_lcc: If True, returns only the Largest Connected Component of the generated grid.
+        Generate a multi-level power grid graph (CLCStars, Algorithm 4).
 
-        Returns:
-            A PowerGridGraph representing the entire multi-level grid.
+        Runs Phase 1 (CLC for each voltage level) and Phase 2 (random-star
+        transformer edges for each pair of levels), then combines results.
+
+        Parameters
+        ----------
+        degrees_by_level : list of list of int
+            Desired degree sequences :math:`\mathbf{d}^{X_1},\dots,\mathbf{d}^{X_k}`,
+            one per voltage level.
+        diameters_by_level : list of int
+            Desired diameters :math:`\delta^{X_1},\dots,\delta^{X_k}`,
+            one per voltage level.
+        transformer_degrees : dict
+            Mapping ``(i, j) -> (t_i_j, t_j_i)`` where ``t_i_j`` is the
+            transformer degree list for level-*i* nodes toward level *j*,
+            and ``t_j_i`` is the reverse.
+        keep_lcc : bool, optional
+            If True, return only the largest connected component with
+            contiguous node IDs. Default is False.
+
+        Returns
+        -------
+        PowerGridGraph
+            The generated grid graph with ``voltage_level`` node attributes
+            and ``type`` (``'line'`` or ``'transformer'``) edge attributes.
         """
         k = len(degrees_by_level)
         all_edges = {}

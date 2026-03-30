@@ -62,35 +62,65 @@ Now we consider a 2D space of points $(\bar{P}_{g_n}^\max, \bar{k}_n)$, and calc
 
 .. math:: \text{Pr}(A) = \text{Pr} \Big( (\bar{P}_{g_n}^\max, \bar{k}_n) \in A \Big)
 
+This 2D PDF is discretized into a $14 \times 14$ probability table, denoted ``Tab_2D_Pgmax``, where rows correspond to 14 capacity classes (from low to high) and columns correspond to 14 nodal degree classes (from low to high). Each entry represents the joint probability of a generator belonging to a particular capacity class and degree class. These tables are extracted from realistic reference systems (e.g., NYISO-2935, WECC-16944) and stored in ``reference_data.py`` (ported from the MATLAB SynGrid toolbox ``sg_refsys_stat.m``).
+
+----------------------------------------------
+Algorithm for Generation Capacity Assignment
+----------------------------------------------
+Given the above statistical observations, the generation capacity assignment proceeds in the following stages.
+
+**Stage 1: Total generation capacity.** Given a synthetic grid of size $N$, compute the total generation capacity using the scaling law:
+
+.. math:: P_g^{\text{tot}} = 10^{-0.21 \log_{10}^2 N + 2.06 \log_{10} N + 0.66}
+
+**Stage 2: Random generation of individual capacities.** Generate a random set of $N_g$ generation capacities from an exponential distribution with mean $\mu = P_g^{\text{tot}} / N_g$:
+
+.. math:: P_{g_n}^\max \sim \text{Exp}(\mu), \quad n = 1, \ldots, N_g
+
+To capture the observed heavy tail, approximately 1% of the units are replaced by "super-large" capacities drawn uniformly from $[\max(P_g), 3 \cdot \max(P_g)]$. If the sum of all capacities deviates beyond a tolerance band (more than 5% above or 10% below $P_g^{\text{tot}}$), the entire set is rescaled proportionally.
+
+The capacities are then normalized:
+
+.. math:: \bar{P}_{g_n}^\max = P_{g_n}^\max / \max_i P_{g_i}^\max
+
+**Stage 3: Correlated assignment via 2D binning.** The assignment maps normalized capacities to generator buses while preserving the empirical degree–capacity correlation encoded in ``Tab_2D_Pgmax``. The algorithm proceeds as follows:
+
+1. **Scale the 2D table to counts.** Multiply each entry of ``Tab_2D_Pgmax`` by $N_g$ and round to obtain integer target counts $n_{rc}$ for each (capacity class $r$, degree class $c$) cell. Adjust rounding errors so that $\sum_{r,c} n_{rc} = N_g$.
+
+2. **Compute marginal targets.** The column sums give the target number of generators in each of the 14 degree bins; the row sums give the target number of generators in each of the 14 capacity bins.
+
+3. **Bin generators by degree.** Sort generator buses by their normalized nodal degree $\bar{k}_n$ in ascending order. Partition the sorted list into 14 degree bins according to the column-sum targets.
+
+4. **Bin capacities by value.** Sort the normalized capacities $\bar{P}_{g_n}^\max$ in ascending order. Partition into 14 capacity bins according to the row-sum targets.
+
+5. **Assign capacities to degree bins.** For each degree bin $c = 1, \ldots, 14$ and for each capacity bin $r = 14, \ldots, 1$ (iterating from highest to lowest capacity class): randomly sample $n_{rc}$ capacities from capacity bin $r$ (without replacement) and assign them to unassigned generators in degree bin $c$.
+
+6. **Denormalize.** Convert each assigned normalized capacity back to its actual value:
+
+   .. math:: P_{g_n}^\max = \bar{P}_{g_n}^\max \cdot \max_i P_{g_i}^\max
+
+The resulting set of generation capacities is statistically consistent with the empirical distribution and the observed degree–capacity correlation from realistic grids.
 
 
+--------------------------
+Statistics of Load setting
+--------------------------
+The load setting follows a methodology analogous to the generation capacity assignment. The key observations are:
 
+- Individual load demands also follow an exponential distribution, with approximately 1% of loads being "super-large" outliers.
+- A non-trivial correlation exists between the load demand and the nodal degree of a load bus, captured by a similar 2D probability table ``Tab_2D_load``.
 
+**Total load computation.** Given the total generation capacity, the total system load is determined by one of four strategies:
 
+- **Deterministic ('D'):** A scaling formula analogous to the generation case:
 
+  .. math:: P_l^{\text{tot}} = 10^{-0.2 \log_{10}^2 N + 1.98 \log_{10} N + 0.58}
 
+- **Light loading ('L'):** 30–40% of total generation capacity.
+- **Medium loading ('M'):** 50–60% of total generation capacity.
+- **Heavy loading ('H'):** 70–80% of total generation capacity.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+The assignment of individual load values to load buses then uses the same 3-stage procedure: (1) generate random load demands from an exponential distribution (with ~1% super-large outliers), (2) normalize, and (3) assign via 2D binning using ``Tab_2D_load``. The methods are implemented in `load_allocator.py <../autoapi/powergrid_synth/load_allocator/index.html>`_.
 
 
 .. bibliography::
- 

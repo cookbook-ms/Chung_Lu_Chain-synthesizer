@@ -1,5 +1,22 @@
 r"""
-TODO: note that `Reed et al. (2006) <https://www.tandfonline.com/doi/full/10.1081/STA-120037438>`_ argues that the magnitude of the line impedances exhibits a heavy-tailed distribution that is well-fitted bya clipped double-Pareto-logNormal distribution 
+Transmission-line impedance and capacity allocation.
+
+This module assigns branch impedance components (:math:`R`, :math:`X`) and
+thermal-capacity limits (:math:`F_l^{\max}`) to all transmission lines in a
+synthetic power grid.  The statistical models follow
+`Sadeghian et al. (2018) <https://ieeexplore.ieee.org/document/8585532>`_
+(Section IV) and the SynGrid MATLAB function ``sg_line.m``.
+
+Impedance magnitudes are drawn from a LogNormal distribution; line angles
+from a Lévy stable distribution.  A DCPF-based swapping heuristic
+associates low impedance with high-flow lines, reproducing empirical
+correlations.  Capacity factors (gauge ratios) are assigned through a
+2-D empirical PMF table.
+
+.. todo::
+   `Reed et al. (2006) <https://www.tandfonline.com/doi/full/10.1081/STA-120037438>`_
+   argues that impedance magnitudes may follow a clipped
+   double-Pareto-logNormal distribution, which could be explored.
 """
 
 import numpy as np
@@ -10,28 +27,48 @@ from .reference_data import get_reference_stats
 from .dcpf import DCPowerFlow
 
 class TransmissionLineAllocator:
-    r"""
-    Allocates impedance (X, R) and Capacity Limits to transmission lines.
+    r"""Allocate impedance and capacity limits to transmission lines.
 
-    Steps:
+    The algorithm follows `Sadeghian et al. (2018)
+    <https://ieeexplore.ieee.org/document/8585532>`_ and the SynGrid
+    MATLAB toolbox (``sg_line.m``, ``sg_flow_lim.m``):
 
-    1. Initialize random impedances (Zpr) based on LogNormal distribution.
+    1. **Impedance generation** — magnitudes :math:`Z` from
+       LogNormal(:math:`\mu`, :math:`\sigma`), angles :math:`\varphi`
+       from a Lévy stable distribution
+       :math:`S(\alpha_s, \beta_s, \gamma_s, \delta_s)`.  Then
+       :math:`X = Z \sin\varphi`, :math:`R = Z \cos\varphi`.
+    2. **DCPF-based swapping** — sort impedances ascending and flows
+       descending, then randomly swap ~20–30 % of assignments to
+       introduce variance while preserving the negative correlation
+       between impedance and flow.
+    3. **(Optional) Topology refinement** — iteratively add
+       low-impedance lines between max angle-difference bus pairs
+       and remove weak high-:math:`X` lines until the angle spread
+       is below a size-dependent threshold.
+    4. **Capacity assignment** — gauge ratios
+       :math:`\beta_l = F_l / F_l^{\max}` from
+       Exponential(:math:`\mu_\beta`) with overload injection;
+       assigned via 2-D table ``Tab_2D_FlBeta``.
+       Capacity limits: :math:`F_l^{\max} = F_l / \beta_l`.
 
-    2. Run iterative DCPF (Swapping Logic):
+    Parameters
+    ----------
+    graph : networkx.Graph
+        Power grid graph with nodal generation/load attributes.
+    ref_sys_id : int, optional
+        Reference system (1 = NYISO-2935, 2 = WECC-16994).  Default 1.
 
-       * Calculate flows.
-       * Assign lower Impedance (Z) to lines with higher Flow.
-       * Perform random swaps to introduce variance.
-
-    3. (Optional) Topology Refinement:
-
-       * Add low-impedance lines to bridge large phase angle differences.
-       * Remove weak (high-impedance) lines to maintain grid density.
-
-    4. Allocate Transmission line Capacity:
-
-       * Use 'Tab_2D_FlBeta' to assign Capacity Factors (Beta).
-       * Capacity = Flow / Beta.
+    Attributes
+    ----------
+    stab_params : list of float
+        Lévy stable parameters :math:`[\alpha_s, \beta_s, \gamma_s, \delta_s]`.
+    tab_fl_beta : numpy.ndarray
+        2-D empirical PMF table for flow–beta assignment.
+    mu_beta : float
+        Mean of the exponential distribution for :math:`\beta`.
+    overload_b : float
+        Fraction of lines assigned overload (:math:`\beta > 1`).
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):
@@ -49,7 +86,22 @@ class TransmissionLineAllocator:
         self.overload_b = self.stats.get('Overload_b', 0.00083)
 
     def _generate_phi(self, num_lines: int) -> np.ndarray:
-        """Generates line angles (phi) using stable distribution."""
+        r"""Generate line angles from a Lévy stable distribution.
+
+        Draws :math:`\varphi \sim S(\alpha_s, \beta_s, \gamma_s, \delta_s)`
+        and clips to :math:`[0.01, 89.99]` degrees.  Out-of-range samples
+        are resampled up to 20 times before a hard clip.
+
+        Parameters
+        ----------
+        num_lines : int
+            Number of transmission lines.
+
+        Returns
+        -------
+        numpy.ndarray, shape (num_lines,)
+            Line angle in degrees for each branch.
+        """
         alpha, beta, gamma, delta = self.stab_params
         
         phi = levy_stable.rvs(alpha, beta, loc=delta, scale=gamma, size=num_lines)
@@ -70,7 +122,23 @@ class TransmissionLineAllocator:
         return phi
 
     def _generate_beta(self, num_lines: int) -> np.ndarray:
-        """Generates capacity factors (beta) using exponential distribution."""
+        r"""Generate gauge ratios from an exponential distribution.
+
+        Draws :math:`\beta \sim \mathrm{Exp}(\mu_\beta)` and resamples
+        values exceeding 1.0.  A fraction ``overload_b`` of lines are then
+        injected with :math:`\beta \in (1.0, 1.2]` to model bottleneck
+        / overloaded lines (Sadeghian et al., 2018, Sec. IV).
+
+        Parameters
+        ----------
+        num_lines : int
+            Number of transmission lines.
+
+        Returns
+        -------
+        numpy.ndarray, shape (num_lines,)
+            Sorted gauge-ratio values.
+        """
         beta = np.random.exponential(scale=self.mu_beta, size=num_lines)
         # Handle outliers (beta > 1)
         mask = beta > 1.0
@@ -98,9 +166,24 @@ class TransmissionLineAllocator:
         return np.sort(beta)
 
     def _assign_betas(self, flows: np.ndarray, betas: np.ndarray) -> np.ndarray:
-        """
-        Assigns Beta factors to lines based on Flow magnitude using 2D Table.
-        Implements 'Assignment_Fl' logic.
+        r"""Assign gauge ratios to lines via 2-D bin matching.
+
+        Uses the empirical PMF ``Tab_2D_FlBeta`` to reproduce the joint
+        distribution :math:`f(\bar{F}_l, \beta_l)` from the reference
+        system.  Lines are sorted by normalised flow and betas by value,
+        then paired randomly within matching bins (high-to-low traversal).
+
+        Parameters
+        ----------
+        flows : numpy.ndarray, shape (m, 2)
+            ``[line_index, normalised_flow]``.
+        betas : numpy.ndarray, shape (m,)
+            Sorted gauge-ratio values from :meth:`_generate_beta`.
+
+        Returns
+        -------
+        numpy.ndarray, shape (m, 3)
+            ``[line_index, normalised_flow, beta]``.
         """
         num_lines = len(flows)
         if num_lines == 0: return np.array([])
@@ -172,12 +255,21 @@ class TransmissionLineAllocator:
         return np.array(final_assignment)
 
     def _refine_topology(self):
-        """
-        Refines grid topology to reduce max phase angle difference.
-        Matches 'sg_flow_lim.m' heuristic:
-          1. Check max angle difference.
-          2. Add line between max diff pair.
-          3. Remove a weak line to maintain density.
+        r"""Refine grid topology to reduce phase-angle spread.
+
+        Iteratively tightens the electrical diameter of the network
+        (ported from ``sg_flow_lim.m``):
+
+        1. Compute the DCPF and measure
+           :math:`\Delta\theta_{\max} = \max(\theta) - \min(\theta)`.
+        2. If :math:`\Delta\theta_{\max} > TT + 2` with
+           :math:`TT = 10^{0.3196 \log_{10} N + 0.8324}`,
+           add a low-impedance edge between the bus pair with the
+           largest angle difference.
+        3. Remove a random high-:math:`X` edge (top 20 %) whose
+           end-point degrees are both :math:`\ge 3`, preserving
+           graph connectivity.
+        4. Repeat for up to 10 iterations.
         """
         n_nodes = self.graph.number_of_nodes()
         # Target threshold for angle difference
@@ -256,8 +348,35 @@ class TransmissionLineAllocator:
                     self.graph.add_edge(u_rem, v_rem, **d_rem)
 
     def allocate(self, refine_topology: bool = False) -> Dict[Tuple[int, int], float]:
-        """
-        Main execution method.
+        r"""Run the full transmission-line allocation pipeline.
+
+        Executes the seven-step procedure:
+
+        1. Draw impedance magnitudes
+           :math:`Z \sim \text{LogNormal}(\mu, \sigma)`, clipped to
+           [0.001, 0.5] p.u.
+        2. Generate angles :math:`\varphi` (Lévy stable), compute
+           :math:`X = Z\sin\varphi`, :math:`R = Z\cos\varphi`.
+        3. Iterative DCPF swapping: sort :math:`Z` ascending / flows
+           descending, randomly swap ~20–30 % of assignments.
+        4. (Optional) Topology refinement via :meth:`_refine_topology`.
+        5. Final DCPF to obtain converged flows.
+        6. Generate and assign gauge ratios (:math:`\beta`) via
+           :meth:`_generate_beta` and :meth:`_assign_betas`.
+        7. Set capacity limits:
+           :math:`F_l^{\max} = F_l / \beta_l` with a minimum-capacity
+           fallback (5 + 100 · rand MW when :math:`\le 2`).
+
+        Parameters
+        ----------
+        refine_topology : bool, optional
+            If ``True``, run topology refinement after step 3.  Default
+            is ``False``.
+
+        Returns
+        -------
+        dict
+            Mapping ``(u, v)`` edge tuple to capacity limit (MW).
         """
         edges = list(self.graph.edges())
         m_lines = len(edges)

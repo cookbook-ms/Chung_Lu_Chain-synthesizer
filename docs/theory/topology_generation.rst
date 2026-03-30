@@ -16,7 +16,7 @@ The methodology is mainly based on `Aksoy et al. (2018) <https://academic.oup.co
 The method proposed by the authors includes two phases:
 
 1. the first phase uses the **Chung-Lu random graph model**, taking desired node degrees and desired diameter as inputs, and outputs the subgraphs of same-voltage level; and 
-2. the second phase uses a simple **random start graph model** to connect the subgraphs of different voltage levels. 
+2. the second phase uses a simple **random star graph model** to connect the subgraphs of different voltage levels. 
 
 
 Preliminaries
@@ -41,7 +41,27 @@ The LCC of a degree-1 vertex is undefined, and the local clustering coefficient 
 Power grid as network-of-networks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Following `Halappanavar et al. (2015) <https://arxiv.org/abs/1512.01436>`_, a power grid graph is defined as $G=(V,E,f,\mathcal{X})$, where $V$ is the set of vertices (substations, buses, generators, loads, etc.), $E$ is the set of edges (transmission lines and transformers), $\mathcal{X}=\{X_1,\dots,X_k\}$ is the set of voltage levels, and $f:V\to \mathcal{X}$ assigns a voltage level to each vertex.
 
+An edge $\{i,j\}$ is called a **transformer edge** if $f(i)\neq f(j)$. The power grid graph can be decomposed into:
+
+* **Same-voltage subgraphs** $G[X]$ for each voltage level $X\in\mathcal{X}$: the subgraph induced by all vertices of voltage $X$ and all edges between them.
+* **Transformer subgraphs** $G[T[X_i,X_j]]$: the subgraph induced by all transformer edges between voltage levels $X_i$ and $X_j$.
+
+We denote:
+
+* $n^X = |V^X|$: the number of vertices at voltage level $X$
+* $\mathbf{d}^X$: the degree sequence of same-voltage vertices in $G[X]$
+* $\mathbf{t}[X_i,X_j]$: the transformer degree sequence of voltage $X_i$ vertices with respect to voltage $X_j$, i.e., the number of transformer edges from each $X_i$ vertex to any $X_j$ vertex
+
+In this way, the entire power grid graph is the union of all same-voltage subgraph edges and all transformer edges.
+
+Key empirical findings from `Aksoy et al. (2018) <https://academic.oup.com/comnet/article-abstract/7/1/128/5073058>`_:
+
+* Same-voltage subgraphs have diameter and average distance on the order of $\sqrt{n}$, much larger than the $\log(n)$ typical of small-world or scale-free models.
+* Same-voltage subgraphs have consistently low local clustering coefficients (typically below 0.1), unlike most real-world networks.
+* Average degree $\bar{d}\approx 2.425$ is remarkably consistent across all same-voltage subgraphs (CV = 7.6%).
+* Transformer subgraphs consist almost entirely of small, disjoint $k$-star graphs.
 
 What is a Chung-Lu model? 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -71,6 +91,87 @@ The expected degree of a node is again its desired degree
 Some prior work
 ^^^^^^^^^^^^^^^
 Hines et al. (2010) considered the aggregate power grid graph from IEEE 300-bus test case and the US Eastern Interconnection grid, and found that the structure of these graphs differ substantially from the comparably sized random graph models like Erdõs-Rényi, preferential attachment, and small-world models in terms of the degree distribution, clustering, diameter and assortativity. 
+
+
+Phase 1: The Chung-Lu Chain (CLC) model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Standard random graph models (Erdõs-Rényi, Chung-Lu, preferential attachment, small-world) produce graphs with diameter on the order of $\log(n)$, which is far smaller than the $\sqrt{n}$-scale diameters observed in real power grid same-voltage subgraphs. The CLC model addresses this by adapting the Chung-Lu model to additionally take a desired diameter $\delta$ as input.
+
+**Preprocessing (Algorithm 1 --- Setup)**
+
+Given desired degrees $\mathbf{d}=(d_1,\dots,d_n)$ and desired diameter $\delta$, the preprocessing stage:
+
+1. **Diameter adjustment**: Adjusts the input diameter to account for within-box Chung-Lu graph diameter:
+
+   .. math:: \delta \leftarrow \text{round}\Big(\delta - 2\log\frac{\eta}{\delta+1}\Big)
+
+   where $\eta = |\{d\in\mathbf{d}:d>0\}|$ is the number of non-isolated vertices.
+
+2. **Degree sequence inflation** (Lines 4--8): Inflates the degree sequence by randomly duplicating nonzero-degree vertices until the expected number of isolated vertices in a Chung-Lu realization matches the number of zero-degree vertices. The expected number of isolated vertices in a Chung-Lu graph is $\sum_i \exp(-d_i)$ (Chung \& Lu, 2006).
+
+3. **Box assignment** (Lines 9--22): Partitions non-isolated vertices into $\delta+1$ boxes labelled $0,1,\dots,\delta$. If $\eta/(\delta+1) < \max(\mathbf{d})$, some boxes are kept empty (except for path vertices) to ensure enough vertices per non-empty box for the maximum degree to be achievable.
+
+4. **Diameter path selection** (Lines 25--35): Selects $\delta+1$ vertices (preferably of degree $\geq 3$) and assigns each to a distinct box. These form the deterministic diameter path $D$ which guarantees the desired diameter.
+
+5. **Subdiameter path selection** (Lines 37--45): Selects up to $\delta+1$ additional vertices and assigns them to consecutive boxes centered below the diameter path. The subdiameter path $S$ provides alternate paths and cycles, increasing edge connectivity and replicating long-cycle structures observed in real grids.
+
+**Graph generation (Algorithm 2 --- CLC)**
+
+Given the preprocessed outputs $({\mathbf{d}'},\mathbf{v},D,S)$:
+
+1. **Diameter path edges** (Lines 3--7): Connect consecutive diameter path vertices across boxes $0,1,\dots,\delta$ to form a path of length $\delta$.
+2. **Subdiameter path edges** (Lines 8--12): Connect consecutive subdiameter path vertices similarly.
+3. **Within-box Chung-Lu** (Lines 13--22): For each box $k$, generate a fast Chung-Lu random graph on the vertices assigned to that box. Each edge is formed by sampling two endpoints proportionally to their desired degrees. Self-loops are discarded.
+
+The resulting graph has diameter at least $\delta$ (from the deterministic path), low clustering (inherited from Chung-Lu), and the degree distribution approximately matches the input.
+
+
+Phase 2: Transformer edges via random star generation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The transformer subgraphs between voltage levels consist almost entirely of disjoint $k$-star graphs (Section 3.2 of the paper). Algorithm 3 (STARS) exploits this structure.
+
+**Algorithm 3 --- Stars($\mathbf{t}[X,Y], \mathbf{t}[Y,X]$)**
+
+Given the desired transformer degree sequences for voltage levels $X$ and $Y$:
+
+1. **Partition vertices** into:
+
+   * *Centers*: vertices with transformer degree $\geq 2$ (sets $I_X^c$ and $I_Y^c$)
+   * *Leaves*: vertices with transformer degree $= 1$ (sets $I_X^o$ and $I_Y^o$)
+
+2. **Generate $k$-stars** (Lines 7--25): For each center vertex $i\in I_X^c$ with degree $k$:
+
+   * If $\geq k$ leaf vertices remain in $I_Y^o$, connect $i$ to $k$ randomly chosen leaves from $I_Y^o$ (removing them from the pool).
+   * Otherwise, place $i$ in a leftover bin $L_X$.
+   
+   Repeat symmetrically for centers in $I_Y^c$ using leaves from $I_X^o$.
+
+3. **Match remaining degree-1 vertices** (Lines 27--32): Pair remaining leaves from $I_X^o$ and $I_Y^o$ into single edges.
+
+4. **Leftover bipartite Chung-Lu** (Lines 34--42): If leftover vertices remain whose degrees could not be realized via stars, apply a bipartite Chung-Lu model on the leftover bins.
+
+**Sufficient condition for perfect degree match**: If $\sum_{i:t[X,Y]_i\geq 2} t[X,Y]_i \leq |\{j\in Y: t[Y,X]_j=1\}|$ (and symmetrically), then all vertices are allocated to stars and degrees are matched exactly.
+
+
+Combined CLCStars model (Algorithm 4)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The full power grid graph $G$ on $k$ voltage levels is generated by:
+
+1. For each voltage level $X_i$ ($i=1,\dots,k$):
+
+   * Run **Setup**$(\mathbf{d}^{X_i}, \delta^{X_i})$ to preprocess.
+   * Run **CLC**$(\mathbf{d}', \mathbf{v}, D, S)$ to generate same-voltage subgraph edges.
+
+2. For each pair of voltage levels $(X_i, X_j)$ with $i<j$:
+
+   * Run **Stars**$(\mathbf{t}[X_i,X_j], \mathbf{t}[X_j,X_i])$ to generate transformer edges.
+
+3. Take the union of all edge sets to form $G$.
+
+Phase 1 and Phase 2 operate independently: none of the Phase 1 inputs are required for Phase 2 and vice versa. This allows flexible control over the correlation between same-voltage structure and transformer connectivity.
 
 
 

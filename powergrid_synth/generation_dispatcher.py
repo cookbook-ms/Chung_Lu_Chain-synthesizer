@@ -1,38 +1,98 @@
-"""
-This module 
-TODO: 
+r"""
+Generation dispatch for synthetic power grids.
+
+This module implements the generation dispatch algorithm from
+`Sadeghian et al. (2018) <https://ieeexplore.ieee.org/document/8585532>`_.
+It partitions generator units into three groups — **uncommitted**
+(:math:`\alpha = 0`), **partially committed** (:math:`0 < \alpha < 1`),
+and **fully committed** (:math:`\alpha \approx 1`) — then assigns
+participation factors (dispatch factors) and iteratively balances total
+generation against total load.  The dispatch factor is defined as
+
+.. math:: \alpha_i = P_{g_i} / P_{g_i}^{\max}, \qquad i = 1, \ldots, N_G
+
+The correlation between normalised capacity and dispatch factor is
+reproduced via a 2-D empirical PMF table (``Tab_2D_Pg``).
+
+Ported from the SynGrid MATLAB function ``sg_gen_dist.m``.
 """
 import numpy as np
 import networkx as nx
 from typing import List, Dict, Tuple, Optional
 from .reference_data import get_reference_stats
 
+
 class GenerationDispatcher:
-    """
-    Allocates active power (Pg) to generators.
+    r"""Assign active-power dispatch to each generator bus.
+
+    The algorithm follows `Sadeghian et al. (2018)
+    <https://ieeexplore.ieee.org/document/8585532>`_ (Section III):
+
+    1. **Uncommitted units** (10–20 %): :math:`\alpha = 0`, selected via
+       targets drawn from Uniform[0, 0.6].
+    2. **Partially committed units** (40–50 %): selected via exponential
+       distribution on capacity; dispatch factors assigned through a
+       2-D bin-matching table ``Tab_2D_Pg`` (:math:`14 \times 10`).
+    3. **Fully committed units** (remainder): :math:`\alpha = 1`.
+    4. **Balancing loop**: iteratively adjusts dispatch to match total
+       load within 1 % tolerance.
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        Power grid graph.  Generator nodes must have ``'bus_type' == 'Gen'``
+        and ``'pg_max'`` (MW) attributes.  Load nodes must have ``'pl'`` (MW).
+    ref_sys_id : int, optional
+        Reference system for statistical tables (1 = NYISO-2935,
+        2 = WECC-16994, 3 = additional reference).  Default is 1.
+
+    Attributes
+    ----------
+    alpha_mod : int
+        Loading-level flag from the reference system.  When 0 all alphas
+        are Uniform[0, 1]; otherwise 0.5 % receive negative dispatch
+        (e.g., pumped-storage hydro).
+    mu_committed : float
+        Exponential-distribution parameter for committed-unit capacities.
+    tab_2d_pg : numpy.ndarray
+        2-D empirical PMF table (14 capacity bins × 10 alpha bins).
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):
         self.graph = graph
         self.ref_sys_id = ref_sys_id
-        
+
         # Load stats
         try:
             self.stats = get_reference_stats(ref_sys_id)
         except ValueError:
-             print(f"Warning: Invalid ref_sys_id {ref_sys_id}. Defaulting to 1.")
-             self.stats = get_reference_stats(1)
-        
-        self.alpha_mod = self.stats['Alpha_mod'] # loading level 
+            print(f"Warning: Invalid ref_sys_id {ref_sys_id}. Defaulting to 1.")
+            self.stats = get_reference_stats(1)
+
+        self.alpha_mod = self.stats['Alpha_mod']
         self.mu_committed = self.stats['mu_committed']
         self.tab_2d_pg = self.stats['Tab_2D_Pg']
 
     def _select_uncommitted(self, norm_pg_max: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        input: 
-        - norm_pg_max: (ID, Gen Cap)
-        
-        Selects 10-20% of units as Uncommitted (Pg = 0).
+        r"""Select generators to be uncommitted (:math:`\alpha = 0`).
+
+        Randomly selects 10–20 % of total generator units.  Target
+        capacities are drawn from Uniform[0, 0.6] and the unit whose
+        normalised capacity is closest to each target is selected.
+        This reproduces the empirical observation that uncommitted units
+        tend to be small or medium-size (Sadeghian et al., 2018, Sec. III).
+
+        Parameters
+        ----------
+        norm_pg_max : numpy.ndarray, shape (n, 2)
+            Array with columns ``[bus_id, normalised_capacity]``.
+
+        Returns
+        -------
+        uncommitted : numpy.ndarray, shape (m, 3)
+            Uncommitted units: ``[bus_id, norm_cap, alpha=0]``.
+        remaining : numpy.ndarray, shape (n-m, 2)
+            Units not selected.
         """
         ng = len(norm_pg_max)
         if ng == 0:
@@ -56,10 +116,28 @@ class GenerationDispatcher:
         return np.array(uncommitted), remaining
 
     def _select_committed(self, norm_pg_max: np.ndarray, total_units_count: int) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Selects 40-50% of TOTAL units as Committed.
-        99% follows an exponential distribution
-        1% having extremely large capacities 
+        r"""Select generators to be partially committed (:math:`0 < \alpha < 1`).
+
+        Selects 40–50 % of *total* generator count.  99 % of these are
+        chosen by matching to targets drawn from an exponential distribution
+        with parameter :math:`\mu_{\text{committed}}`; the remaining 1 %
+        are drawn from the extreme tail Uniform[0.5, 1.0], capturing
+        super-large units (Sadeghian et al., 2018, Sec. III-A).
+
+        Parameters
+        ----------
+        norm_pg_max : numpy.ndarray, shape (n, 2)
+            Remaining units after uncommitted selection:
+            ``[bus_id, normalised_capacity]``.
+        total_units_count : int
+            Original total number of generator units (before any selection).
+
+        Returns
+        -------
+        committed : numpy.ndarray, shape (m, 2)
+            Committed units: ``[bus_id, norm_cap]``.
+        remaining : numpy.ndarray, shape (n-m, 2)
+            Units not selected (will become fully committed).
         """
         ng_comm = int(round(total_units_count * (0.4 + np.random.rand() * 0.1)))
         ng_comm = min(ng_comm, len(norm_pg_max))
@@ -90,7 +168,23 @@ class GenerationDispatcher:
         return np.array(committed), remaining
 
     def _generate_alphas(self, n_comm: int) -> np.ndarray:
-        # generate alphas for the partially committed
+        r"""Generate dispatch factors for partially committed units.
+
+        When ``alpha_mod == 0`` (e.g. NYISO), all :math:`\alpha` values are
+        drawn from Uniform[0, 1].  When ``alpha_mod != 0`` (e.g. WECC),
+        99.5 % are Uniform[0, 1] and 0.5 % are negative, representing
+        reverse dispatch such as pumped-storage hydro.
+
+        Parameters
+        ----------
+        n_comm : int
+            Number of committed units requiring :math:`\alpha` values.
+
+        Returns
+        -------
+        numpy.ndarray, shape (n_comm, 1)
+            Dispatch-factor values.
+        """
         if n_comm == 0: return np.array([])
         if self.alpha_mod == 0:
             return np.random.rand(n_comm, 1)
@@ -104,6 +198,30 @@ class GenerationDispatcher:
             return a1
 
     def _assign_alphas(self, units: np.ndarray, alphas: np.ndarray) -> np.ndarray:
+        r"""Assign dispatch factors to committed units via 2-D bin matching.
+
+        Units are sorted by normalised capacity and alphas by value, then
+        distributed into bins defined by ``Tab_2D_Pg`` (14 capacity bins
+        :math:`\times` 10 alpha bins).  Within each bin, units and alphas
+        are paired randomly (high-to-low bin traversal).  Any leftovers
+        are paired sequentially as a fallback.
+
+        This reproduces the empirical joint distribution
+        :math:`f(\bar{P}_{g}^{\max}, \alpha)` from the reference system
+        (Sadeghian et al., 2018, Table I).
+
+        Parameters
+        ----------
+        units : numpy.ndarray, shape (n, 2)
+            ``[bus_id, normalised_capacity]``.
+        alphas : numpy.ndarray, shape (n, 1)
+            Dispatch-factor values from :meth:`_generate_alphas`.
+
+        Returns
+        -------
+        numpy.ndarray, shape (m, 3)
+            ``[bus_id, normalised_capacity, alpha]``.
+        """
         n_items = len(units)
         if n_items == 0: return np.array([])
         
@@ -160,6 +278,30 @@ class GenerationDispatcher:
         return np.array(final_list) if final_list else np.array([])
 
     def dispatch(self) -> Dict[int, float]:
+        r"""Run the full generation dispatch pipeline.
+
+        Implements the algorithm of Sadeghian et al. (2018), Fig. 6:
+
+        1. Collect generator buses and normalise capacities by
+           :math:`P_g^{\max}_{\text{max}}`.
+        2. Partition generators into **uncommitted**
+           (:math:`\alpha = 0`), **partially committed**
+           (:math:`0 < \alpha < 1`), and **fully committed**
+           (:math:`\alpha = 1`).
+        3. Assign dispatch factors to partially committed units via
+           the 2-D bin-matching table ``Tab_2D_Pg``.
+        4. Iteratively balance total generation against total load
+           (1 % tolerance, up to 50 iterations) by scaling committed
+           :math:`\alpha` values and toggling uncommitted / full-load
+           units on or off.
+        5. Convert normalised dispatch back to MW:
+           :math:`P_{g_i} = \alpha_i \cdot \bar{P}_{g_i}^{\max} \cdot P_{g}^{\max}_{\text{max}}`.
+
+        Returns
+        -------
+        dict
+            Mapping of generator bus ID to dispatched active power (MW).
+        """
         # 1. Prepare Buses into (Id, Gen) and (Id, Load)
         gen_data = []
         for n, d in self.graph.nodes(data=True):

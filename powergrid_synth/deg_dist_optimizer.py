@@ -21,20 +21,48 @@ from scipy.optimize import minimize
 from typing import Tuple, List, Optional
 
 class DegreeDistributionOptimizer:
-    """
-    Finds parameters for 'ideal' degree distributions (`dgln` or `dpl`)
-    matching a target average degree and maximum degree bound.
-    
-    Ported from MATLAB 'degdist_param_search.m' (Sandia National Labs).
+    r"""
+    Find parameters for ideal degree distributions matching target statistics.
+
+    Supports two distribution families:
+
+    * ``dgln`` (discrete generalized log-normal): :math:`n_d \propto \exp\!\big(-(\log d / \alpha)^\beta\big)`
+    * ``dpl`` (discrete power law): :math:`n_d \propto d^{-\gamma}`
+
+    The optimizer minimizes a penalty that combines a max-degree probability
+    bound with a squared error on the target average degree, following
+    `Kolda et al. (2014) <https://arxiv.org/abs/1302.6636>`_ (FEASTPACK).
+
+    Ported from MATLAB ``degdist_param_search.m`` (Sandia National Labs).
+
+    Parameters
+    ----------
+    verbose : bool, optional
+        If True, print optimization progress. Default is False.
     """
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
 
     def _dgln_pdf(self, n: int, alpha: float, beta: float) -> np.ndarray:
-        """
-        Discrete Generalized Log-Normal PDF.
-        Prob(x) ~ exp(-(log(x)/alpha)^beta) for x = 1..n
+        r"""
+        Compute the discrete generalized log-normal (DGLN) PDF.
+
+        .. math:: P(x) \propto \exp\!\Big(-\Big(\frac{\log x}{\alpha}\Big)^\beta\Big), \quad x=1,\dots,n
+
+        Parameters
+        ----------
+        n : int
+            Maximum degree (support is 1..n).
+        alpha : float
+            Scale parameter (> 0).
+        beta : float
+            Shape parameter (> 0).
+
+        Returns
+        -------
+        numpy.ndarray
+            Normalized probability vector of length *n*.
         """
         # Avoid division by zero or invalid log domain issues during optimization
         if alpha <= 0 or beta <= 0:
@@ -60,9 +88,22 @@ class DegreeDistributionOptimizer:
         return p
 
     def _dpl_pdf(self, n: int, gamma: float) -> np.ndarray:
-        """
-        Discrete Power Law PDF.
-        Prob(x) ~ x^-gamma for x = 1..n
+        r"""
+        Compute the discrete power-law (DPL) PDF.
+
+        .. math:: P(x) \propto x^{-\gamma}, \quad x=1,\dots,n
+
+        Parameters
+        ----------
+        n : int
+            Maximum degree (support is 1..n).
+        gamma : float
+            Power-law exponent (> 0).
+
+        Returns
+        -------
+        numpy.ndarray
+            Normalized probability vector of length *n*.
         """
         x = np.arange(1, n + 1)
         p = x ** (-gamma)
@@ -71,9 +112,32 @@ class DegreeDistributionOptimizer:
 
     def _objective_func(self, params, dist_type: str, max_deg: int, 
                         target_avg: float, prob_bound: float) -> float:
-        """
-        Calculates the score (penalty) for a set of parameters.
-        Score = (Penalty if P(max_deg) > bound) + (Squared Error of Avg Degree)
+        r"""
+        Objective function for the distribution parameter search.
+
+        The score combines two terms:
+
+        1. **Max-degree bound penalty**: exponential penalty if
+           :math:`P(d_{\max}) > \text{prob\_bound}`.
+        2. **Average-degree error**: :math:`(\bar{d}_{\text{current}} - \bar{d}_{\text{target}})^2`.
+
+        Parameters
+        ----------
+        params : array-like
+            Distribution parameters: ``(alpha, beta)`` for DGLN or ``(gamma,)`` for DPL.
+        dist_type : str
+            ``'dgln'`` or ``'dpl'``.
+        max_deg : int
+            Maximum degree in the support.
+        target_avg : float
+            Target average degree.
+        prob_bound : float
+            Upper bound on the probability at ``max_deg``.
+
+        Returns
+        -------
+        float
+            Penalty score (lower is better).
         """
         if dist_type == 'dgln':
             alpha, beta = params
@@ -114,13 +178,30 @@ class DegreeDistributionOptimizer:
                  max_deg: int, 
                  dist_type: str = 'dgln', 
                  prob_bound: float = 1e-10) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Main entry point to find parameters.
-        
-        Returns:
-            Tuple containing:
-            - Best Parameters (alpha, beta) or (gamma,)
-            - The resulting Probability Density Function (PDF) array
+        r"""
+        Find distribution parameters matching the target average degree.
+
+        Uses Nelder-Mead optimization to minimize :meth:`_objective_func`.
+        See `Kolda et al. (2014) <https://arxiv.org/abs/1302.6636>`_ for details.
+
+        Parameters
+        ----------
+        target_avg : float
+            Target average degree :math:`\bar{d}`.
+        max_deg : int
+            Maximum degree :math:`d_{\max}` (defines the PDF support ``1..max_deg``).
+        dist_type : str, optional
+            ``'dgln'`` for generalized log-normal or ``'dpl'`` for power law.
+            Default is ``'dgln'``.
+        prob_bound : float, optional
+            Upper bound on :math:`P(d_{\max})`. Default is ``1e-10``.
+
+        Returns
+        -------
+        best_params : numpy.ndarray
+            Optimized parameters: ``(alpha, beta)`` for DGLN or ``(gamma,)`` for DPL.
+        final_pdf : numpy.ndarray
+            Normalized PDF evaluated at degrees ``1..max_deg``.
         """
         if dist_type == 'dgln':
             initial_guess = [2.0, 2.0]

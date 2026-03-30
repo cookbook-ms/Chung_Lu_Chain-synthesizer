@@ -35,27 +35,71 @@ from typing import List, Dict, Tuple, Optional, Any
 from .deg_dist_optimizer import DegreeDistributionOptimizer
 
 class InputConfigurator:
-    """
-    Helper class to artificially generate the detailed input sequences (degrees, transformer connections)
-    required by PowerGridGenerator from high-level parameters like the number of vertices, and some hyperparameters for the used fitting functions or distributions.
+    r"""
+    Generate detailed input sequences for :class:`PowerGridGenerator` from
+    high-level parameters.
+
+    This is "operation mode II", where the user specifies only the number of
+    nodes, average degree, diameter, and distribution type for each voltage
+    level, rather than providing explicit degree sequences.  The configurator
+    uses :class:`DegreeDistributionOptimizer` to fit distribution parameters
+    and then samples degree sequences.
+
+    See Section 6 of `Aksoy et al. (2018)
+    <https://doi.org/10.1093/comnet/cny016>`_ for the synthetic input
+    generation guidelines.
+
+    Parameters
+    ----------
+    seed : int or None, optional
+        Random seed for reproducibility. Default is None.
     """
     def __init__(self, seed: Optional[int] = None):
         self.rng = np.random.default_rng(seed)
         self.optimizer = DegreeDistributionOptimizer(verbose=False)
 
     def _generate_poisson_degrees(self, n_nodes: int, avg_degree: float) -> List[int]:
-        """Generates degree sequence using Poisson distribution."""
+        r"""
+        Generate a degree sequence from a Poisson distribution.
+
+        Parameters
+        ----------
+        n_nodes : int
+            Number of nodes.
+        avg_degree : float
+            Mean of the Poisson distribution :math:`\lambda = \bar{d}`.
+
+        Returns
+        -------
+        list of int
+            Sampled degree sequence of length *n_nodes*.
+        """
         return self.rng.poisson(avg_degree, n_nodes).tolist()
 
     def _generate_optimized_degrees(self, n_nodes: int, avg_degree: float, 
                                     max_degree: int, dist_type: str) -> List[int]:
-        """
-        Generates degrees by first optimizing parameters for DGLN/DPL to match 
-        the target average, then sampling from that distribution.
-        
-        Args: 
-            n_nodes: Number of nodes in each same-voltage subgraph. 
-            
+        r"""
+        Generate a degree sequence by optimizing DGLN or DPL parameters.
+
+        First calls :meth:`DegreeDistributionOptimizer.optimize` to find the
+        distribution parameters matching ``avg_degree`` and ``max_degree``,
+        then samples *n_nodes* degrees from the resulting PDF.
+
+        Parameters
+        ----------
+        n_nodes : int
+            Number of nodes in the same-voltage subgraph.
+        avg_degree : float
+            Target average degree :math:`\bar{d}`.
+        max_degree : int
+            Maximum degree :math:`d_{\max}` (PDF support is ``1..max_degree``).
+        dist_type : str
+            ``'dgln'`` for generalized log-normal or ``'dpl'`` for power law.
+
+        Returns
+        -------
+        list of int
+            Sampled degree sequence of length *n_nodes*.
         """
         # 1. Optimize parameters to find the ideal PDF
         _, pdf = self.optimizer.optimize(
@@ -70,24 +114,57 @@ class InputConfigurator:
         return samples.tolist()
 
     def _generate_transformer_simple(self, n_nodes: int, prob: float) -> List[int]:
-        """
-        Original simple model: binary transformer degree list (0 or 1).
+        r"""
+        Generate binary transformer degrees (simple probabilistic model).
+
+        Each node independently gets transformer degree 0 or 1 with
+        probability ``1 - prob`` and ``prob``, respectively.
+
+        Parameters
+        ----------
+        n_nodes : int
+            Number of nodes.
+        prob : float
+            Probability that a node participates in a transformer edge.
+
+        Returns
+        -------
+        list of int
+            Transformer degree list (0 or 1 per node).
         """
         return self.rng.choice([0, 1], size=n_nodes, p=[1.0 - prob, prob]).tolist()
 
     def _generate_transformer_stars(self, n_i: int, n_j: int, 
                                     c: float = 0.174, gamma: float = 4.15) -> Tuple[List[int], List[int]]:
-        """
-        Generates transformer degrees based on the 'disjoint k-stars' model 
-        from the paper.
-        
-        Args:
-            n_i, n_j: Number of nodes in the two voltage levels.
-            c: Coefficient for number of active stars (default 0.174).
-            gamma: Power law exponent (default 4.15).
-            
-        Returns:
-            Tuple (t_i, t_j) representing degree sequences for both levels.
+        r"""
+        Generate transformer degrees using the disjoint k-stars model.
+
+        Follows Section 6.2 of `Aksoy et al. (2018)
+        <https://doi.org/10.1093/comnet/cny016>`_:
+
+        1. Number of star centres: :math:`h(n_i, n_j) = c \cdot \min(n_i, n_j)`
+           with :math:`c \approx 0.174`.
+        2. Star sizes sampled from a discrete power law
+           :math:`P(k) \propto k^{-\gamma}` with :math:`\gamma \approx 4.15`.
+        3. Each star is randomly assigned a centre in level *i* or *j*.
+        4. Degree lists are padded with zeros and shuffled.
+
+        Parameters
+        ----------
+        n_i, n_j : int
+            Number of nodes in the two voltage levels.
+        c : float, optional
+            Coefficient for the number of active star centres.
+            Default is 0.174 (paper optimum).
+        gamma : float, optional
+            Power-law exponent for star sizes.
+            Default is 4.15 (paper optimum, Section 6.2).
+
+        Returns
+        -------
+        tuple of (list of int, list of int)
+            ``(t_i, t_j)`` — transformer degree sequences for levels *i* and
+            *j*, each of length *n_i* and *n_j* respectively.
         """
         # 1. Determine number of 'star centers' (active hubs)
         # h(n_i, n_j) = c * min(n_i, n_j)
@@ -147,15 +224,36 @@ class InputConfigurator:
                       levels: List[Dict[str, Any]], 
                       inter_connections: Dict[Tuple[int, int], Dict[str, Any]]) -> Dict[str, Any]:
         r"""
-        Generates the full parameter set.
-        
-        Args:
-            levels: TODO: 
-            inter_connections: Dict mapping (i, j) to config.
-                               Config can be {'type': 'simple', 'p_i_j': ..., 'p_j_i': ...}
-                               OR {'type': 'k-stars', 'c': 0.174, 'gamma': 4.15}
-        
-        TODO: We can further improve the setup for `max_d`. For `dgln`, the paper suggests $\bar{d}=2.425\pm 0.1846$ and $d_{\max}$ is rather difficult to generalize as a function of $n$. For `dpl`, some work suggests $d_\max\sim n^{1/\gamma}$ with $\gamma\in[1,4]$. Using $g(n)=c\cdot n^{1/4}$ to fit some data yields $c\approx 1.517$. 
+        Generate the full parameter set for :meth:`PowerGridGenerator.generate_grid`.
+
+        Parameters
+        ----------
+        levels : list of dict
+            One dict per voltage level with keys:
+
+            * ``'n'`` (int): number of nodes.
+            * ``'avg_k'`` (float): target average degree.
+            * ``'diam'`` (int): target diameter.
+            * ``'dist_type'`` (str): ``'dgln'``, ``'dpl'``, or ``'poisson'``.
+            * ``'max_k'`` (int, optional): maximum degree (default:
+              ``min(n - 1, 50)``).  For ``'dpl'`` the paper suggests
+              :math:`d_{\max} \approx 1.517\,n^{1/4}`; for ``'dgln'``
+              :math:`\bar{d} \approx 2.425 \pm 0.185` is consistent across
+              subgraphs (Section 6.1 of Aksoy et al., 2018).
+
+        inter_connections : dict
+            Mapping ``(i, j) -> config`` for transformer connections.
+            Config is either:
+
+            * ``{'type': 'k-stars', 'c': 0.174, 'gamma': 4.15}``
+            * ``{'type': 'simple', 'p_i_j': float, 'p_j_i': float}``
+
+        Returns
+        -------
+        dict
+            Keys ``'degrees_by_level'``, ``'diameters_by_level'``, and
+            ``'transformer_degrees'``, ready to be unpacked into
+            :meth:`PowerGridGenerator.generate_grid`.
         """
         degrees_by_level = []
         diameters_by_level = []

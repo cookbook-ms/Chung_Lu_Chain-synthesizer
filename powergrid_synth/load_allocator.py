@@ -8,14 +8,57 @@ from .reference_data import get_reference_stats
 class LoadAllocator:
     """
     Assigns active power loads (PL) to load buses in the grid.
+
+    Implements the load-setting methodology from Elyas et al. (2017), which
+    mirrors the generation-capacity approach in :class:`CapacityAllocator`:
+
+    1. **Total load:** Compute an aggregate load target, either from a
+       deterministic scaling formula or as a fraction (light / medium / heavy)
+       of the total installed generation capacity.
+    2. **Individual loads:** Sample N_l individual loads from an exponential
+       distribution (with ~1% super-large outliers).
+    3. **Correlated assignment:** Assign loads to load buses using a 14x14
+       empirical 2D probability table (``Tab_2D_load``) that encodes the
+       joint distribution of normalized load demand and normalized nodal
+       degree.
+
+    Reference systems with pre-computed ``Tab_2D_load`` tables are available
+    for NYISO-2935 (id=1), WECC-16944 (id=2), and a third system (id=3).
+    A heuristic diagonal-bias table (id=0) is provided as a fallback.
+
+    Parameters
+    ----------
+    graph : nx.Graph
+        NetworkX graph with ``'bus_type'`` and (for non-deterministic loading
+        levels) ``'pg_max'`` node attributes already set.
+    ref_sys_id : int
+        Reference system for statistical tables (0=heuristic, 1=NYISO-2935,
+        2=WECC-16944, 3=additional reference).
+
+    References
+    ----------
+    .. [1] S. H. Elyas, Z. Wang, R. J. Thomas, "On the Statistical Settings
+       of Generation and Load in a Synthetic Grid Modeling," arXiv:1706.09294,
+       2017.
     """
 
     def __init__(self, graph: nx.Graph, ref_sys_id: int = 1):
         """
-        Args:
-            graph: The networkx graph with 'bus_type' and 'pg_max' attributes.
-            ref_sys_id: ID of reference system statistics to use (1, 2, or 3).
-                        Use 0 for heuristic default.
+        Parameters
+        ----------
+        graph : nx.Graph
+            NetworkX graph whose nodes carry a ``'bus_type'`` attribute
+            (``'Gen'``, ``'Load'``, or ``'Conn'``).  For loading levels
+            other than ``'D'``, generator nodes must also have a
+            ``'pg_max'`` attribute set by :class:`CapacityAllocator`.
+        ref_sys_id : int, optional
+            Selects which reference system statistics to use for the 2D
+            probability table ``Tab_2D_load``:
+
+            - 0 — heuristic diagonal-bias table (no real-grid data).
+            - 1 — NYISO-2935 (default).
+            - 2 — WECC-16944.
+            - 3 — additional reference system.
         """
         self.graph = graph
         self.ref_sys_id = ref_sys_id
@@ -29,7 +72,19 @@ class LoadAllocator:
 
     def _get_tab_2d_load(self) -> np.ndarray:
         """
-        Returns the Tab_2D_load from the selected reference system.
+        Return the ``Tab_2D_load`` table for the selected reference system.
+
+        The table is a 14x14 matrix representing the empirical joint PDF
+        ``Pr((P_bar_ln, k_bar_n) in A)`` discretized into 14 load-demand
+        classes (rows, low-to-high) and 14 nodal-degree classes (columns,
+        low-to-high).  When ``ref_sys_id=0``, a heuristic table with
+        Gaussian-decay diagonal bias ``exp(-0.5 * |r - c|)`` is generated
+        instead.
+
+        Returns
+        -------
+        np.ndarray
+            A 14x14 probability matrix (sums to 1).
         """
         # Heuristic fallback (Option 0)
         if self.ref_sys_id == 0:
@@ -51,12 +106,33 @@ class LoadAllocator:
 
     def _calculate_total_load(self, loading_level: str, total_gen_capacity: float) -> float:
         """
-        Calculates Total Load based on the loading level strategy.
-        Strategies:
-            'D': Deterministic formula based on N.
-            'L': Light loading (30-40% of Gen Capacity).
-            'M': Medium loading (50-60% of Gen Capacity).
-            'H': Heavy loading (70-80% of Gen Capacity).
+        Compute the total system load target.
+
+        Four strategies are supported, following Elyas et al. (2017):
+
+        - ``'D'`` — **Deterministic:** scaling formula fitted to realistic
+          grids: ``Pl_tot = 10^(-0.2 * log10(N)^2 + 1.98 * log10(N) + 0.58)``.
+        - ``'L'`` — **Light loading:** 30–40% of total generation capacity.
+        - ``'M'`` — **Medium loading:** 50–60% of total generation capacity.
+        - ``'H'`` — **Heavy loading:** 70–80% of total generation capacity.
+
+        Parameters
+        ----------
+        loading_level : str
+            One of ``'D'``, ``'L'``, ``'M'``, ``'H'``.
+        total_gen_capacity : float
+            Sum of all generator ``pg_max`` values (MW).  Only used when
+            ``loading_level`` is not ``'D'``.
+
+        Returns
+        -------
+        float
+            Total system load target (MW).
+
+        Raises
+        ------
+        ValueError
+            If *loading_level* is not one of the four valid options.
         """
         if loading_level == 'D':
             # Formula: 10^(-0.2*(log10(N))^2 + 1.98*log10(N) + 0.58)
@@ -81,8 +157,27 @@ class LoadAllocator:
 
     def _initial_load_distribution(self, total_load: float) -> Tuple[np.ndarray, float, np.ndarray]:
         """
-        Generates load sizes based on empirical distributions.
-        99% exponential, 1% super large.
+        Sample individual load demands from the empirical distribution.
+
+        Mirrors :meth:`CapacityAllocator._initial_generation_distribution`.
+        More than 99% of load demands follow an exponential distribution;
+        ~1% are replaced by super-large outliers drawn uniformly from
+        ``[max(P), 3 * max(P)]``.  If the sum deviates more than 5% above
+        or 10% below ``total_load``, all values are rescaled proportionally.
+
+        Parameters
+        ----------
+        total_load : float
+            Target aggregate load (MW).
+
+        Returns
+        -------
+        p_loads : np.ndarray
+            Raw (possibly rescaled) load values, shape ``(N_l,)``.
+        max_r_pl : float
+            Maximum load value, used for normalization.
+        normalized_r_pl : np.ndarray
+            Loads normalized to [0, 1] by dividing by ``max_r_pl``.
         """
         if self.n_load == 0:
             return np.array([]), 0.0, np.array([])
@@ -115,7 +210,34 @@ class LoadAllocator:
 
     def _assignment_logic(self, norm_deg_pairs: np.ndarray, norm_vals: np.ndarray, tab_2d: np.ndarray) -> np.ndarray:
         """
-        Generic binning assignment logic (Shared logic with CapacityAllocator).
+        Assign normalized values to buses via 2D-binning.
+
+        Shared logic with :meth:`CapacityAllocator._assignment_logic`.  See
+        that method's docstring for the full algorithm description.  In brief:
+
+        1. Scale the 14x14 probability table to integer target counts.
+        2. Derive degree-bin (column sums) and value-bin (row sums) targets.
+        3. Sort buses by normalized degree, partition into 14 bins.
+        4. Sort normalized values, partition into 14 bins.
+        5. For each (degree bin, value bin) pair—iterating degree bins
+           1→14, value bins 14→1—randomly assign the target count of
+           values to unassigned buses.
+
+        Parameters
+        ----------
+        norm_deg_pairs : np.ndarray
+            Shape ``(N, 2)`` — columns are ``[NodeID, NormalizedDegree]``.
+        norm_vals : np.ndarray
+            Shape ``(N,)`` — normalized load values in [0, 1].
+        tab_2d : np.ndarray
+            A 14x14 joint-probability matrix (rows=value classes,
+            columns=degree classes).
+
+        Returns
+        -------
+        np.ndarray
+            Shape ``(N, 3)`` — columns are
+            ``[NodeID, NormalizedDegree, NormalizedValue]``.
         """
         n_items = len(norm_vals)
         
@@ -184,13 +306,33 @@ class LoadAllocator:
 
     def allocate(self, loading_level: str = 'H') -> Dict[int, float]:
         """
-        Allocates loads to buses.
-        
-        Args:
-            loading_level: 'D' (Default Formula), 'L' (Light), 'M' (Medium), 'H' (Heavy).
-            
-        Returns:
-            Dictionary mapping Load Node ID -> Active Power (MW)
+        Run the full load-allocation pipeline.
+
+        Executes the three-stage methodology (analogous to
+        :meth:`CapacityAllocator.allocate`):
+
+        1. Compute total system load from ``loading_level`` strategy.
+        2. Sample individual loads, normalize them and the load-bus nodal
+           degrees by their respective maxima:
+           ``P_bar = P / max(P)``, ``k_bar = k / max(k)``.
+        3. Assign normalized loads to load buses via 2D binning using
+           ``Tab_2D_load``.
+        4. Denormalize: ``PL = P_bar * max(P)``.
+
+        Parameters
+        ----------
+        loading_level : str, optional
+            Loading strategy (default ``'H'``):
+
+            - ``'D'`` — deterministic scaling formula.
+            - ``'L'`` — light (30–40% of generation capacity).
+            - ``'M'`` — medium (50–60% of generation capacity).
+            - ``'H'`` — heavy (70–80% of generation capacity).
+
+        Returns
+        -------
+        dict[int, float]
+            Mapping from load node ID to its assigned active power load (MW).
         """
         if self.n_load == 0:
             print("No load buses found. Skipping load allocation.")

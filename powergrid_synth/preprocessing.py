@@ -1,5 +1,11 @@
 r"""
-This module sets up the inputs for synthetic grid topology generation, namely, desired same-voltage degrees & diameters, and transformer degrees. 
+Preprocessing stage (Algorithm 1) for the Chung-Lu Chain (CLC) model.
+
+Prepares the degree sequence, box assignments, and path vertex selections
+needed by :class:`~powergrid_synth.edge_creation.EdgeCreator`.
+
+See `Aksoy et al. (2018) <https://doi.org/10.1093/comnet/cny016>`_
+(arXiv:1711.11098, Appendix A.2–A.3) for the full algorithm description.
 """
 import numpy as np
 import math
@@ -7,14 +13,35 @@ import random
 from typing import List, Tuple, Dict, Set
 
 class Preprocessor:
-    """
-    Implements Algorithm 1: Preprocessing stage for subgraph of voltage X.
+    r"""
+    Preprocessing for a single same-voltage subgraph (Algorithm 1).
+
+    Given desired degrees :math:`\mathbf{d}` and diameter :math:`\delta`,
+    produces an inflated degree sequence, box assignments, and
+    diameter/subdiameter path vertex sets used by the CLC edge generator.
+
+    See `Aksoy et al. (2018) <https://doi.org/10.1093/comnet/cny016>`_,
+    Section 4.3 and Appendix A.3.
     """
 
     def assign_boxes(self, indices: np.ndarray, boxes: List[int]) -> Dict[int, int]:
-        """
-        Procedure ASSIGNBOXES (Lines 43-49).
-        Randomly assigns each vertex index to a box chosen from the provided boxes.
+        r"""
+        Randomly assign vertices to boxes (Lines 43–49 of Algorithm 1).
+
+        Each vertex index is assigned to a uniformly random box from the
+        provided list.
+
+        Parameters
+        ----------
+        indices : numpy.ndarray
+            Vertex indices to assign.
+        boxes : list of int
+            Available box IDs.
+
+        Returns
+        -------
+        dict
+            Mapping ``{vertex_index: box_id}``.
         """
         mapping = {}
         # Line 44: for each i in indices
@@ -28,19 +55,43 @@ class Preprocessor:
         return mapping
 
     def run_setup(self, desired_degrees: List[int], input_diameter: int) -> Tuple[np.ndarray, np.ndarray, Set[int], Set[int]]:
-        """
-        Executes the SETUP procedure (Algorithm 1).
+        r"""
+        Execute the Setup procedure (Algorithm 1).
 
-        Args:
-            desired_degrees: Vector d of desired degrees.
-            input_diameter: The desired diameter delta.
+        The preprocessing performs five steps:
 
-        Returns:
-            Tuple containing:
-            - d_prime: The inflated degree sequence (numpy array).
-            - v: The vertex-box sequence (numpy array, where v[i] is the box ID for node i).
-            - D: Set of diameter path vertices.
-            - S: Set of subdiameter path vertices.
+        1. **Diameter adjustment** (Line 3): :math:`\delta \leftarrow
+           \text{round}\!\big(\delta - 2\log(\eta/(\delta+1))\big)`.
+        2. **Degree-sequence inflation** (Lines 4–8): duplicate random
+           nonzero-degree entries until the expected number of Chung-Lu
+           isolated vertices :math:`\sum_i e^{-d_i}` matches the number of
+           zero-degree vertices :math:`n - \eta`.
+        3. **Box assignment** (Lines 9–22): distribute non-isolated vertices
+           into :math:`\delta+1` boxes, optionally keeping some boxes empty
+           so each non-empty box can support the maximum degree.
+        4. **Diameter path** (Lines 25–35): select :math:`\delta+1` vertices
+           (degree :math:`\geq 3` preferred) and place one in each box.
+        5. **Subdiameter path** (Lines 37–45): select up to
+           :math:`\delta+1` additional vertices and assign to centred
+           consecutive boxes.
+
+        Parameters
+        ----------
+        desired_degrees : list of int
+            Input degree sequence :math:`\mathbf{d}`.
+        input_diameter : int
+            Desired diameter :math:`\delta`.
+
+        Returns
+        -------
+        d_prime : numpy.ndarray
+            Inflated degree sequence :math:`\mathbf{d}'`.
+        v : numpy.ndarray
+            Vertex-to-box mapping (``v[i]`` = box ID; ``-1`` = unassigned).
+        D : set of int
+            Diameter path vertex indices.
+        S : set of int
+            Subdiameter path vertex indices.
         """
         # Work with a list for easy inflation, convert to numpy later
         d = list(desired_degrees)

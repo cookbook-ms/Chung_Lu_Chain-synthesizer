@@ -4,14 +4,23 @@ Bus Type Assignment based on Bus Type Entropy
 
 Here we explain the statistical method used to assign the bus types given a grid topology. 
 In a typical power grid, $20-40\%$ of the buses are generation buses, $40-60\%$ load buses, and about $20\%$ connection buses. 
-`Elyas et al. (2016) <https://ieeexplore.ieee.org/document/7763878>`_ verified that there exist non-trivial correlations between the three bus types and other topology metrics such as node degrees and clustering coefficients in a real-world power grid. 
-A numerical measure, called **Bus Type Entropy** was proposed to quantify the correlated bus type assignments of realistic power grids.
+
+Elyas and Wang :cite:p:`elyas2016improved` verified that there exist non-trivial correlations between the three bus types and other topology metrics such as node degrees and clustering coefficients in a real-world power grid. 
+A numerical measure, called **Bus Type Entropy**, was proposed to quantify the correlated bus type assignments of realistic power grids. The entropy definition was subsequently improved with redefined formulations and better-fitted scaling functions for the normalized distance parameter.
+
+.. note::
+
+   Full reference: S. H. Elyas and Z. Wang, "Improved Synthetic Power Grid Modeling With
+   Correlated Bus Type Assignments," *IEEE Transactions on Power Systems*, vol. 32, no. 5,
+   pp. 3391–3400, Sept. 2017, doi: `10.1109/TPWRS.2016.2634318 <https://doi.org/10.1109/TPWRS.2016.2634318>`_.
+
+The methods are implemented in `bus_type_allocator.py <../autoapi/powergrid_synth/bus_type_allocator/index.html>`_ (ported from the MATLAB SynGrid toolbox ``sg_bus_type.m``).
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 What is a bus type assignment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A buy type assignment vector $\mathbb{T}$ gives one of the following types to each bus node $i$
+A bus type assignment vector $\mathbb{T}$ gives one of the following types to each bus node $i$
 
   .. math:: 
       
@@ -37,15 +46,15 @@ The authors performed an analysis on the Pearson correlations
 
 The analysis shows that 
 
-* For positive correlations, the connection buses tend to have higher average node degree and clustering coefficient.
-* For negative ones, the generation or the load buses are likely to be more densely connected or clustered. 
+* **Positive correlations:** connection buses tend to have higher average node degree and clustering coefficient. This is consistent with the role of connection (transit) buses as hubs in the transmission network.
+* **Negative correlations:** generation or load buses are likely to be less densely connected or clustered, reflecting their more peripheral placement in realistic grids.
 
 
 ^^^^^^^^^^^^^^^^^
 Bus type entropy
 ^^^^^^^^^^^^^^^^^
 
-The buy type entropy is given in two definitions: 
+The bus type entropy is given in two definitions: 
   
   .. math:: 
   
@@ -64,10 +73,10 @@ where the variables are defined as:
 
 .. admonition:: Why do we want an entropy notion? 
 
-  The proposed entropys provide a quantitative means to identify the presence of correlation between different bus type assignments and power grids topology. They help us to recognize the specific set of bus type assignments, in the spectrum of random ones generated from permutation.
+  The proposed entropies provide a quantitative means to identify the presence of correlation between different bus type assignments and the power grid topology. They help us to recognize the specific set of bus type assignments, in the spectrum of random ones generated from permutation.
 
-  * $W_0$ is a typical entropy definition of statistical variables, from which the derived entropy value tends to fall within a very stable or restricted numerical region. 
-  * $W_1$ is a more generalized one, which tends to amplify the scaling impact of the entropy value versus the grid network size, and has the advantage to simplify the approximation procedure of the scaling function. 
+  * $W_0$ is a typical entropy definition of statistical variables, from which the derived entropy value tends to fall within a very stable or restricted numerical region. Because $\mu_{W_0}$ is nearly constant across network sizes, $W_0$ is useful for comparing grids of different sizes on an absolute scale.
+  * $W_1$ is a more generalized one, which tends to amplify the scaling impact of the entropy value versus the grid network size, and has the advantage to simplify the approximation procedure of the scaling function. Because $\mu_{W_1}$ grows with $N$, $W_1$ better separates the optimal assignment from random ones in large grids.
 
 
 ^^^^^^^^^^^^^^^^^^^^
@@ -77,7 +86,7 @@ Statistical analysis
 By investigating the relative difference or distance between the best/original bus type assignment in a realistic power grid and other randomized ones, one can see the effectiveness of the proposed entropy, and further allow us to derive a scaling property of the bus type assignment w.r.t. the grid size. 
 
 1. For the original assignment $\mathbb{T}^*$ in a realistic power grid, compute the entropy $W_{0/1}(\mathbb{T}^*)$. 
-2. Randomize the bus type assignments $\tilde{\mathbb{T}}$ while keeping the bus type ratio unchanged, and compute the correpsonding entropy. This creates many random samples of the entropy. Denote the sampling size by $k^{\text{max}}$. 
+2. Randomize the bus type assignments $\tilde{\mathbb{T}}$ while keeping the bus type ratio unchanged, and compute the corresponding entropy. This creates many random samples of the entropy. Denote the sampling size by $k^{\text{max}}$. 
 
 .. admonition:: Notes
 
@@ -90,7 +99,7 @@ By investigating the relative difference or distance between the best/original b
   By analyzing the empirical PDFs, it shows that 
   
   * for $W_0(\mathbb{T})$, the fitting parameter $\mu$ is very stable w.r.t. the network size; and 
-  * for $W_0(\mathbb{T})$, $\mu$ grows w.r.t. the network size. 
+  * for $W_1(\mathbb{T})$, $\mu$ grows w.r.t. the network size. 
   * There is a trend for the distance between the original bus type and the mean value $\mu$ --- as the network size increases, the value of $W^*-\mu$ reduces from positive to negative values.
 
   These statistical results have an implication on building a scaling property for the entropy w.r.t. the grid size. 
@@ -106,7 +115,7 @@ By examining the realistic power grids systems, the authors found that
 
 .. admonition:: Observations 
 
-  The relative location of $W^*$ is not stationary but there exists a gowing trend in the distance between $W^*$ and $\mu$ w.r.t. the network size $N$, that is, $W^*$ moves from right to the left side as the network size increases. 
+  The relative location of $W^*$ is not stationary but there exists a growing trend in the distance between $W^*$ and $\mu$ w.r.t. the network size $N$, that is, $W^*$ moves from the right to the left side of the distribution as the network size increases. 
 
 This observation presents a possible scaling property of the normalized entropy $d$ in terms of the network size $N$, defined as 
 

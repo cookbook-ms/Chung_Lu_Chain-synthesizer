@@ -1,27 +1,69 @@
 r"""
-This module connects the transformer edges between different-voltage level subgraphs.
+Transformer edge generation between different-voltage subgraphs.
+
+Implements Algorithm 3 (Stars) from `Aksoy et al. (2018)
+<https://doi.org/10.1093/comnet/cny016>`_ (arXiv:1711.11098, Section 4.4).
 """
 import numpy as np
 import random
 from typing import List, Set, Tuple, Dict
 
 class TransformerConnector:
-    """
-    Insert transformer edges between subgraphs of voltage X and Y.
+    r"""
+    Generate transformer edges between two same-voltage subgraphs.
+
+    Transformer subgraphs in real power grids consist almost entirely of
+    disjoint :math:`k`-star graphs.  This class replicates that structure
+    by creating random stars from the desired transformer degree sequences,
+    with a bipartite Chung-Lu fallback for leftover vertices.
+
+    See Algorithm 3 in `Aksoy et al. (2018)
+    <https://doi.org/10.1093/comnet/cny016>`_.
     """
 
     def generate_transformer_edges(self, t_xy: List[int], t_yx: List[int]) -> List[Tuple[int, int]]:
-        """
-        Procedure STARS(t[X,Y], t[Y,X]) -> E
-        
-        Args:
-            t_xy: List of transformer degrees for nodes in subgraph X.
-                  (i.e., how many connections node i in X has to Y)
-            t_yx: List of transformer degrees for nodes in subgraph Y.
-                  (i.e., how many connections node j in Y has to X)
-            
-        Returns:
-            List of edges (u, v) where u is index in X, v is index in Y.
+        r"""
+        Generate transformer edges between voltage levels X and Y.
+
+        Implements **Stars**\ (:math:`\mathbf{t}[X,Y],\;\mathbf{t}[Y,X]`)
+        :math:`\to E` (Algorithm 3).
+
+        The algorithm proceeds in four stages:
+
+        1. Partition vertices into *centers* (degree :math:`\geq 2`) and
+           *leaves* (degree :math:`= 1`).
+        2. Build :math:`k`-stars centred at high-degree vertices, consuming
+           degree-1 vertices from the opposite level as leaves.
+        3. Match remaining degree-1 vertices across levels into single edges.
+        4. Apply bipartite Chung-Lu on any leftover vertices whose degrees
+           could not be realised via stars.
+
+        Parameters
+        ----------
+        t_xy : list of int
+            Transformer degree for each node in subgraph X toward Y.
+            ``t_xy[i]`` is the number of transformer edges desired for
+            node *i* in X.
+        t_yx : list of int
+            Transformer degree for each node in subgraph Y toward X.
+
+        Returns
+        -------
+        list of tuple[int, int]
+            Edge list as ``(u, v)`` where *u* is a local index in X and
+            *v* is a local index in Y.
+
+        Notes
+        -----
+        A sufficient condition for all degrees to be matched exactly (no
+        leftover Chung-Lu) is:
+
+        .. math::
+            \sum_{i:\,t[X,Y]_i\geq 2} t[X,Y]_i
+            \;\leq\;
+            |\{j\in Y : t[Y,X]_j = 1\}|
+
+        and symmetrically for the other direction.
         """
         # Line 2: Initialize
         edges = set()

@@ -10,16 +10,31 @@ import networkx as nx
 from typing import Dict, List, Tuple
 
 def extract_topology_params_from_graph(G: nx.Graph) -> Dict:
-    """
-    Extracts degrees, diameters, and transformer stats from a NetworkX graph.
-    This is required to configure the synthesizer to mimic the reference grid.
-    
-    Args:
-        G: NetworkX graph with 'voltage_level' node attributes.
-        
-    Returns:
-        dict: A dictionary containing 'degrees_by_level', 'diameters_by_level', 
-              and 'transformer_degrees'.
+    r"""
+    Extract CLC model inputs from an existing power grid graph.
+
+    This is "operation mode I", where the generator is configured to mimic
+    an existing reference grid.  The function extracts per-level degree
+    sequences and diameters (Phase 1 inputs), as well as pairwise
+    transformer degree sequences (Phase 2 inputs).
+
+    Parameters
+    ----------
+    G : networkx.Graph
+        Power grid graph with a ``'voltage_level'`` attribute on every node.
+
+    Returns
+    -------
+    dict
+        ``'degrees_by_level'`` : list of list of int
+            Intra-level degree sequences (one per voltage level, ordered by
+            ascending voltage label).
+        ``'diameters_by_level'`` : list of int
+            Diameter of the largest connected component of each same-voltage
+            subgraph.
+        ``'transformer_degrees'`` : dict
+            ``{(i, j): (deg_i_to_j, deg_j_to_i)}`` for each pair of voltage
+            levels that has at least one transformer edge.
     """
     print("Extracting topology parameters...")
     

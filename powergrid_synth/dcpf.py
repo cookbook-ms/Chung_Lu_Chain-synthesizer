@@ -3,11 +3,44 @@ import networkx as nx
 from scipy.sparse import csc_matrix, linalg
 
 class DCPowerFlow:
+    r"""Lightweight DC Power Flow (DCPF) solver.
+
+    Solves the linearised power flow equations
+
+    .. math::
+
+        \mathbf{P} = \mathbf{B}\,\boldsymbol{\theta}, \qquad
+        F_{ij} = \frac{\theta_i - \theta_j}{x_{ij}}
+
+    where :math:`\mathbf{B}` is the bus susceptance matrix,
+    :math:`\boldsymbol{\theta}` the vector of voltage angles (radians),
+    :math:`\mathbf{P}` the vector of net real-power injections (per-unit on
+    a 100 MVA base), and :math:`F_{ij}` the real-power flow on branch
+    :math:`(i, j)`.
+
+    The slack bus (reference angle :math:`\theta = 0`) is chosen as the bus
+    hosting the largest generator.  The solver uses a sparse direct
+    factorisation via ``scipy.sparse.linalg.spsolve``.
+
+    This class is used by
+    :class:`~powergrid_synth.transmission.TransmissionLineAllocator` to
+    compute the flow distribution needed for impedance swapping and
+    capacity assignment, following the methodology of
+    `Sadeghian et al. (2018) <https://ieeexplore.ieee.org/document/8585532>`_.
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        Power grid graph.  Each edge must have an ``'x'`` attribute
+        (per-unit reactance).  Each node may have ``'pg'`` (generation MW)
+        and ``'pl'`` (load MW) attributes.
+
+    See Also
+    --------
+    powergrid_synth.transmission.TransmissionLineAllocator : Uses DCPF for
+        impedance swapping and capacity assignment.
     """
-    A lightweight DC Power Flow solver.
-    Solves P = B * theta for voltage angles and calculates line flows.
-    """
-    
+
     def __init__(self, graph: nx.Graph):
         self.graph = graph
         self.nodes = list(graph.nodes())
@@ -15,11 +48,28 @@ class DCPowerFlow:
         self.n_bus = len(self.nodes)
         
     def run(self):
-        """
-        Executes DCPF.
-        Returns:
-            flows (dict): {(u, v): flow_value}
-            angles (dict): {node: angle_radians}
+        r"""Execute the DC power flow and return branch flows and bus angles.
+
+        Algorithm
+        ---------
+        1. Build the susceptance matrix :math:`\mathbf{B}` from branch
+           reactances: :math:`B_{ij} = -1/x_{ij}`,
+           :math:`B_{ii} = \sum_j 1/x_{ij}`.
+        2. Form the net injection vector
+           :math:`P_i = (P_{g_i} - P_{L_i}) / S_{\text{base}}`.
+        3. Select the slack bus (largest generator), remove its row/column,
+           and solve :math:`\mathbf{B}_{\text{red}}\,
+           \boldsymbol{\theta}_{\text{red}} = \mathbf{P}_{\text{red}}`.
+        4. Compute branch flows
+           :math:`F_{ij} = (\theta_i - \theta_j) / x_{ij} \times
+           S_{\text{base}}` (MW).
+
+        Returns
+        -------
+        flows : dict[tuple[int, int], float]
+            Branch power flows in MW, keyed by ``(u, v)`` node pairs.
+        angles : dict[int, float]
+            Bus voltage angles in radians, keyed by node id.
         """
         # 1. Build B Matrix (Susceptance)
         # B_ij = -1/x_ij

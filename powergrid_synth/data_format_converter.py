@@ -2,6 +2,8 @@ import networkx as nx
 import pandas as pd
 import numpy as np
 import pandapower as pp
+import pypowsybl as ppl 
+
 
 def pandapower_to_nx(net: pp.pandapowerNet) -> nx.Graph:
     """
@@ -197,3 +199,11 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
             )
 
     return net
+
+
+def pandapower_to_pypowsybl(net: pp.pandapowerNet) -> ppl.network.impl.network.Network:
+    """
+    Converts a pandapowerNet object into a Pypowsybl Network object.
+    """
+    ppl_net = ppl.network.impl.pandapower_converter.convert_from_pandapower(net)
+    return ppl_net

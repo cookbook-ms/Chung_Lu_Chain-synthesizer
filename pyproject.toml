@@ -16,7 +16,8 @@ dependencies = [
     "pandas==2.3.3",
     "pandapower==3.3.0",
     "numba",
-    "lightsim2grid"
+    "lightsim2grid",
+    "pypowsybl==1.14.0",
 ]
 
 
