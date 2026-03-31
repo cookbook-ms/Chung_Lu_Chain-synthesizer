@@ -7,8 +7,8 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API reference &mdash; PowerGridSynth 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6230b2d3" />
 
@@ -16,8 +16,11 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["\\(", "\\)"]], "processEscapes": true, "displayMath": [["\\[", "\\]"]]}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -43,14 +46,14 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../README.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Getting Started</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/TopologyGeneration.html">Topology Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/IEEETest.html">IEEE Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/GenLoadSettings.html">Generation and Load Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/IEEETest.html">IEEE Test</a></li>
 </ul>
 </li>
 </ul>
@@ -62,17 +65,17 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/generation_load_settings.html">Generation and Load Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/gen_dispatch_transmission.html">Generation Dispatch and Transmission Capacity</a></li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../autoapi/powergrid_synth/index.html">powergrid_synth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/analysis/index.html">powergrid_synth.analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/bus_type_allocator/index.html">powergrid_synth.bus_type_allocator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/capacity_allocator/index.html">powergrid_synth.capacity_allocator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/comparison/index.html">powergrid_synth.comparison</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/data_format_converter/index.html">powergrid_synth.data_format_converter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/deg_dist_optimizer/index.html">powergrid_synth.deg_dist_optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/edge_creation/index.html">powergrid_synth.edge_creation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/powergrid_synth/exporter/index.html">powergrid_synth.exporter</a></li>
@@ -108,7 +111,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">API reference</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/reference/api_reference.md.txt" rel="nofollow"> View page source</a>
+              <a href="https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/docs/reference/api_reference.md" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -120,12 +123,901 @@
 <h1>API reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
 <section id="topology-generator">
 <h2>topology generator<a class="headerlink" href="#topology-generator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.InputConfigurator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">InputConfigurator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/input_configurator.html#InputConfigurator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.InputConfigurator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generate detailed input sequences for <a class="reference internal" href="#powergrid_synth.PowerGridGenerator" title="powergrid_synth.PowerGridGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PowerGridGenerator</span></code></a> from
+high-level parameters.</p>
+<p>This is “operation mode II”, where the user specifies only the number of
+nodes, average degree, diameter, and distribution type for each voltage
+level, rather than providing explicit degree sequences.  The configurator
+uses <code class="xref py py-class docutils literal notranslate"><span class="pre">DegreeDistributionOptimizer</span></code> to fit distribution parameters
+and then samples degree sequences.</p>
+<p>See Section 6 of <a class="reference external" href="https://doi.org/10.1093/comnet/cny016">Aksoy et al. (2018)</a> for the synthetic input
+generation guidelines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Default is None.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.InputConfigurator.create_params">
+<span class="sig-name descname"><span class="pre">create_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inter_connections</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/input_configurator.html#InputConfigurator.create_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.InputConfigurator.create_params" title="Link to this definition"></a></dt>
+<dd><p>Generate the full parameter set for <a class="reference internal" href="#powergrid_synth.PowerGridGenerator.generate_grid" title="powergrid_synth.PowerGridGenerator.generate_grid"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PowerGridGenerator.generate_grid()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>levels</strong> (<em>list</em><em> of </em><em>dict</em>) – <p>One dict per voltage level with keys:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'n'</span></code> (int): number of nodes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'avg_k'</span></code> (float): target average degree.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'diam'</span></code> (int): target diameter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'dist_type'</span></code> (str): <code class="docutils literal notranslate"><span class="pre">'dgln'</span></code>, <code class="docutils literal notranslate"><span class="pre">'dpl'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'poisson'</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'max_k'</span></code> (int, optional): maximum degree (default:
+<code class="docutils literal notranslate"><span class="pre">min(n</span> <span class="pre">-</span> <span class="pre">1,</span> <span class="pre">50)</span></code>).  For <code class="docutils literal notranslate"><span class="pre">'dpl'</span></code> the paper suggests
+<span class="math notranslate nohighlight">\(d_{\max} \approx 1.517\,n^{1/4}\)</span>; for <code class="docutils literal notranslate"><span class="pre">'dgln'</span></code>
+<span class="math notranslate nohighlight">\(\bar{d} \approx 2.425 \pm 0.185\)</span> is consistent across
+subgraphs (Section 6.1 of Aksoy et al., 2018).</p></li>
+</ul>
+</p></li>
+<li><p><strong>inter_connections</strong> (<em>dict</em>) – <p>Mapping <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span> <span class="pre">-&gt;</span> <span class="pre">config</span></code> for transformer connections.
+Config is either:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">{'type':</span> <span class="pre">'k-stars',</span> <span class="pre">'c':</span> <span class="pre">0.174,</span> <span class="pre">'gamma':</span> <span class="pre">4.15}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{'type':</span> <span class="pre">'simple',</span> <span class="pre">'p_i_j':</span> <span class="pre">float,</span> <span class="pre">'p_j_i':</span> <span class="pre">float}</span></code></p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Keys <code class="docutils literal notranslate"><span class="pre">'degrees_by_level'</span></code>, <code class="docutils literal notranslate"><span class="pre">'diameters_by_level'</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">'transformer_degrees'</span></code>, ready to be unpacked into
+<a class="reference internal" href="#powergrid_synth.PowerGridGenerator.generate_grid" title="powergrid_synth.PowerGridGenerator.generate_grid"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PowerGridGenerator.generate_grid()</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.PowerGridGenerator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">PowerGridGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/generator.html#PowerGridGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.PowerGridGenerator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generative model for an entire power grid graph on <em>k</em> voltage levels.</p>
+<p>Implements Algorithm 4 (CLCStars) from <a class="reference external" href="https://doi.org/10.1093/comnet/cny016">Aksoy et al. (2018)</a> (arXiv:1711.11098).
+Phase 1 generates each same-voltage subgraph via the CLC model,
+and Phase 2 inserts transformer edges via the random-star model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Default is None.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.PowerGridGenerator.generate_grid">
+<span class="sig-name descname"><span class="pre">generate_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees_by_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diameters_by_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformer_degrees</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_lcc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/generator.html#PowerGridGenerator.generate_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.PowerGridGenerator.generate_grid" title="Link to this definition"></a></dt>
+<dd><p>Generate a multi-level power grid graph (CLCStars, Algorithm 4).</p>
+<p>Runs Phase 1 (CLC for each voltage level) and Phase 2 (random-star
+transformer edges for each pair of levels), then combines results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees_by_level</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>int</em>) – Desired degree sequences <span class="math notranslate nohighlight">\(\mathbf{d}^{X_1},\dots,\mathbf{d}^{X_k}\)</span>,
+one per voltage level.</p></li>
+<li><p><strong>diameters_by_level</strong> (<em>list</em><em> of </em><em>int</em>) – Desired diameters <span class="math notranslate nohighlight">\(\delta^{X_1},\dots,\delta^{X_k}\)</span>,
+one per voltage level.</p></li>
+<li><p><strong>transformer_degrees</strong> (<em>dict</em>) – Mapping <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span> <span class="pre">-&gt;</span> <span class="pre">(t_i_j,</span> <span class="pre">t_j_i)</span></code> where <code class="docutils literal notranslate"><span class="pre">t_i_j</span></code> is the
+transformer degree list for level-<em>i</em> nodes toward level <em>j</em>,
+and <code class="docutils literal notranslate"><span class="pre">t_j_i</span></code> is the reverse.</p></li>
+<li><p><strong>keep_lcc</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, return only the largest connected component with
+contiguous node IDs. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The generated grid graph with <code class="docutils literal notranslate"><span class="pre">voltage_level</span></code> node attributes
+and <code class="docutils literal notranslate"><span class="pre">type</span></code> (<code class="docutils literal notranslate"><span class="pre">'line'</span></code> or <code class="docutils literal notranslate"><span class="pre">'transformer'</span></code>) edge attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../autoapi/powergrid_synth/index.html#powergrid_synth.PowerGridGraph" title="powergrid_synth.PowerGridGraph">PowerGridGraph</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="grid-data-generator">
 <h2>grid data generator<a class="headerlink" href="#grid-data-generator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.BusTypeAllocator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">BusTypeAllocator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entropy_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_type_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/bus_type_allocator.html#BusTypeAllocator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.BusTypeAllocator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Assigns bus types (Generator, Load, Connection) to a raw power grid
+topology using an Artificial Immune System (AIS) optimization algorithm.</p>
+<p>The method, from Elyas and Wang (2016), exploits the observed non-trivial
+correlations between bus types and topology metrics (node degree, clustering
+coefficient) in realistic grids.  A <strong>bus type entropy</strong> measure quantifies
+these correlations, and a target entropy <span class="math notranslate nohighlight">\(W^*\)</span> is derived from a
+scaling property fitted to real-world systems.  The AIS then searches for
+an assignment whose entropy matches <span class="math notranslate nohighlight">\(W^*\)</span>.</p>
+<p>The pipeline is:</p>
+<ol class="arabic simple">
+<li><p>Determine target bus type ratios <span class="math notranslate nohighlight">\((r_G, r_L, r_C)\)</span> from network
+size.</p></li>
+<li><p>Estimate <span class="math notranslate nohighlight">\(W^*\)</span> via Monte Carlo sampling of random assignments
+and the scaling relation <span class="math notranslate nohighlight">\(W^* = \mu + \sigma \cdot d(N)\)</span>.</p></li>
+<li><p>Run AIS optimization (clonal selection, hypermutation, receptor editing)
+to find an assignment <span class="math notranslate nohighlight">\(\mathbb{T}\)</span> such that
+<span class="math notranslate nohighlight">\(|W(\mathbb{T}) - W^*| &lt; \epsilon\)</span>.</p></li>
+</ol>
+<p>Two entropy definitions are supported:</p>
+<ul class="simple">
+<li><p><strong>Model 0</strong> (<span class="math notranslate nohighlight">\(W_0\)</span>): standard entropy of bus/link type ratios.
+<span class="math notranslate nohighlight">\(\mu\)</span> is stable across network sizes.</p></li>
+<li><p><strong>Model 1</strong> (<span class="math notranslate nohighlight">\(W_1\)</span>): generalized entropy weighted by <span class="math notranslate nohighlight">\(N\)</span>
+and <span class="math notranslate nohighlight">\(M\)</span>.  <span class="math notranslate nohighlight">\(\mu\)</span> grows with network size, giving better
+discrimination in large grids.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>nx.Graph</em>) – NetworkX graph representing the grid topology (nodes and edges only;
+no bus type attributes required yet).</p></li>
+<li><p><strong>entropy_model</strong> (<em>int</em>) – Selects the entropy definition: 0 for <span class="math notranslate nohighlight">\(W_0\)</span>, 1 for <span class="math notranslate nohighlight">\(W_1\)</span>.</p></li>
+<li><p><strong>bus_type_ratio</strong> (<em>list</em><em> of </em><em>float</em><em> or </em><em>None</em>) – Optional target ratios <code class="docutils literal notranslate"><span class="pre">[Gen,</span> <span class="pre">Load,</span> <span class="pre">Conn]</span></code>.  Values are normalized
+to sum to 1.  If <em>None</em>, default ratios are chosen based on <em>N</em>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>S. H. Elyas and Z. Wang, “Improved Synthetic Power Grid Modeling
+With Correlated Bus Type Assignments,” IEEE Trans. Power Syst.,
+vol. 32, no. 5, pp. 3391–3400, Sept. 2017.</p>
+</aside>
+</aside>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.BusTypeAllocator.TYPE_CONN">
+<span class="sig-name descname"><span class="pre">TYPE_CONN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#powergrid_synth.BusTypeAllocator.TYPE_CONN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.BusTypeAllocator.TYPE_GEN">
+<span class="sig-name descname"><span class="pre">TYPE_GEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#powergrid_synth.BusTypeAllocator.TYPE_GEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.BusTypeAllocator.TYPE_LOAD">
+<span class="sig-name descname"><span class="pre">TYPE_LOAD</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#powergrid_synth.BusTypeAllocator.TYPE_LOAD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.BusTypeAllocator.allocate">
+<span class="sig-name descname"><span class="pre">allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/bus_type_allocator.html#BusTypeAllocator.allocate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.BusTypeAllocator.allocate" title="Link to this definition"></a></dt>
+<dd><p>Run the AIS optimization to find a bus type assignment.</p>
+<p>Implements the Clonal Selection Principle:</p>
+<ol class="arabic simple">
+<li><p><strong>Monte Carlo estimation</strong> of <span class="math notranslate nohighlight">\(W^*\)</span> and convergence
+threshold <span class="math notranslate nohighlight">\(\epsilon\)</span> (see <a class="reference internal" href="../autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator._estimate_w_star" title="powergrid_synth.BusTypeAllocator._estimate_w_star"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_estimate_w_star()</span></code></a>).</p></li>
+<li><p><strong>Initialize</strong> a population of <em>K</em> random assignments.</p></li>
+<li><p><strong>Iterate</strong> until <code class="docutils literal notranslate"><span class="pre">max_iter</span></code> or <code class="docutils literal notranslate"><span class="pre">best_error</span> <span class="pre">&lt;</span> <span class="pre">epsilon</span></code>:</p>
+<ol class="loweralpha simple">
+<li><p>Evaluate fitness <span class="math notranslate nohighlight">\(|W^* - W(\mathbb{T})|\)</span> for each
+individual.</p></li>
+<li><p><strong>Clonal selection</strong> — top-ranked individuals produce more
+clones: <span class="math notranslate nohighlight">\(N_c = \text{round}(\beta \cdot s / r)\)</span> where
+<em>r</em> is the rank.</p></li>
+<li><p><strong>Hypermutation</strong> — clones are mutated with intensity
+proportional to their parent’s rank (worse → more mutations).</p></li>
+<li><p><strong>Receptor editing</strong> — inject 10% fresh random solutions to
+maintain diversity and avoid local optima.</p></li>
+<li><p><strong>Selection</strong> — combine elite, mutated clones, and fresh
+solutions; keep the top <em>K</em>.</p></li>
+</ol>
+</li>
+<li><p>Return the best assignment found.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iter</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of AIS iterations (default 100).</p></li>
+<li><p><strong>population_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of individuals surviving each generation (default 20).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mapping from node ID to bus type label
+(<code class="docutils literal notranslate"><span class="pre">'Gen'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Load'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'Conn'</span></code>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.BusTypeAllocator.plot_entropy_pdf">
+<span class="sig-name descname"><span class="pre">plot_entropy_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/bus_type_allocator.html#BusTypeAllocator.plot_entropy_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.BusTypeAllocator.plot_entropy_pdf" title="Link to this definition"></a></dt>
+<dd><p>Plot the empirical PDF of entropy samples from the Monte Carlo
+estimation, with a fitted normal distribution overlay.</p>
+<p>Must be called after <a class="reference internal" href="#powergrid_synth.BusTypeAllocator.allocate" title="powergrid_synth.BusTypeAllocator.allocate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">allocate()</span></code></a> or <a class="reference internal" href="../autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator._estimate_w_star" title="powergrid_synth.BusTypeAllocator._estimate_w_star"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_estimate_w_star()</span></code></a>
+so that <code class="docutils literal notranslate"><span class="pre">self.w_samples</span></code> is populated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>figsize</strong> (<em>tuple</em><em> of </em><em>int</em><em>, </em><em>optional</em>) – Figure size <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code> in inches.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.CapacityAllocator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">CapacityAllocator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_sys_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/capacity_allocator.html#CapacityAllocator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.CapacityAllocator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Assigns generation capacities (PgMax) to generator buses in the grid.</p>
+<p>Implements the three-stage methodology from Elyas et al. (2017):</p>
+<ol class="arabic simple">
+<li><p><strong>Total generation:</strong> Compute the aggregate generation capacity from a
+scaling law fitted to realistic grids:
+<code class="docutils literal notranslate"><span class="pre">log</span> <span class="pre">Pg_tot(N)</span> <span class="pre">=</span> <span class="pre">-0.21</span> <span class="pre">*</span> <span class="pre">log^2(N)</span> <span class="pre">+</span> <span class="pre">2.06</span> <span class="pre">*</span> <span class="pre">log(N)</span> <span class="pre">+</span> <span class="pre">0.66</span></code>.</p></li>
+<li><p><strong>Individual capacities:</strong> Sample N_g individual capacities from an
+exponential distribution (with ~1% super-large outliers to capture the
+observed heavy tail).</p></li>
+<li><p><strong>Correlated assignment:</strong> Assign capacities to generator buses using a
+14x14 empirical 2D probability table (<code class="docutils literal notranslate"><span class="pre">Tab_2D_Pgmax</span></code>) that encodes
+the joint distribution of normalized capacity and normalized nodal
+degree. This preserves the observed Pearson correlation
+rho(P_bar, k_bar) in [0.25, 0.5] between capacity and degree.</p></li>
+</ol>
+<p>Reference systems with pre-computed <code class="docutils literal notranslate"><span class="pre">Tab_2D_Pgmax</span></code> tables are available
+for NYISO-2935 (id=1), WECC-16944 (id=2), and a third system (id=3).
+A heuristic diagonal-bias table (id=0) is provided as a fallback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>nx.Graph</em>) – NetworkX graph with <code class="docutils literal notranslate"><span class="pre">'bus_type'</span></code> node attributes already set
+(by <a class="reference internal" href="#powergrid_synth.BusTypeAllocator" title="powergrid_synth.BusTypeAllocator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BusTypeAllocator</span></code></a>).</p></li>
+<li><p><strong>ref_sys_id</strong> (<em>int</em>) – Reference system for statistical tables (0=heuristic, 1=NYISO-2935,
+2=WECC-16944, 3=additional reference).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>S. H. Elyas, Z. Wang, R. J. Thomas, “On the Statistical Settings
+of Generation and Load in a Synthetic Grid Modeling,” arXiv:1706.09294,
+2017.</p>
+</aside>
+</aside>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.CapacityAllocator.allocate">
+<span class="sig-name descname"><span class="pre">allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab_2d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/capacity_allocator.html#CapacityAllocator.allocate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.CapacityAllocator.allocate" title="Link to this definition"></a></dt>
+<dd><p>Run the full generation-capacity allocation pipeline.</p>
+<p>Executes the three-stage methodology from Elyas et al. (2017):</p>
+<ol class="arabic simple">
+<li><p>Compute total generation capacity from the scaling law:
+<code class="docutils literal notranslate"><span class="pre">Pg_tot</span> <span class="pre">=</span> <span class="pre">10^(-0.21</span> <span class="pre">*</span> <span class="pre">log10(N)^2</span> <span class="pre">+</span> <span class="pre">2.06</span> <span class="pre">*</span> <span class="pre">log10(N)</span> <span class="pre">+</span> <span class="pre">0.66)</span></code>.</p></li>
+<li><p>Sample individual capacities, normalize them and the generator
+nodal degrees by their respective maxima so that both lie in
+[0, 1]:  <code class="docutils literal notranslate"><span class="pre">P_bar</span> <span class="pre">=</span> <span class="pre">P</span> <span class="pre">/</span> <span class="pre">max(P)</span></code>,  <code class="docutils literal notranslate"><span class="pre">k_bar</span> <span class="pre">=</span> <span class="pre">k</span> <span class="pre">/</span> <span class="pre">max(k)</span></code>.</p></li>
+<li><p>Assign normalized capacities to generator buses via 2D binning
+using <code class="docutils literal notranslate"><span class="pre">Tab_2D_Pgmax</span></code>.</p></li>
+<li><p>Denormalize: <code class="docutils literal notranslate"><span class="pre">Pg_max</span> <span class="pre">=</span> <span class="pre">P_bar</span> <span class="pre">*</span> <span class="pre">max(P)</span></code>.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tab_2d</strong> (<em>np.ndarray</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Custom 14x14 probability matrix.  If <em>None</em>, the default table
+for the selected <code class="docutils literal notranslate"><span class="pre">ref_sys_id</span></code> is used.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mapping from generator node ID to its assigned capacity
+<code class="docutils literal notranslate"><span class="pre">Pg_max</span></code> (MW).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.LoadAllocator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">LoadAllocator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_sys_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/load_allocator.html#LoadAllocator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.LoadAllocator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Assigns active power loads (PL) to load buses in the grid.</p>
+<p>Implements the load-setting methodology from Elyas et al. (2017), which
+mirrors the generation-capacity approach in <a class="reference internal" href="#powergrid_synth.CapacityAllocator" title="powergrid_synth.CapacityAllocator"><code class="xref py py-class docutils literal notranslate"><span class="pre">CapacityAllocator</span></code></a>:</p>
+<ol class="arabic simple">
+<li><p><strong>Total load:</strong> Compute an aggregate load target, either from a
+deterministic scaling formula or as a fraction (light / medium / heavy)
+of the total installed generation capacity.</p></li>
+<li><p><strong>Individual loads:</strong> Sample N_l individual loads from an exponential
+distribution (with ~1% super-large outliers).</p></li>
+<li><p><strong>Correlated assignment:</strong> Assign loads to load buses using a 14x14
+empirical 2D probability table (<code class="docutils literal notranslate"><span class="pre">Tab_2D_load</span></code>) that encodes the
+joint distribution of normalized load demand and normalized nodal
+degree.</p></li>
+</ol>
+<p>Reference systems with pre-computed <code class="docutils literal notranslate"><span class="pre">Tab_2D_load</span></code> tables are available
+for NYISO-2935 (id=1), WECC-16944 (id=2), and a third system (id=3).
+A heuristic diagonal-bias table (id=0) is provided as a fallback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>nx.Graph</em>) – NetworkX graph with <code class="docutils literal notranslate"><span class="pre">'bus_type'</span></code> and (for non-deterministic loading
+levels) <code class="docutils literal notranslate"><span class="pre">'pg_max'</span></code> node attributes already set.</p></li>
+<li><p><strong>ref_sys_id</strong> (<em>int</em>) – Reference system for statistical tables (0=heuristic, 1=NYISO-2935,
+2=WECC-16944, 3=additional reference).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>S. H. Elyas, Z. Wang, R. J. Thomas, “On the Statistical Settings
+of Generation and Load in a Synthetic Grid Modeling,” arXiv:1706.09294,
+2017.</p>
+</aside>
+</aside>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.LoadAllocator.allocate">
+<span class="sig-name descname"><span class="pre">allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loading_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/load_allocator.html#LoadAllocator.allocate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.LoadAllocator.allocate" title="Link to this definition"></a></dt>
+<dd><p>Run the full load-allocation pipeline.</p>
+<p>Executes the three-stage methodology (analogous to
+<a class="reference internal" href="#powergrid_synth.CapacityAllocator.allocate" title="powergrid_synth.CapacityAllocator.allocate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CapacityAllocator.allocate()</span></code></a>):</p>
+<ol class="arabic simple">
+<li><p>Compute total system load from <code class="docutils literal notranslate"><span class="pre">loading_level</span></code> strategy.</p></li>
+<li><p>Sample individual loads, normalize them and the load-bus nodal
+degrees by their respective maxima:
+<code class="docutils literal notranslate"><span class="pre">P_bar</span> <span class="pre">=</span> <span class="pre">P</span> <span class="pre">/</span> <span class="pre">max(P)</span></code>, <code class="docutils literal notranslate"><span class="pre">k_bar</span> <span class="pre">=</span> <span class="pre">k</span> <span class="pre">/</span> <span class="pre">max(k)</span></code>.</p></li>
+<li><p>Assign normalized loads to load buses via 2D binning using
+<code class="docutils literal notranslate"><span class="pre">Tab_2D_load</span></code>.</p></li>
+<li><p>Denormalize: <code class="docutils literal notranslate"><span class="pre">PL</span> <span class="pre">=</span> <span class="pre">P_bar</span> <span class="pre">*</span> <span class="pre">max(P)</span></code>.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loading_level</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Loading strategy (default <code class="docutils literal notranslate"><span class="pre">'H'</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'D'</span></code> — deterministic scaling formula.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'L'</span></code> — light (30–40% of generation capacity).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'M'</span></code> — medium (50–60% of generation capacity).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'H'</span></code> — heavy (70–80% of generation capacity).</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mapping from load node ID to its assigned active power load (MW).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.TransmissionLineAllocator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">TransmissionLineAllocator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_sys_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/transmission.html#TransmissionLineAllocator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.TransmissionLineAllocator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Allocate impedance and capacity limits to transmission lines.</p>
+<p>The algorithm follows <a class="reference external" href="https://ieeexplore.ieee.org/document/8585532">Sadeghian et al. (2018)</a> and the SynGrid
+MATLAB toolbox (<code class="docutils literal notranslate"><span class="pre">sg_line.m</span></code>, <code class="docutils literal notranslate"><span class="pre">sg_flow_lim.m</span></code>):</p>
+<ol class="arabic simple">
+<li><p><strong>Impedance generation</strong> — magnitudes <span class="math notranslate nohighlight">\(Z\)</span> from
+LogNormal(<span class="math notranslate nohighlight">\(\mu\)</span>, <span class="math notranslate nohighlight">\(\sigma\)</span>), angles <span class="math notranslate nohighlight">\(\varphi\)</span>
+from a Lévy stable distribution
+<span class="math notranslate nohighlight">\(S(\alpha_s, \beta_s, \gamma_s, \delta_s)\)</span>.  Then
+<span class="math notranslate nohighlight">\(X = Z \sin\varphi\)</span>, <span class="math notranslate nohighlight">\(R = Z \cos\varphi\)</span>.</p></li>
+<li><p><strong>DCPF-based swapping</strong> — sort impedances ascending and flows
+descending, then randomly swap ~20–30 % of assignments to
+introduce variance while preserving the negative correlation
+between impedance and flow.</p></li>
+<li><p><strong>(Optional) Topology refinement</strong> — iteratively add
+low-impedance lines between max angle-difference bus pairs
+and remove weak high-<span class="math notranslate nohighlight">\(X\)</span> lines until the angle spread
+is below a size-dependent threshold.</p></li>
+<li><p><strong>Capacity assignment</strong> — gauge ratios
+<span class="math notranslate nohighlight">\(\beta_l = F_l / F_l^{\max}\)</span> from
+Exponential(<span class="math notranslate nohighlight">\(\mu_\beta\)</span>) with overload injection;
+assigned via 2-D table <code class="docutils literal notranslate"><span class="pre">Tab_2D_FlBeta</span></code>.
+Capacity limits: <span class="math notranslate nohighlight">\(F_l^{\max} = F_l / \beta_l\)</span>.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>networkx.Graph</em>) – Power grid graph with nodal generation/load attributes.</p></li>
+<li><p><strong>ref_sys_id</strong> (<em>int</em><em>, </em><em>optional</em>) – Reference system (1 = NYISO-2935, 2 = WECC-16994).  Default 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.TransmissionLineAllocator.stab_params">
+<span class="sig-name descname"><span class="pre">stab_params</span></span><a class="headerlink" href="#powergrid_synth.TransmissionLineAllocator.stab_params" title="Link to this definition"></a></dt>
+<dd><p>Lévy stable parameters <span class="math notranslate nohighlight">\([\alpha_s, \beta_s, \gamma_s, \delta_s]\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.TransmissionLineAllocator.tab_fl_beta">
+<span class="sig-name descname"><span class="pre">tab_fl_beta</span></span><a class="headerlink" href="#powergrid_synth.TransmissionLineAllocator.tab_fl_beta" title="Link to this definition"></a></dt>
+<dd><p>2-D empirical PMF table for flow–beta assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.TransmissionLineAllocator.mu_beta">
+<span class="sig-name descname"><span class="pre">mu_beta</span></span><a class="headerlink" href="#powergrid_synth.TransmissionLineAllocator.mu_beta" title="Link to this definition"></a></dt>
+<dd><p>Mean of the exponential distribution for <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.TransmissionLineAllocator.overload_b">
+<span class="sig-name descname"><span class="pre">overload_b</span></span><a class="headerlink" href="#powergrid_synth.TransmissionLineAllocator.overload_b" title="Link to this definition"></a></dt>
+<dd><p>Fraction of lines assigned overload (<span class="math notranslate nohighlight">\(\beta &gt; 1\)</span>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.TransmissionLineAllocator.allocate">
+<span class="sig-name descname"><span class="pre">allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refine_topology</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/transmission.html#TransmissionLineAllocator.allocate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.TransmissionLineAllocator.allocate" title="Link to this definition"></a></dt>
+<dd><p>Run the full transmission-line allocation pipeline.</p>
+<p>Executes the seven-step procedure:</p>
+<ol class="arabic simple">
+<li><p>Draw impedance magnitudes
+<span class="math notranslate nohighlight">\(Z \sim \text{LogNormal}(\mu, \sigma)\)</span>, clipped to
+[0.001, 0.5] p.u.</p></li>
+<li><p>Generate angles <span class="math notranslate nohighlight">\(\varphi\)</span> (Lévy stable), compute
+<span class="math notranslate nohighlight">\(X = Z\sin\varphi\)</span>, <span class="math notranslate nohighlight">\(R = Z\cos\varphi\)</span>.</p></li>
+<li><p>Iterative DCPF swapping: sort <span class="math notranslate nohighlight">\(Z\)</span> ascending / flows
+descending, randomly swap ~20–30 % of assignments.</p></li>
+<li><p>(Optional) Topology refinement via <a class="reference internal" href="../autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator._refine_topology" title="powergrid_synth.TransmissionLineAllocator._refine_topology"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_refine_topology()</span></code></a>.</p></li>
+<li><p>Final DCPF to obtain converged flows.</p></li>
+<li><p>Generate and assign gauge ratios (<span class="math notranslate nohighlight">\(\beta\)</span>) via
+<a class="reference internal" href="../autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator._generate_beta" title="powergrid_synth.TransmissionLineAllocator._generate_beta"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_generate_beta()</span></code></a> and <a class="reference internal" href="../autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator._assign_betas" title="powergrid_synth.TransmissionLineAllocator._assign_betas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_assign_betas()</span></code></a>.</p></li>
+<li><p>Set capacity limits:
+<span class="math notranslate nohighlight">\(F_l^{\max} = F_l / \beta_l\)</span> with a minimum-capacity
+fallback (5 + 100 · rand MW when <span class="math notranslate nohighlight">\(\le 2\)</span>).</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>refine_topology</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, run topology refinement after step 3.  Default
+is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mapping <code class="docutils literal notranslate"><span class="pre">(u,</span> <span class="pre">v)</span></code> edge tuple to capacity limit (MW).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.GenerationDispatcher">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">GenerationDispatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_sys_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/generation_dispatcher.html#GenerationDispatcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GenerationDispatcher" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Assign active-power dispatch to each generator bus.</p>
+<p>The algorithm follows <a class="reference external" href="https://ieeexplore.ieee.org/document/8585532">Sadeghian et al. (2018)</a> (Section III):</p>
+<ol class="arabic simple">
+<li><p><strong>Uncommitted units</strong> (10–20 %): <span class="math notranslate nohighlight">\(\alpha = 0\)</span>, selected via
+targets drawn from Uniform[0, 0.6].</p></li>
+<li><p><strong>Partially committed units</strong> (40–50 %): selected via exponential
+distribution on capacity; dispatch factors assigned through a
+2-D bin-matching table <code class="docutils literal notranslate"><span class="pre">Tab_2D_Pg</span></code> (<span class="math notranslate nohighlight">\(14 \times 10\)</span>).</p></li>
+<li><p><strong>Fully committed units</strong> (remainder): <span class="math notranslate nohighlight">\(\alpha = 1\)</span>.</p></li>
+<li><p><strong>Balancing loop</strong>: iteratively adjusts dispatch to match total
+load within 1 % tolerance.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>networkx.Graph</em>) – Power grid graph.  Generator nodes must have <code class="docutils literal notranslate"><span class="pre">'bus_type'</span> <span class="pre">==</span> <span class="pre">'Gen'</span></code>
+and <code class="docutils literal notranslate"><span class="pre">'pg_max'</span></code> (MW) attributes.  Load nodes must have <code class="docutils literal notranslate"><span class="pre">'pl'</span></code> (MW).</p></li>
+<li><p><strong>ref_sys_id</strong> (<em>int</em><em>, </em><em>optional</em>) – Reference system for statistical tables (1 = NYISO-2935,
+2 = WECC-16994, 3 = additional reference).  Default is 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.GenerationDispatcher.alpha_mod">
+<span class="sig-name descname"><span class="pre">alpha_mod</span></span><a class="headerlink" href="#powergrid_synth.GenerationDispatcher.alpha_mod" title="Link to this definition"></a></dt>
+<dd><p>Loading-level flag from the reference system.  When 0 all alphas
+are Uniform[0, 1]; otherwise 0.5 % receive negative dispatch
+(e.g., pumped-storage hydro).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.GenerationDispatcher.mu_committed">
+<span class="sig-name descname"><span class="pre">mu_committed</span></span><a class="headerlink" href="#powergrid_synth.GenerationDispatcher.mu_committed" title="Link to this definition"></a></dt>
+<dd><p>Exponential-distribution parameter for committed-unit capacities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powergrid_synth.GenerationDispatcher.tab_2d_pg">
+<span class="sig-name descname"><span class="pre">tab_2d_pg</span></span><a class="headerlink" href="#powergrid_synth.GenerationDispatcher.tab_2d_pg" title="Link to this definition"></a></dt>
+<dd><p>2-D empirical PMF table (14 capacity bins × 10 alpha bins).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GenerationDispatcher.dispatch">
+<span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/generation_dispatcher.html#GenerationDispatcher.dispatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GenerationDispatcher.dispatch" title="Link to this definition"></a></dt>
+<dd><p>Run the full generation dispatch pipeline.</p>
+<p>Implements the algorithm of Sadeghian et al. (2018), Fig. 6:</p>
+<ol class="arabic simple">
+<li><p>Collect generator buses and normalise capacities by
+<span class="math notranslate nohighlight">\(P_g^{\max}_{\text{max}}\)</span>.</p></li>
+<li><p>Partition generators into <strong>uncommitted</strong>
+(<span class="math notranslate nohighlight">\(\alpha = 0\)</span>), <strong>partially committed</strong>
+(<span class="math notranslate nohighlight">\(0 &lt; \alpha &lt; 1\)</span>), and <strong>fully committed</strong>
+(<span class="math notranslate nohighlight">\(\alpha = 1\)</span>).</p></li>
+<li><p>Assign dispatch factors to partially committed units via
+the 2-D bin-matching table <code class="docutils literal notranslate"><span class="pre">Tab_2D_Pg</span></code>.</p></li>
+<li><p>Iteratively balance total generation against total load
+(1 % tolerance, up to 50 iterations) by scaling committed
+<span class="math notranslate nohighlight">\(\alpha\)</span> values and toggling uncommitted / full-load
+units on or off.</p></li>
+<li><p>Convert normalised dispatch back to MW:
+<span class="math notranslate nohighlight">\(P_{g_i} = \alpha_i \cdot \bar{P}_{g_i}^{\max} \cdot P_{g}^{\max}_{\text{max}}\)</span>.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Mapping of generator bus ID to dispatched active power (MW).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="utilities">
 <h2>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">GridVisualizer</span></span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Visualization module for synthetic power grids.
+Allows plotting the grid with different layouts including Yifan Hu, Kamada-Kawai, and Voltage Layered.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_bus_types">
+<span class="sig-name descname"><span class="pre">plot_bus_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kamada_kawai'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Bus</span> <span class="pre">Type</span> <span class="pre">Visualization'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_impedance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_bus_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_bus_types" title="Link to this definition"></a></dt>
+<dd><p>Visualizes the grid coloring nodes by their Bus Type (Static). Option to show impedance on edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>layout</strong> (<em>str</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em>)</p></li>
+<li><p><strong>show_impedance</strong> (<em>bool</em>)</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_grid">
+<span class="sig-name descname"><span class="pre">plot_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kamada_kawai'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Grid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_bus_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_impedance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_grid" title="Link to this definition"></a></dt>
+<dd><p>Static plot function for grid topology.
+Options allow overlaying bus types or impedance features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>layout</strong> (<em>str</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em>)</p></li>
+<li><p><strong>show_labels</strong> (<em>bool</em>)</p></li>
+<li><p><strong>show_bus_types</strong> (<em>bool</em>)</p></li>
+<li><p><strong>show_impedance</strong> (<em>bool</em>)</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_impedance">
+<span class="sig-name descname"><span class="pre">plot_impedance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kamada_kawai'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Transmission</span> <span class="pre">Line</span> <span class="pre">Impedance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_impedance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_impedance" title="Link to this definition"></a></dt>
+<dd><p>Plots the grid with edges colored by their impedance magnitude (Z).
+Blue = Low Impedance (Strong), Red = High Impedance (Weak).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>layout</strong> (<em>str</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em>)</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_interactive">
+<span class="sig-name descname"><span class="pre">plot_interactive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Interactive</span> <span class="pre">Grid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(14,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_interactive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_interactive" title="Link to this definition"></a></dt>
+<dd><p>Opens an interactive window for the full grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em>)</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_interactive_bus_types">
+<span class="sig-name descname"><span class="pre">plot_interactive_bus_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Interactive</span> <span class="pre">Bus</span> <span class="pre">Type</span> <span class="pre">Visualization'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(14,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_interactive_bus_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_interactive_bus_types" title="Link to this definition"></a></dt>
+<dd><p>Opens an interactive window for Bus Type Visualization with layout selection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em>)</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_interactive_voltage_level">
+<span class="sig-name descname"><span class="pre">plot_interactive_voltage_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_interactive_voltage_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_interactive_voltage_level" title="Link to this definition"></a></dt>
+<dd><p>Opens an interactive window for a specific voltage level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>level</strong> (<em>int</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_load_gen_bubbles">
+<span class="sig-name descname"><span class="pre">plot_load_gen_bubbles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kamada_kawai'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Generation</span> <span class="pre">vs</span> <span class="pre">Load'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_impedance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_load_gen_bubbles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_load_gen_bubbles" title="Link to this definition"></a></dt>
+<dd><p>Bubble plot showing generation and load magnitudes.
+Generators are blue squares, Loads are red circles.
+Size is proportional to capacity/load.
+Optionally plots impedance on edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>layout</strong> (<em>str</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em>)</p></li>
+<li><p><strong>show_impedance</strong> (<em>bool</em>)</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridVisualizer.plot_subgraphs">
+<span class="sig-name descname"><span class="pre">plot_subgraphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kamada_kawai'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Subgraphs</span> <span class="pre">by</span> <span class="pre">Voltage</span> <span class="pre">Level'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_impedance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(15,</span> <span class="pre">5)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer.plot_subgraphs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer.plot_subgraphs" title="Link to this definition"></a></dt>
+<dd><p>Plots subgraphs for each voltage level side-by-side (max 3 per row).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>nx.Graph</em>) – The main power grid graph.</p></li>
+<li><p><strong>layout</strong> (<em>str</em>) – Layout algorithm to use.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Main title for the figure.</p></li>
+<li><p><strong>show_impedance</strong> (<em>bool</em>) – Whether to color edges by impedance.</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – Base size for the figure (width, height for one row).
+Height will scale with the number of rows.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">GridExporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_mva</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_kv_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Exports the generated synthetic grid to standard file formats via
+pandapower and pypowsybl built-in functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>Graph</em>) – The synthetic power grid as a NetworkX Graph.</p></li>
+<li><p><strong>base_mva</strong> (<em>float</em>) – System base apparent power in MVA.</p></li>
+<li><p><strong>base_kv_map</strong> (<em>dict</em><em> | </em><em>None</em>) – Dictionary mapping voltage level indices to kV values
+(e.g., <code class="docutils literal notranslate"><span class="pre">{0:</span> <span class="pre">380.0,</span> <span class="pre">1:</span> <span class="pre">110.0,</span> <span class="pre">2:</span> <span class="pre">20.0}</span></code>).  If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+a default mapping is used.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">exporter</span> <span class="o">=</span> <span class="n">GridExporter</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">base_mva</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
+                        <span class="n">base_kv_map</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">380.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mf">110.0</span><span class="p">})</span>
+<span class="n">exporter</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="s2">&quot;output/grid.json&quot;</span><span class="p">)</span>
+<span class="n">exporter</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s2">&quot;output/grid.xlsx&quot;</span><span class="p">)</span>
+<span class="n">exporter</span><span class="o">.</span><span class="n">to_pypowsybl</span><span class="p">(</span><span class="s2">&quot;output/grid&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;CGMES&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_cgmes">
+<span class="sig-name descname"><span class="pre">to_cgmes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_cgmes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_cgmes" title="Link to this definition"></a></dt>
+<dd><p>Export to CGMES (Common Grid Model Exchange Standard) via pypowsybl.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – Destination directory path.</p></li>
+<li><p><strong>parameters</strong> (<em>dict</em><em> | </em><em>None</em>) – Optional CGMES-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_excel">
+<span class="sig-name descname"><span class="pre">to_excel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_excel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_excel" title="Link to this definition"></a></dt>
+<dd><p>Export the grid to a pandapower Excel file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – Destination file path (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;output/grid.xlsx&quot;</span></code>).</p></li>
+<li><p><strong>include_results</strong> (<em>bool</em>) – Whether to include power flow results if available.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_json">
+<span class="sig-name descname"><span class="pre">to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_json" title="Link to this definition"></a></dt>
+<dd><p>Export the grid to a pandapower JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – Destination file path (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;output/grid.json&quot;</span></code>).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_matpower">
+<span class="sig-name descname"><span class="pre">to_matpower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_matpower"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_matpower" title="Link to this definition"></a></dt>
+<dd><p>Export to MATPOWER format via pypowsybl.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – Destination path (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;output/grid&quot;</span></code>).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_pickle">
+<span class="sig-name descname"><span class="pre">to_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_pickle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_pickle" title="Link to this definition"></a></dt>
+<dd><p>Export the grid to a pandapower pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – Destination file path (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;output/grid.p&quot;</span></code>).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_psse">
+<span class="sig-name descname"><span class="pre">to_psse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_psse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_psse" title="Link to this definition"></a></dt>
+<dd><p>Export to PSS/E format via pypowsybl.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – Destination path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_pypowsybl">
+<span class="sig-name descname"><span class="pre">to_pypowsybl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'XIIDM'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_pypowsybl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_pypowsybl" title="Link to this definition"></a></dt>
+<dd><p>Export the grid using pypowsybl’s built-in save.</p>
+<p>Supported formats: CGMES, XIIDM, MATPOWER, PSS/E, UCTE, AMPL,
+BIIDM, JIIDM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – Destination path (file or directory depending on format).</p></li>
+<li><p><strong>format</strong> (<em>str</em>) – One of the pypowsybl export format strings.</p></li>
+<li><p><strong>parameters</strong> (<em>dict</em><em> | </em><em>None</em>) – Optional format-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GridExporter.to_sqlite">
+<span class="sig-name descname"><span class="pre">to_sqlite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/exporter.html#GridExporter.to_sqlite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridExporter.to_sqlite" title="Link to this definition"></a></dt>
+<dd><p>Export the grid to a pandapower SQLite database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – Destination file path (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;output/grid.sqlite&quot;</span></code>).</p></li>
+<li><p><strong>include_results</strong> (<em>bool</em>) – Whether to include power flow results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:entsoe="http://entsoe.eu/CIM/SchemaExtension/3/1#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cim="http://iec.ch/TC57/2013/CIM-schema-cim16#" xmlns:md="http://iec.ch/TC57/61970-552/ModelDescription/1#">
-    <md:FullModel rdf:about="urn:uuid:network_N_EQUIPMENT_2026-03-31T10:38:07Z_1_1D__FM">
-        <md:Model.scenarioTime>2026-03-31T10:38:07Z</md:Model.scenarioTime>
-        <md:Model.created>2026-03-31T10:38:07Z</md:Model.created>
+    <md:FullModel rdf:about="urn:uuid:network_N_EQUIPMENT_2026-03-31T11:27:13Z_1_1D__FM">
+        <md:Model.scenarioTime>2026-03-31T11:27:13Z</md:Model.scenarioTime>
+        <md:Model.created>2026-03-31T11:27:13Z</md:Model.created>
         <md:Model.description>EQ Model</md:Model.description>
         <md:Model.version>1</md:Model.version>
         <md:Model.profile>http://entsoe.eu/CIM/EquipmentCore/3/1</md:Model.profile>
@@ -3305,8 +3305,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_0"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_0_0_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_0_0_RC"/>
-        <cim:SynchronousMachine.minQ>-15.99918807152755</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>27.76839477895401</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-20.74048934868635</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>40.69959287003197</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3327,8 +3327,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_3"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_3_1_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_3_1_RC"/>
-        <cim:SynchronousMachine.minQ>-15.13281799475257</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>38.75654255314567</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-7.55272216247727</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>47.62710633026025</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3349,8 +3349,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_6"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_6_2_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_6_2_RC"/>
-        <cim:SynchronousMachine.minQ>-13.51423838747488</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>162.97977114632823</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-3.50210990595995</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>231.25302410878123</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3371,8 +3371,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_8"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_8_3_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_8_3_RC"/>
-        <cim:SynchronousMachine.minQ>-35.58757123742546</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>96.19682200936593</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-23.60463900550253</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>53.30586768658131</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3393,8 +3393,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_10"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_10_4_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_10_4_RC"/>
-        <cim:SynchronousMachine.minQ>-4.29000777271232</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>10.44285574771511</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-3.98265687025572</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>12.25880532377024</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3415,8 +3415,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_11"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_11_5_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_11_5_RC"/>
-        <cim:SynchronousMachine.minQ>-1.94549160860053</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>17.58436663569634</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-9.740687373109</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>23.84422186287964</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3437,8 +3437,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_13"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_13_6_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_13_6_RC"/>
-        <cim:SynchronousMachine.minQ>-38.47614858022356</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>54.99113241353685</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-36.72715532752673</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>102.52663149138</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3459,8 +3459,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_16"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_16_7_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_16_7_RC"/>
-        <cim:SynchronousMachine.minQ>-53.42576415037311</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>103.98655735175954</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-11.80746180809568</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>124.49583156161614</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3481,8 +3481,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_17"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_17_8_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_17_8_RC"/>
-        <cim:SynchronousMachine.minQ>-30.92764203688144</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>90.44077022985473</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-42.00843481863132</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>77.0530110308999</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3503,8 +3503,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_19"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_19_9_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_19_9_RC"/>
-        <cim:SynchronousMachine.minQ>-27.28411895348843</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>52.65113296391862</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-8.71057555257288</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>55.49848258634526</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3525,8 +3525,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_20"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_20_10_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_20_10_RC"/>
-        <cim:SynchronousMachine.minQ>-23.44719274832319</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>33.05249799919719</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-16.44993908498978</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>39.62187950343833</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3547,8 +3547,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_22"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_22_11_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_22_11_RC"/>
-        <cim:SynchronousMachine.minQ>-1.09908520295631</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>2.8696015980409</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-1.35589092445938</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>3.50992282193852</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3569,8 +3569,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_23"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_23_12_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_23_12_RC"/>
-        <cim:SynchronousMachine.minQ>-48.28373122339436</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>70.05109338006163</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-20.56909163454554</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>110.872756442276</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3591,8 +3591,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_24"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_24_13_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_24_13_RC"/>
-        <cim:SynchronousMachine.minQ>-8.84377798862837</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>16.17687159445106</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-7.57652263350478</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>21.49905791191351</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3613,8 +3613,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_25"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_25_14_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_25_14_RC"/>
-        <cim:SynchronousMachine.minQ>-1.82597687837393</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>48.39802596919132</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-4.18681481624184</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>22.3893905057408</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3635,8 +3635,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_26"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_26_15_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_26_15_RC"/>
-        <cim:SynchronousMachine.minQ>-0.83269198451996</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>88.38413472930829</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-0.19811100740993</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>71.3170663920592</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3657,8 +3657,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_27"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_27_16_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_27_16_RC"/>
-        <cim:SynchronousMachine.minQ>-3.07889016781406</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>22.98102831038897</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-7.25974418228382</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>18.10980330259162</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3679,8 +3679,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_29"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_29_17_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_29_17_RC"/>
-        <cim:SynchronousMachine.minQ>-1.87364424353946</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>16.89479503304452</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-3.15377626167183</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>11.99843443062226</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3701,8 +3701,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_31"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_31_18_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_31_18_RC"/>
-        <cim:SynchronousMachine.minQ>-0.83139288561821</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>0.96125352014204</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-0.48300627582462</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>1.01961645318152</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3723,8 +3723,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_32"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_32_19_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_32_19_RC"/>
-        <cim:SynchronousMachine.minQ>-17.47360451905455</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>52.45010512610527</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-22.03232745362298</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>67.91873021067879</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3745,8 +3745,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_34"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_34_20_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_34_20_RC"/>
-        <cim:SynchronousMachine.minQ>-0.48481644294335</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>8.14676129117593</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-2.13512670975289</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>10.00400440389427</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3767,8 +3767,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_35"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_35_21_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_35_21_RC"/>
-        <cim:SynchronousMachine.minQ>-0.43562032950305</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>1.8989495352395</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-0.81593080240121</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>1.60949091627966</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3789,8 +3789,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_37"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_37_22_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_37_22_RC"/>
-        <cim:SynchronousMachine.minQ>-80.36868457652862</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>168.30185781454273</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-91.56521704609295</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>127.20535600078196</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3811,8 +3811,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_38"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_38_23_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_38_23_RC"/>
-        <cim:SynchronousMachine.minQ>-0.06074527449298</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>1.27174720132343</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-0.38566551867401</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>1.16301416393476</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3833,8 +3833,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_41"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_41_24_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_41_24_RC"/>
-        <cim:SynchronousMachine.minQ>-25.42242062487135</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>83.58313633260504</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-48.62945927556495</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>81.7188681079072</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3855,8 +3855,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_42"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_42_25_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_42_25_RC"/>
-        <cim:SynchronousMachine.minQ>-20.8561082834787</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>38.99459008827467</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-2.00986286550329</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>25.96892356703604</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3877,8 +3877,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_43"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_43_26_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_43_26_RC"/>
-        <cim:SynchronousMachine.minQ>-2.24789131184483</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>5.42293265040535</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-2.2208067050987</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>5.60218630364426</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3899,8 +3899,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_45"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_45_27_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_45_27_RC"/>
-        <cim:SynchronousMachine.minQ>-1.13311170931404</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>60.97861544741485</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-27.99637336476699</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>29.08271790033429</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3921,8 +3921,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_47"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_47_28_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_47_28_RC"/>
-        <cim:SynchronousMachine.minQ>-4.61502290306387</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>30.77880459192206</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-13.15896756777187</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>23.07272907165571</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3943,8 +3943,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_48"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_48_29_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_48_29_RC"/>
-        <cim:SynchronousMachine.minQ>-11.26644792361459</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>28.17879432348545</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-5.35473383224055</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>20.22153403817848</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3965,8 +3965,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_49"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_49_30_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_49_30_RC"/>
-        <cim:SynchronousMachine.minQ>-6.94801331489473</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>35.91282829539</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-18.37408633809738</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>55.03552147525032</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -3987,8 +3987,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_50"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_50_31_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_50_31_RC"/>
-        <cim:SynchronousMachine.minQ>-5.97621211864345</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>38.24734846597285</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-10.45040215695889</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>32.86857621784964</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4009,8 +4009,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_52"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_52_32_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_52_32_RC"/>
-        <cim:SynchronousMachine.minQ>-65.22946528744302</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>165.6160104595561</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-23.11971746111542</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>207.01931006359044</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4031,8 +4031,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_53"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_53_33_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_53_33_RC"/>
-        <cim:SynchronousMachine.minQ>-21.09694780156648</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>47.2077637737667</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-22.25269565737225</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>29.78942436175038</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4053,8 +4053,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_54"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_54_34_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_54_34_RC"/>
-        <cim:SynchronousMachine.minQ>-1.76737471510304</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>6.95780725359855</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-2.63389877017382</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>4.19002535338818</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4075,8 +4075,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_55"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_55_35_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_55_35_RC"/>
-        <cim:SynchronousMachine.minQ>-1.00767962228548</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>26.07345370982239</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-8.45082631398302</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>19.65646089050107</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4097,8 +4097,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_56"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_56_36_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_56_36_RC"/>
-        <cim:SynchronousMachine.minQ>-25.09758148522268</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>75.90553013712253</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-13.88681927024805</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>61.58943786462372</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4119,8 +4119,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_57"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_57_37_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_57_37_RC"/>
-        <cim:SynchronousMachine.minQ>-286.8288849673268</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>402.1492776024421</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-194.61133035212782</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>641.5353095623383</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4141,8 +4141,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_59"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_59_38_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_59_38_RC"/>
-        <cim:SynchronousMachine.minQ>-0.74286234738886</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>10.57731657878743</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-2.80795101825272</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>10.66558478764902</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4163,8 +4163,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_60"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_60_39_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_60_39_RC"/>
-        <cim:SynchronousMachine.minQ>-1.04219902070899</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>172.7848205823478</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-13.07466923647958</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>85.71617826892506</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4185,8 +4185,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_61"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_61_40_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_61_40_RC"/>
-        <cim:SynchronousMachine.minQ>-0.88625825096553</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>9.00232150678493</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-0.53849867416583</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>10.5234612962325</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4207,8 +4207,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_63"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_63_41_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_63_41_RC"/>
-        <cim:SynchronousMachine.minQ>-62.37279632269879</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>122.66511961195378</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-40.7622349470869</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>129.33782567147477</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4229,8 +4229,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_67"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_67_42_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_67_42_RC"/>
-        <cim:SynchronousMachine.minQ>-30.28727544045796</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>45.1858845905971</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-15.94033182228494</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>60.60820532222471</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4251,8 +4251,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_69"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_69_43_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_69_43_RC"/>
-        <cim:SynchronousMachine.minQ>-35.59032269496719</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>189.77608511436262</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-24.75711200972188</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>167.06856233088874</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4273,8 +4273,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_72"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_72_44_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_72_44_RC"/>
-        <cim:SynchronousMachine.minQ>-5.26703380283546</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>7.27446234129105</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-4.05455029118566</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>7.16987723586736</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4295,8 +4295,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_73"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_73_45_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_73_45_RC"/>
-        <cim:SynchronousMachine.minQ>-45.10833432309058</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>92.16518907965933</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-30.12417003553948</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>63.16546696052676</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4317,8 +4317,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_77"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_77_46_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_77_46_RC"/>
-        <cim:SynchronousMachine.minQ>-6.45389439828766</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>37.60362269914351</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-27.76334410994846</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>36.68473576447018</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4339,8 +4339,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_78"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_78_47_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_78_47_RC"/>
-        <cim:SynchronousMachine.minQ>-38.81959082482127</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>81.18045644182035</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-14.07301454938205</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>72.5251130658151</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4361,8 +4361,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_80"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_80_48_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_80_48_RC"/>
-        <cim:SynchronousMachine.minQ>-0.26273872395309</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>16.22912016687833</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-2.62576150700847</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>13.46372735782335</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4383,8 +4383,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_82"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_82_49_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_82_49_RC"/>
-        <cim:SynchronousMachine.minQ>-0.87336428818547</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>3.88138885407166</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-0.34592455576735</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>3.56402477655137</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4405,8 +4405,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_85"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_85_50_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_85_50_RC"/>
-        <cim:SynchronousMachine.minQ>-18.07246329952794</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>48.5698897919474</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-6.15241624854566</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>46.09737212511362</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4427,8 +4427,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_86"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_86_51_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_86_51_RC"/>
-        <cim:SynchronousMachine.minQ>-1.57726338936133</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>8.08276690149046</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-2.70796277125448</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>5.20892659886281</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4449,8 +4449,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_89"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_89_52_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_89_52_RC"/>
-        <cim:SynchronousMachine.minQ>-8.10942605934373</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>17.43730480206394</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-6.38690594599399</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>16.71261739112805</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4471,8 +4471,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_90"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_90_53_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_90_53_RC"/>
-        <cim:SynchronousMachine.minQ>-3.53201312799136</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>31.73577746713546</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-3.21123314236667</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>27.19623943781081</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4493,8 +4493,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_95"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_95_54_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_95_54_RC"/>
-        <cim:SynchronousMachine.minQ>-8.44796538117485</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>89.00547938689267</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-63.59783811474478</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>137.71462158186554</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4515,8 +4515,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_99"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_99_55_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_99_55_RC"/>
-        <cim:SynchronousMachine.minQ>-5.739195526976</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>64.61504587554255</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-18.48125287525645</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>124.528600131713</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4537,8 +4537,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_100"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_100_56_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_100_56_RC"/>
-        <cim:SynchronousMachine.minQ>-43.47405272503635</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>132.6479914834512</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-17.54037986287677</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>109.74654559336534</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4559,8 +4559,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_101"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_101_57_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_101_57_RC"/>
-        <cim:SynchronousMachine.minQ>-19.57637768068506</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>44.90441020576634</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-0.65275961394305</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>62.77991234067705</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4581,8 +4581,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_102"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_102_58_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_102_58_RC"/>
-        <cim:SynchronousMachine.minQ>-4.44366694979086</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>30.91208048360123</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-8.62255209700989</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>33.91069442271252</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4603,8 +4603,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_103"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_103_59_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_103_59_RC"/>
-        <cim:SynchronousMachine.minQ>-31.09202808295013</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>100.2694515682216</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-24.86980851775794</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>54.35801791148889</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4625,8 +4625,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_104"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_104_60_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_104_60_RC"/>
-        <cim:SynchronousMachine.minQ>-6.59832188510912</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>42.48582622443077</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-30.16121887284365</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>49.85698308829161</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4647,8 +4647,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_106"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_106_61_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_106_61_RC"/>
-        <cim:SynchronousMachine.minQ>-3.6986424761106</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>5.97417026048638</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-5.13551192578088</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>12.02918731583633</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4669,8 +4669,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_108"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_108_62_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_108_62_RC"/>
-        <cim:SynchronousMachine.minQ>-4.99380225761644</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>8.67145057036069</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-1.68019830072649</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>15.98397090149126</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4691,8 +4691,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_115"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_115_63_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_115_63_RC"/>
-        <cim:SynchronousMachine.minQ>-77.5212378810509</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>182.02510088618033</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-58.92322328349807</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>200.19457001042755</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4713,8 +4713,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_117"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_117_64_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_117_64_RC"/>
-        <cim:SynchronousMachine.minQ>-5.56109509820204</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>160.5421217026165</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-60.44590352833276</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>187.59416407808982</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>
@@ -4735,8 +4735,8 @@
         <cim:Equipment.EquipmentContainer rdf:resource="#_sub_71"/>
         <cim:RotatingMachine.GeneratingUnit rdf:resource="#_gen_71_0_GU"/>
         <cim:RegulatingCondEq.RegulatingControl rdf:resource="#_gen_71_0_RC"/>
-        <cim:SynchronousMachine.minQ>-410.0300010541856</cim:SynchronousMachine.minQ>
-        <cim:SynchronousMachine.maxQ>999.5602568490793</cim:SynchronousMachine.maxQ>
+        <cim:SynchronousMachine.minQ>-46.60871610238652</cim:SynchronousMachine.minQ>
+        <cim:SynchronousMachine.maxQ>1447.119158952802</cim:SynchronousMachine.maxQ>
         <cim:RotatingMachine.ratedS>4999</cim:RotatingMachine.ratedS>
         <cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2013/CIM-schema-cim16#SynchronousMachineKind.generatorOrMotor"/>
     </cim:SynchronousMachine>

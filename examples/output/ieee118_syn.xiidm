@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<iidm:network xmlns:iidm="http://www.powsybl.org/schema/iidm/1_15" xmlns:apc="http://www.powsybl.org/schema/iidm/ext/active_power_control/1_2" xmlns:bv="http://www.powsybl.org/schema/iidm/ext/base_voltage_mapping/1_0" xmlns:slt="http://www.powsybl.org/schema/iidm/ext/slack_terminal/1_5" id="network" caseDate="2026-03-31T10:38:07.725Z" forecastDistance="0" sourceFormat="" minimumValidationLevel="STEADY_STATE_HYPOTHESIS">
+<iidm:network xmlns:iidm="http://www.powsybl.org/schema/iidm/1_15" xmlns:apc="http://www.powsybl.org/schema/iidm/ext/active_power_control/1_2" xmlns:bv="http://www.powsybl.org/schema/iidm/ext/base_voltage_mapping/1_0" xmlns:slt="http://www.powsybl.org/schema/iidm/ext/slack_terminal/1_5" id="network" caseDate="2026-03-31T11:27:13.960Z" forecastDistance="0" sourceFormat="" minimumValidationLevel="STEADY_STATE_HYPOTHESIS">
     <iidm:substation id="s">
         <iidm:property name="CGMES.regionName" value="default region"/>
         <iidm:property name="CGMES.subRegionId" value="default region_SGR"/>
@@ -12,7 +12,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_0_0_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_0_0_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_0_0_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-15.999188071527547" maxQ="27.768394778954008"/>
+                <iidm:minMaxReactiveLimits minQ="-20.740489348686346" maxQ="40.69959287003197"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_1" nominalV="345.0" lowVoltageLimit="327.75" highVoltageLimit="362.25" topologyKind="BUS_BREAKER">
@@ -39,7 +39,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_3_1_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_3_1_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_3_1_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-15.132817994752575" maxQ="38.75654255314567"/>
+                <iidm:minMaxReactiveLimits minQ="-7.5527221624772665" maxQ="47.627106330260254"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_4" nominalV="345.0" lowVoltageLimit="327.75" highVoltageLimit="362.25" topologyKind="BUS_BREAKER">
@@ -66,7 +66,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_6_2_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_6_2_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_6_2_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-13.514238387474876" maxQ="162.97977114632823"/>
+                <iidm:minMaxReactiveLimits minQ="-3.5021099059599488" maxQ="231.25302410878123"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_7" nominalV="345.0" lowVoltageLimit="327.75" highVoltageLimit="362.25" topologyKind="BUS_BREAKER">
@@ -85,7 +85,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_8_3_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_8_3_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_8_3_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-35.58757123742546" maxQ="96.19682200936593"/>
+                <iidm:minMaxReactiveLimits minQ="-23.604639005502534" maxQ="53.30586768658131"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_9" nominalV="345.0" lowVoltageLimit="327.75" highVoltageLimit="362.25" topologyKind="BUS_BREAKER">
@@ -104,7 +104,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_10_4_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_10_4_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_10_4_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-4.290007772712318" maxQ="10.442855747715113"/>
+                <iidm:minMaxReactiveLimits minQ="-3.982656870255718" maxQ="12.258805323770236"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_11" nominalV="345.0" lowVoltageLimit="327.75" highVoltageLimit="362.25" topologyKind="BUS_BREAKER">
@@ -115,7 +115,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_11_5_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_11_5_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_11_5_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.9454916086005305" maxQ="17.584366635696338"/>
+                <iidm:minMaxReactiveLimits minQ="-9.740687373109004" maxQ="23.844221862879643"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_12" nominalV="345.0" lowVoltageLimit="327.75" highVoltageLimit="362.25" topologyKind="BUS_BREAKER">
@@ -134,7 +134,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_13_6_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_13_6_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_13_6_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-38.47614858022356" maxQ="54.991132413536846"/>
+                <iidm:minMaxReactiveLimits minQ="-36.72715532752673" maxQ="102.52663149138"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_14" nominalV="161.0" lowVoltageLimit="152.95" highVoltageLimit="169.05" topologyKind="BUS_BREAKER">
@@ -161,7 +161,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_16_7_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_16_7_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_16_7_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-53.425764150373105" maxQ="103.98655735175954"/>
+                <iidm:minMaxReactiveLimits minQ="-11.807461808095683" maxQ="124.49583156161614"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_17" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -172,7 +172,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_17_8_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_17_8_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_17_8_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-30.927642036881437" maxQ="90.44077022985473"/>
+                <iidm:minMaxReactiveLimits minQ="-42.00843481863132" maxQ="77.0530110308999"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_18" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -191,7 +191,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_19_9_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_19_9_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_19_9_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-27.284118953488427" maxQ="52.65113296391862"/>
+                <iidm:minMaxReactiveLimits minQ="-8.710575552572884" maxQ="55.49848258634526"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_20" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -202,7 +202,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_20_10_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_20_10_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_20_10_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-23.447192748323193" maxQ="33.05249799919719"/>
+                <iidm:minMaxReactiveLimits minQ="-16.449939084989783" maxQ="39.62187950343833"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_21" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -221,7 +221,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_22_11_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_22_11_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_22_11_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.0990852029563096" maxQ="2.8696015980408984"/>
+                <iidm:minMaxReactiveLimits minQ="-1.3558909244593793" maxQ="3.5099228219385195"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_23" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -232,7 +232,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_23_12_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_23_12_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_23_12_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-48.28373122339436" maxQ="70.05109338006163"/>
+                <iidm:minMaxReactiveLimits minQ="-20.569091634545543" maxQ="110.872756442276"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_24" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -243,7 +243,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_24_13_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_24_13_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_24_13_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-8.843777988628368" maxQ="16.176871594451065"/>
+                <iidm:minMaxReactiveLimits minQ="-7.576522633504784" maxQ="21.499057911913514"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_25" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -254,7 +254,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_25_14_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_25_14_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_25_14_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.8259768783739327" maxQ="48.39802596919132"/>
+                <iidm:minMaxReactiveLimits minQ="-4.186814816241841" maxQ="22.389390505740796"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_26" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -265,7 +265,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_26_15_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_26_15_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_26_15_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.8326919845199566" maxQ="88.38413472930829"/>
+                <iidm:minMaxReactiveLimits minQ="-0.19811100740992538" maxQ="71.3170663920592"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_27" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -276,7 +276,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_27_16_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_27_16_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_27_16_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-3.0788901678140577" maxQ="22.981028310388968"/>
+                <iidm:minMaxReactiveLimits minQ="-7.259744182283818" maxQ="18.10980330259162"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_28" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -295,7 +295,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_29_17_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_29_17_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_29_17_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.8736442435394633" maxQ="16.89479503304452"/>
+                <iidm:minMaxReactiveLimits minQ="-3.153776261671832" maxQ="11.99843443062226"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_30" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -314,7 +314,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_31_18_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_31_18_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_31_18_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.8313928856182095" maxQ="0.9612535201420388"/>
+                <iidm:minMaxReactiveLimits minQ="-0.48300627582462186" maxQ="1.019616453181515"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_32" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -325,7 +325,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_32_19_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_32_19_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_32_19_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-17.473604519054554" maxQ="52.45010512610527"/>
+                <iidm:minMaxReactiveLimits minQ="-22.03232745362298" maxQ="67.91873021067879"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_33" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -344,7 +344,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_34_20_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_34_20_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_34_20_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.4848164429433513" maxQ="8.146761291175935"/>
+                <iidm:minMaxReactiveLimits minQ="-2.1351267097528903" maxQ="10.004004403894267"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_35" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -355,7 +355,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_35_21_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_35_21_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_35_21_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.4356203295030474" maxQ="1.8989495352394985"/>
+                <iidm:minMaxReactiveLimits minQ="-0.8159308024012075" maxQ="1.6094909162796625"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_36" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -374,7 +374,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_37_22_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_37_22_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_37_22_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-80.36868457652862" maxQ="168.30185781454273"/>
+                <iidm:minMaxReactiveLimits minQ="-91.56521704609295" maxQ="127.20535600078196"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_38" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -385,7 +385,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_38_23_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_38_23_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_38_23_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.06074527449297583" maxQ="1.2717472013234266"/>
+                <iidm:minMaxReactiveLimits minQ="-0.38566551867401416" maxQ="1.163014163934761"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_39" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -412,7 +412,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_41_24_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_41_24_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_41_24_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-25.422420624871354" maxQ="83.58313633260504"/>
+                <iidm:minMaxReactiveLimits minQ="-48.629459275564955" maxQ="81.7188681079072"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_42" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -423,7 +423,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_42_25_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_42_25_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_42_25_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-20.8561082834787" maxQ="38.99459008827467"/>
+                <iidm:minMaxReactiveLimits minQ="-2.0098628655032904" maxQ="25.968923567036036"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_43" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -434,7 +434,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_43_26_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_43_26_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_43_26_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-2.247891311844829" maxQ="5.422932650405345"/>
+                <iidm:minMaxReactiveLimits minQ="-2.220806705098701" maxQ="5.602186303644255"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_44" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -453,7 +453,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_45_27_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_45_27_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_45_27_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.1331117093140446" maxQ="60.97861544741485"/>
+                <iidm:minMaxReactiveLimits minQ="-27.996373364766992" maxQ="29.082717900334295"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_46" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -472,7 +472,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_47_28_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_47_28_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_47_28_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-4.615022903063875" maxQ="30.778804591922064"/>
+                <iidm:minMaxReactiveLimits minQ="-13.15896756777187" maxQ="23.072729071655708"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_48" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -483,7 +483,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_48_29_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_48_29_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_48_29_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-11.266447923614587" maxQ="28.17879432348545"/>
+                <iidm:minMaxReactiveLimits minQ="-5.354733832240549" maxQ="20.221534038178483"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_49" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -494,7 +494,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_49_30_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_49_30_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_49_30_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-6.94801331489473" maxQ="35.91282829539"/>
+                <iidm:minMaxReactiveLimits minQ="-18.37408633809738" maxQ="55.03552147525032"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_50" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -505,7 +505,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_50_31_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_50_31_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_50_31_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-5.976212118643446" maxQ="38.24734846597285"/>
+                <iidm:minMaxReactiveLimits minQ="-10.45040215695889" maxQ="32.86857621784964"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_51" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -524,7 +524,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_52_32_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_52_32_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_52_32_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-65.22946528744302" maxQ="165.6160104595561"/>
+                <iidm:minMaxReactiveLimits minQ="-23.119717461115417" maxQ="207.01931006359044"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_53" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -535,7 +535,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_53_33_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_53_33_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_53_33_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-21.096947801566476" maxQ="47.2077637737667"/>
+                <iidm:minMaxReactiveLimits minQ="-22.252695657372247" maxQ="29.789424361750378"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_54" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -546,7 +546,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_54_34_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_54_34_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_54_34_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.7673747151030408" maxQ="6.957807253598552"/>
+                <iidm:minMaxReactiveLimits minQ="-2.633898770173823" maxQ="4.19002535338818"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_55" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -557,7 +557,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_55_35_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_55_35_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_55_35_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.0076796222854814" maxQ="26.07345370982239"/>
+                <iidm:minMaxReactiveLimits minQ="-8.450826313983022" maxQ="19.65646089050107"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_56" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -568,7 +568,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_56_36_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_56_36_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_56_36_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-25.097581485222676" maxQ="75.90553013712253"/>
+                <iidm:minMaxReactiveLimits minQ="-13.88681927024805" maxQ="61.58943786462372"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_57" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -579,7 +579,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_57_37_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_57_37_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_57_37_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-286.8288849673268" maxQ="402.1492776024421"/>
+                <iidm:minMaxReactiveLimits minQ="-194.61133035212782" maxQ="641.5353095623383"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_58" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -598,7 +598,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_59_38_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_59_38_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_59_38_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.7428623473888591" maxQ="10.577316578787428"/>
+                <iidm:minMaxReactiveLimits minQ="-2.807951018252724" maxQ="10.665584787649022"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_60" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -609,7 +609,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_60_39_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_60_39_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_60_39_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.0421990207089933" maxQ="172.7848205823478"/>
+                <iidm:minMaxReactiveLimits minQ="-13.074669236479583" maxQ="85.71617826892506"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_61" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -620,7 +620,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_61_40_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_61_40_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_61_40_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.8862582509655317" maxQ="9.002321506784932"/>
+                <iidm:minMaxReactiveLimits minQ="-0.5384986741658344" maxQ="10.523461296232501"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_62" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -639,7 +639,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_63_41_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_63_41_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_63_41_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-62.37279632269879" maxQ="122.66511961195378"/>
+                <iidm:minMaxReactiveLimits minQ="-40.7622349470869" maxQ="129.33782567147477"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_64" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -674,7 +674,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_67_42_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_67_42_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_67_42_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-30.287275440457957" maxQ="45.1858845905971"/>
+                <iidm:minMaxReactiveLimits minQ="-15.940331822284938" maxQ="60.608205322224705"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_68" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -693,7 +693,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_69_43_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_69_43_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_69_43_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-35.59032269496719" maxQ="189.77608511436262"/>
+                <iidm:minMaxReactiveLimits minQ="-24.75711200972188" maxQ="167.06856233088874"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_70" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -712,7 +712,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_71_0_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_71_0_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_71_0_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-410.0300010541856" maxQ="999.5602568490793"/>
+                <iidm:minMaxReactiveLimits minQ="-46.608716102386516" maxQ="1447.119158952802"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_72" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -723,7 +723,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_72_44_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_72_44_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_72_44_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-5.267033802835461" maxQ="7.274462341291047"/>
+                <iidm:minMaxReactiveLimits minQ="-4.054550291185664" maxQ="7.169877235867356"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_73" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -734,7 +734,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_73_45_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_73_45_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_73_45_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-45.10833432309058" maxQ="92.16518907965933"/>
+                <iidm:minMaxReactiveLimits minQ="-30.12417003553948" maxQ="63.16546696052676"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_74" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -769,7 +769,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_77_46_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_77_46_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_77_46_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-6.453894398287656" maxQ="37.60362269914351"/>
+                <iidm:minMaxReactiveLimits minQ="-27.76334410994846" maxQ="36.684735764470176"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_78" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -780,7 +780,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_78_47_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_78_47_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_78_47_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-38.81959082482127" maxQ="81.18045644182035"/>
+                <iidm:minMaxReactiveLimits minQ="-14.073014549382053" maxQ="72.5251130658151"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_79" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -799,7 +799,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_80_48_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_80_48_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_80_48_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.262738723953089" maxQ="16.229120166878328"/>
+                <iidm:minMaxReactiveLimits minQ="-2.6257615070084737" maxQ="13.463727357823354"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_81" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -818,7 +818,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_82_49_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_82_49_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_82_49_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-0.8733642881854721" maxQ="3.88138885407166"/>
+                <iidm:minMaxReactiveLimits minQ="-0.3459245557673509" maxQ="3.5640247765513706"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_83" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -845,7 +845,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_85_50_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_85_50_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_85_50_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-18.072463299527943" maxQ="48.569889791947396"/>
+                <iidm:minMaxReactiveLimits minQ="-6.152416248545657" maxQ="46.097372125113615"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_86" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -856,7 +856,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_86_51_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_86_51_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_86_51_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-1.5772633893613275" maxQ="8.082766901490459"/>
+                <iidm:minMaxReactiveLimits minQ="-2.707962771254479" maxQ="5.208926598862813"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_87" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -883,7 +883,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_89_52_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_89_52_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_89_52_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-8.109426059343734" maxQ="17.437304802063938"/>
+                <iidm:minMaxReactiveLimits minQ="-6.386905945993989" maxQ="16.712617391128052"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_90" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -894,7 +894,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_90_53_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_90_53_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_90_53_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-3.5320131279913607" maxQ="31.735777467135456"/>
+                <iidm:minMaxReactiveLimits minQ="-3.2112331423666696" maxQ="27.196239437810814"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_91" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -937,7 +937,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_95_54_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_95_54_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_95_54_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-8.44796538117485" maxQ="89.00547938689267"/>
+                <iidm:minMaxReactiveLimits minQ="-63.59783811474478" maxQ="137.71462158186554"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_96" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -972,7 +972,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_99_55_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_99_55_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_99_55_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-5.739195526975999" maxQ="64.61504587554255"/>
+                <iidm:minMaxReactiveLimits minQ="-18.481252875256448" maxQ="124.528600131713"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_100" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -983,7 +983,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_100_56_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_100_56_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_100_56_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-43.47405272503635" maxQ="132.6479914834512"/>
+                <iidm:minMaxReactiveLimits minQ="-17.54037986287677" maxQ="109.74654559336534"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_101" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -994,7 +994,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_101_57_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_101_57_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_101_57_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-19.576377680685056" maxQ="44.90441020576634"/>
+                <iidm:minMaxReactiveLimits minQ="-0.6527596139430466" maxQ="62.77991234067705"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_102" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -1005,7 +1005,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_102_58_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_102_58_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_102_58_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-4.443666949790862" maxQ="30.912080483601233"/>
+                <iidm:minMaxReactiveLimits minQ="-8.622552097009885" maxQ="33.910694422712524"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_103" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -1016,7 +1016,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_103_59_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_103_59_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_103_59_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-31.09202808295013" maxQ="100.2694515682216"/>
+                <iidm:minMaxReactiveLimits minQ="-24.869808517757935" maxQ="54.358017911488886"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_104" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -1027,7 +1027,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_104_60_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_104_60_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_104_60_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-6.598321885109119" maxQ="42.48582622443077"/>
+                <iidm:minMaxReactiveLimits minQ="-30.161218872843655" maxQ="49.856983088291614"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_105" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -1046,7 +1046,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_106_61_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_106_61_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_106_61_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-3.6986424761105994" maxQ="5.974170260486378"/>
+                <iidm:minMaxReactiveLimits minQ="-5.135511925780879" maxQ="12.029187315836333"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_107" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -1065,7 +1065,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_108_62_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_108_62_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_108_62_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-4.993802257616438" maxQ="8.671450570360692"/>
+                <iidm:minMaxReactiveLimits minQ="-1.6801983007264862" maxQ="15.98397090149126"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_109" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -1124,7 +1124,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_115_63_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_115_63_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_115_63_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-77.5212378810509" maxQ="182.02510088618033"/>
+                <iidm:minMaxReactiveLimits minQ="-58.92322328349807" maxQ="200.19457001042755"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:voltageLevel id="sub_116" nominalV="138.0" lowVoltageLimit="131.1" highVoltageLimit="144.9" topologyKind="BUS_BREAKER">
@@ -1143,7 +1143,7 @@
                 <iidm:alias type="CGMES.Terminal1">gen_117_64_SM_T_1</iidm:alias>
                 <iidm:property name="CGMES.GeneratingUnit" value="gen_117_64_GU"/>
                 <iidm:property name="CGMES.RegulatingControl" value="gen_117_64_RC"/>
-                <iidm:minMaxReactiveLimits minQ="-5.561095098202045" maxQ="160.5421217026165"/>
+                <iidm:minMaxReactiveLimits minQ="-60.44590352833276" maxQ="187.59416407808982"/>
             </iidm:generator>
         </iidm:voltageLevel>
         <iidm:twoWindingsTransformer id="0_69_151" name="Trafo_0_69" r="0.008808924767117535" x="0.8808484309867475" g="0.0" b="-0.0" ratedU1="345.0" ratedU2="138.0" voltageLevelId1="sub_0" bus1="bus_0" connectableBus1="bus_0" voltageLevelId2="sub_69" bus2="bus_69" connectableBus2="bus_69">

@@ -6,8 +6,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Index &mdash; PowerGridSynth 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6230b2d3" />
 
@@ -15,8 +15,9 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=01f34227"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -42,14 +43,14 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting Started</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples/TopologyGeneration.html">Topology Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/IEEETest.html">IEEE Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/GenLoadSettings.html">Generation and Load Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/IEEETest.html">IEEE Test</a></li>
 </ul>
 </li>
 </ul>
@@ -61,17 +62,17 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="theory/generation_load_settings.html">Generation and Load Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/gen_dispatch_transmission.html">Generation Dispatch and Transmission Capacity</a></li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/powergrid_synth/index.html">powergrid_synth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/analysis/index.html">powergrid_synth.analysis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/bus_type_allocator/index.html">powergrid_synth.bus_type_allocator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/capacity_allocator/index.html">powergrid_synth.capacity_allocator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/comparison/index.html">powergrid_synth.comparison</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/data_format_converter/index.html">powergrid_synth.data_format_converter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/deg_dist_optimizer/index.html">powergrid_synth.deg_dist_optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/edge_creation/index.html">powergrid_synth.edge_creation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/exporter/index.html">powergrid_synth.exporter</a></li>
@@ -107,6 +108,7 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Index</li>
       <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/docs/genindex" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -132,12 +134,19 @@
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/generation_dispatcher/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher._assign_alphas">_assign_alphas() (powergrid_synth.generation_dispatcher.GenerationDispatcher method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher._assign_alphas">(powergrid_synth.GenerationDispatcher method)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator._assign_betas">_assign_betas() (powergrid_synth.transmission.TransmissionLineAllocator method)</a>
 
       <ul>
@@ -150,6 +159,12 @@
         <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.CapacityAllocator._assignment_logic">(powergrid_synth.CapacityAllocator method)</a>
 </li>
         <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.LoadAllocator._assignment_logic">(powergrid_synth.LoadAllocator method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._calculate_bus_ratios">_calculate_bus_ratios() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator._calculate_bus_ratios">(powergrid_synth.BusTypeAllocator method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._calculate_entropy_score">_calculate_entropy_score() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
@@ -198,6 +213,12 @@
 
       <ul>
         <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator._estimate_w_star">(powergrid_synth.BusTypeAllocator method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/generation_dispatcher/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher._generate_alphas">_generate_alphas() (powergrid_synth.generation_dispatcher.GenerationDispatcher method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher._generate_alphas">(powergrid_synth.GenerationDispatcher method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator._generate_beta">_generate_beta() (powergrid_synth.transmission.TransmissionLineAllocator method)</a>
@@ -292,6 +313,18 @@
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer._get_node_colors">(powergrid_synth.visualization.GridVisualizer method)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter._get_pandapower_net">_get_pandapower_net() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter._get_pandapower_net">(powergrid_synth.GridExporter method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter._get_pypowsybl_net">_get_pypowsybl_net() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter._get_pypowsybl_net">(powergrid_synth.GridExporter method)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator._get_ratios">_get_ratios() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 
       <ul>
@@ -349,21 +382,27 @@
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator.allocate">allocate() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 
       <ul>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator.allocate">(powergrid_synth.BusTypeAllocator method)</a>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator.allocate">(powergrid_synth.BusTypeAllocator method)</a>, <a href="reference/api_reference.html#powergrid_synth.BusTypeAllocator.allocate">[1]</a>
 </li>
         <li><a href="autoapi/powergrid_synth/capacity_allocator/index.html#powergrid_synth.capacity_allocator.CapacityAllocator.allocate">(powergrid_synth.capacity_allocator.CapacityAllocator method)</a>
 </li>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.CapacityAllocator.allocate">(powergrid_synth.CapacityAllocator method)</a>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.CapacityAllocator.allocate">(powergrid_synth.CapacityAllocator method)</a>, <a href="reference/api_reference.html#powergrid_synth.CapacityAllocator.allocate">[1]</a>
 </li>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.LoadAllocator.allocate">(powergrid_synth.LoadAllocator method)</a>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.LoadAllocator.allocate">(powergrid_synth.LoadAllocator method)</a>, <a href="reference/api_reference.html#powergrid_synth.LoadAllocator.allocate">[1]</a>
 </li>
         <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator.allocate">(powergrid_synth.transmission.TransmissionLineAllocator method)</a>
 </li>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator.allocate">(powergrid_synth.TransmissionLineAllocator method)</a>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator.allocate">(powergrid_synth.TransmissionLineAllocator method)</a>, <a href="reference/api_reference.html#powergrid_synth.TransmissionLineAllocator.allocate">[1]</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/generation_dispatcher/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher.alpha_mod">alpha_mod (powergrid_synth.generation_dispatcher.GenerationDispatcher attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher.alpha_mod">(powergrid_synth.GenerationDispatcher attribute)</a>, <a href="reference/api_reference.html#powergrid_synth.GenerationDispatcher.alpha_mod">[1]</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/powergrid_synth/analysis/index.html#powergrid_synth.analysis.GridAnalyzer.analyze">analyze() (powergrid_synth.analysis.GridAnalyzer method)</a>
 </li>
       <li><a href="autoapi/powergrid_synth/preprocessing/index.html#powergrid_synth.preprocessing.Preprocessor.assign_boxes">assign_boxes() (powergrid_synth.preprocessing.Preprocessor method)</a>
@@ -374,7 +413,7 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator">BusTypeAllocator (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator">BusTypeAllocator (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.BusTypeAllocator">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator">(class in powergrid_synth.bus_type_allocator)</a>
@@ -386,7 +425,7 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.CapacityAllocator">CapacityAllocator (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.CapacityAllocator">CapacityAllocator (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.CapacityAllocator">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/capacity_allocator/index.html#powergrid_synth.capacity_allocator.CapacityAllocator">(class in powergrid_synth.capacity_allocator)</a>
@@ -397,7 +436,7 @@
       <li><a href="autoapi/powergrid_synth/input_configurator/index.html#powergrid_synth.input_configurator.InputConfigurator.create_params">create_params() (powergrid_synth.input_configurator.InputConfigurator method)</a>
 
       <ul>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.InputConfigurator.create_params">(powergrid_synth.InputConfigurator method)</a>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.InputConfigurator.create_params">(powergrid_synth.InputConfigurator method)</a>, <a href="reference/api_reference.html#powergrid_synth.InputConfigurator.create_params">[1]</a>
 </li>
       </ul></li>
   </ul></td>
@@ -409,6 +448,14 @@
       <li><a href="autoapi/powergrid_synth/deg_dist_optimizer/index.html#powergrid_synth.deg_dist_optimizer.DegreeDistributionOptimizer">DegreeDistributionOptimizer (class in powergrid_synth.deg_dist_optimizer)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/generation_dispatcher/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher.dispatch">dispatch() (powergrid_synth.generation_dispatcher.GenerationDispatcher method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher.dispatch">(powergrid_synth.GenerationDispatcher method)</a>, <a href="reference/api_reference.html#powergrid_synth.GenerationDispatcher.dispatch">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
 </tr></table>
 
 <h2 id="E">E</h2>
@@ -416,20 +463,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/powergrid_synth/edge_creation/index.html#powergrid_synth.edge_creation.EdgeCreator">EdgeCreator (class in powergrid_synth.edge_creation)</a>
 </li>
-      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.export_to_matpower">export_to_matpower() (powergrid_synth.exporter.GridExporter method)</a>
-
-      <ul>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.export_to_matpower">(powergrid_synth.GridExporter method)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.export_to_pandapower_csv">export_to_pandapower_csv() (powergrid_synth.exporter.GridExporter method)</a>
-
-      <ul>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.export_to_pandapower_csv">(powergrid_synth.GridExporter method)</a>
-</li>
-      </ul></li>
       <li><a href="autoapi/powergrid_synth/input_extractor/index.html#powergrid_synth.input_extractor.extract_topology_params_from_graph">extract_topology_params_from_graph() (in module powergrid_synth.input_extractor)</a>
 </li>
   </ul></td>
@@ -443,12 +478,12 @@
       <li><a href="autoapi/powergrid_synth/generator/index.html#powergrid_synth.generator.PowerGridGenerator.generate_grid">generate_grid() (powergrid_synth.generator.PowerGridGenerator method)</a>
 
       <ul>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.PowerGridGenerator.generate_grid">(powergrid_synth.PowerGridGenerator method)</a>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.PowerGridGenerator.generate_grid">(powergrid_synth.PowerGridGenerator method)</a>, <a href="reference/api_reference.html#powergrid_synth.PowerGridGenerator.generate_grid">[1]</a>
 </li>
       </ul></li>
       <li><a href="autoapi/powergrid_synth/transformer_edges/index.html#powergrid_synth.transformer_edges.TransformerConnector.generate_transformer_edges">generate_transformer_edges() (powergrid_synth.transformer_edges.TransformerConnector method)</a>
 </li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher">GenerationDispatcher (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher">GenerationDispatcher (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.GenerationDispatcher">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/generation_dispatcher/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher">(class in powergrid_synth.generation_dispatcher)</a>
@@ -472,13 +507,13 @@
       </ul></li>
       <li><a href="autoapi/powergrid_synth/analysis/index.html#powergrid_synth.analysis.GridAnalyzer">GridAnalyzer (class in powergrid_synth.analysis)</a>
 </li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter">GridExporter (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter">GridExporter (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter">(class in powergrid_synth.exporter)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer">GridVisualizer (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer">GridVisualizer (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer">(class in powergrid_synth.visualization)</a>
@@ -498,7 +533,7 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.InputConfigurator">InputConfigurator (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.InputConfigurator">InputConfigurator (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.InputConfigurator">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/input_configurator/index.html#powergrid_synth.input_configurator.InputConfigurator">(class in powergrid_synth.input_configurator)</a>
@@ -518,7 +553,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.LoadAllocator">LoadAllocator (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.LoadAllocator">LoadAllocator (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.LoadAllocator">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -572,6 +607,20 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator.mu_beta">mu_beta (powergrid_synth.transmission.TransmissionLineAllocator attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator.mu_beta">(powergrid_synth.TransmissionLineAllocator attribute)</a>, <a href="reference/api_reference.html#powergrid_synth.TransmissionLineAllocator.mu_beta">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/generation_dispatcher/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher.mu_committed">mu_committed (powergrid_synth.generation_dispatcher.GenerationDispatcher attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher.mu_committed">(powergrid_synth.GenerationDispatcher attribute)</a>, <a href="reference/api_reference.html#powergrid_synth.GenerationDispatcher.mu_committed">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
 </tr></table>
 
 <h2 id="O">O</h2>
@@ -579,6 +628,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/powergrid_synth/deg_dist_optimizer/index.html#powergrid_synth.deg_dist_optimizer.DegreeDistributionOptimizer.optimize">optimize() (powergrid_synth.deg_dist_optimizer.DegreeDistributionOptimizer method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator.overload_b">overload_b (powergrid_synth.transmission.TransmissionLineAllocator attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator.overload_b">(powergrid_synth.TransmissionLineAllocator attribute)</a>, <a href="reference/api_reference.html#powergrid_synth.TransmissionLineAllocator.overload_b">[1]</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -595,7 +652,7 @@
         <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GraphComparator.plot_all_levels_comparison">(powergrid_synth.GraphComparator method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_bus_types">plot_bus_types() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_bus_types">plot_bus_types() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_bus_types">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_bus_types">(powergrid_synth.visualization.GridVisualizer method)</a>
@@ -612,34 +669,34 @@
       <li><a href="autoapi/powergrid_synth/bus_type_allocator/index.html#powergrid_synth.bus_type_allocator.BusTypeAllocator.plot_entropy_pdf">plot_entropy_pdf() (powergrid_synth.bus_type_allocator.BusTypeAllocator method)</a>
 
       <ul>
-        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator.plot_entropy_pdf">(powergrid_synth.BusTypeAllocator method)</a>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.BusTypeAllocator.plot_entropy_pdf">(powergrid_synth.BusTypeAllocator method)</a>, <a href="reference/api_reference.html#powergrid_synth.BusTypeAllocator.plot_entropy_pdf">[1]</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_grid">plot_grid() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_grid">plot_grid() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_grid">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_grid">(powergrid_synth.visualization.GridVisualizer method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_impedance">plot_impedance() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_impedance">plot_impedance() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_impedance">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_impedance">(powergrid_synth.visualization.GridVisualizer method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_interactive">plot_interactive() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_interactive">plot_interactive() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_interactive">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_interactive">(powergrid_synth.visualization.GridVisualizer method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_interactive_bus_types">plot_interactive_bus_types() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_interactive_bus_types">plot_interactive_bus_types() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_interactive_bus_types">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_interactive_bus_types">(powergrid_synth.visualization.GridVisualizer method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_interactive_voltage_level">plot_interactive_voltage_level() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_interactive_voltage_level">plot_interactive_voltage_level() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_interactive_voltage_level">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_interactive_voltage_level">(powergrid_synth.visualization.GridVisualizer method)</a>
@@ -651,13 +708,13 @@
         <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GraphComparator.plot_level_topology_comparison">(powergrid_synth.GraphComparator method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_load_gen_bubbles">plot_load_gen_bubbles() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_load_gen_bubbles">plot_load_gen_bubbles() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_load_gen_bubbles">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_load_gen_bubbles">(powergrid_synth.visualization.GridVisualizer method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_subgraphs">plot_subgraphs() (powergrid_synth.GridVisualizer method)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridVisualizer.plot_subgraphs">plot_subgraphs() (powergrid_synth.GridVisualizer method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridVisualizer.plot_subgraphs">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/visualization/index.html#powergrid_synth.visualization.GridVisualizer.plot_subgraphs">(powergrid_synth.visualization.GridVisualizer method)</a>
@@ -798,7 +855,7 @@
         <li><a href="autoapi/powergrid_synth/visualization/index.html#module-powergrid_synth.visualization">module</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.PowerGridGenerator">PowerGridGenerator (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.PowerGridGenerator">PowerGridGenerator (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.PowerGridGenerator">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/generator/index.html#powergrid_synth.generator.PowerGridGenerator">(class in powergrid_synth.generator)</a>
@@ -849,19 +906,97 @@
   </ul></td>
 </tr></table>
 
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator.stab_params">stab_params (powergrid_synth.transmission.TransmissionLineAllocator attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator.stab_params">(powergrid_synth.TransmissionLineAllocator attribute)</a>, <a href="reference/api_reference.html#powergrid_synth.TransmissionLineAllocator.stab_params">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/powergrid_synth/transformer_edges/index.html#powergrid_synth.transformer_edges.TransformerConnector">TransformerConnector (class in powergrid_synth.transformer_edges)</a>
+      <li><a href="autoapi/powergrid_synth/generation_dispatcher/index.html#powergrid_synth.generation_dispatcher.GenerationDispatcher.tab_2d_pg">tab_2d_pg (powergrid_synth.generation_dispatcher.GenerationDispatcher attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GenerationDispatcher.tab_2d_pg">(powergrid_synth.GenerationDispatcher attribute)</a>, <a href="reference/api_reference.html#powergrid_synth.GenerationDispatcher.tab_2d_pg">[1]</a>
 </li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator.tab_fl_beta">tab_fl_beta (powergrid_synth.transmission.TransmissionLineAllocator attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator.tab_fl_beta">(powergrid_synth.TransmissionLineAllocator attribute)</a>, <a href="reference/api_reference.html#powergrid_synth.TransmissionLineAllocator.tab_fl_beta">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_cgmes">to_cgmes() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_cgmes">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_cgmes">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_excel">to_excel() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_excel">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_excel">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_json">to_json() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_json">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_json">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_matpower">to_matpower() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_matpower">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_matpower">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_pickle">to_pickle() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_pickle">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_pickle">[1]</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator">TransmissionLineAllocator (class in powergrid_synth)</a>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_psse">to_psse() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_psse">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_psse">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_pypowsybl">to_pypowsybl() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_pypowsybl">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_pypowsybl">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/exporter/index.html#powergrid_synth.exporter.GridExporter.to_sqlite">to_sqlite() (powergrid_synth.exporter.GridExporter method)</a>
+
+      <ul>
+        <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.GridExporter.to_sqlite">(powergrid_synth.GridExporter method)</a>, <a href="reference/api_reference.html#powergrid_synth.GridExporter.to_sqlite">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/powergrid_synth/transformer_edges/index.html#powergrid_synth.transformer_edges.TransformerConnector">TransformerConnector (class in powergrid_synth.transformer_edges)</a>
+</li>
+      <li><a href="autoapi/powergrid_synth/index.html#powergrid_synth.TransmissionLineAllocator">TransmissionLineAllocator (class in powergrid_synth)</a>, <a href="reference/api_reference.html#powergrid_synth.TransmissionLineAllocator">[1]</a>
 
       <ul>
         <li><a href="autoapi/powergrid_synth/transmission/index.html#powergrid_synth.transmission.TransmissionLineAllocator">(class in powergrid_synth.transmission)</a>
 </li>
       </ul></li>
+      <li><a href="reference/api_reference.html#powergrid_synth.BusTypeAllocator.TYPE_CONN">TYPE_CONN (powergrid_synth.BusTypeAllocator attribute)</a>
+</li>
+      <li><a href="reference/api_reference.html#powergrid_synth.BusTypeAllocator.TYPE_GEN">TYPE_GEN (powergrid_synth.BusTypeAllocator attribute)</a>
+</li>
+      <li><a href="reference/api_reference.html#powergrid_synth.BusTypeAllocator.TYPE_LOAD">TYPE_LOAD (powergrid_synth.BusTypeAllocator attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
