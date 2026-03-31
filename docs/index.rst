@@ -1,16 +1,87 @@
-PowerGridSynth Overview
-============================
+PowerGridSynth
+==============
 
-PowerGridSynth (Power grid synthesizer) is an open source project written in Python, dedicated to build **synthetic power grids**. The goal of the project is to provide synthetic yet realistic power grids for grid modeling, simulation and analysis, with the ultimate goal of building **Foundation Models** for power grids. It is part of `LF Energy <https://lfenergy.org>`_, a Linux Foundation focused on energy sector. This project is supported by `AI-EFFECT (Artificial Intelligence Experimentation Facility For the Energy Sector) <https://ai-effect.eu/>`_.
+**PowerGridSynth** is an open-source Python package for generating realistic **synthetic power grids** with statistically accurate topology, bus types, generation/load settings, and transmission-line parameters.
+
+The pipeline starts from a `Chung-Lu-Chain (CLC) <https://arxiv.org/abs/1711.11098>`_ graph model that reproduces prescribed degree distributions and diameters across multiple voltage levels, then layers on bus-type assignment, generation/load capacity allocation, generation dispatch, and transmission-line impedance/capacity assignment drawn from empirical statistics of real grids (NYISO, WECC).
+
+The goal of the project is to provide synthetic yet realistic power grids for grid modeling, simulation and analysis, with the ultimate goal of building **Foundation Models** for power grids. It is part of `LF Energy <https://lfenergy.org>`_, a Linux Foundation focused on the energy sector. This project is supported by `AI-EFFECT <https://ai-effect.eu/>`_ (Artificial Intelligence Experimentation Facility For the Energy Sector).
 
 
+Synthesis Pipeline
+------------------
 
-It contains three main components:
+.. list-table::
+   :widths: 5 30 65
+   :header-rows: 1
 
-- grid topology generation,
-- grid data generation,
-- grid data utility.
+   * - Step
+     - Module
+     - Method
+   * - 1
+     - Topology generation
+     - CLC graph model with prescribed degree distribution and diameter per voltage level; k-stars inter-level transformer model
+   * - 2
+     - Bus-type assignment
+     - Entropy-based Artificial Immune System (AIS) optimisation reproducing empirical 2-D joint distribution of bus types and node degrees
+   * - 3
+     - Generation capacity
+     - Exponential/extreme-value sampling with capacity–degree correlation via 2-D PMF table
+   * - 4
+     - Load allocation
+     - Empirical 2-D probability table matching load–degree joint distribution
+   * - 5
+     - Generation dispatch
+     - Three-category partitioning (uncommitted / partially committed / fully committed) with 2-D bin matching and iterative balancing
+   * - 6
+     - Transmission lines
+     - LogNormal impedance magnitudes, Lévy-stable line angles, DCPF-based swapping, exponential gauge-ratio assignment via 2-D table
 
+
+Quick Example
+-------------
+
+.. code-block:: python
+
+   from powergrid_synth import (
+       InputConfigurator, PowerGridGenerator, BusTypeAllocator,
+       CapacityAllocator, LoadAllocator, GenerationDispatcher,
+       TransmissionLineAllocator, GridVisualizer,
+   )
+
+   # 1. Configure voltage levels and inter-level connections
+   level_specs = [
+       {'n': 50,  'avg_k': 3.5, 'diam': 10, 'dist_type': 'dgln'},
+       {'n': 150, 'avg_k': 2.5, 'diam': 15, 'dist_type': 'dpl'},
+       {'n': 300, 'avg_k': 2.0, 'diam': 20, 'dist_type': 'poisson'},
+   ]
+   connection_specs = {
+       (0, 1): {'type': 'k-stars', 'c': 0.174, 'gamma': 4.15},
+       (1, 2): {'type': 'k-stars', 'c': 0.15,  'gamma': 4.15},
+   }
+
+   config = InputConfigurator(seed=42)
+   params = config.create_params(level_specs, connection_specs)
+
+   # 2. Generate topology (CLC model)
+   gen = PowerGridGenerator(seed=42)
+   grid = gen.generate_grid(
+       degrees_by_level=params['degrees_by_level'],
+       diameters_by_level=params['diameters_by_level'],
+       transformer_degrees=params['transformer_degrees'],
+   )
+
+   # 3. Assign bus types, generation/load, dispatch, and line parameters
+   BusTypeAllocator(grid).allocate()
+   CapacityAllocator(grid).allocate()
+   LoadAllocator(grid).allocate()
+   GenerationDispatcher(grid).dispatch()
+   TransmissionLineAllocator(grid).allocate()
+
+   # 4. Visualize
+   GridVisualizer().plot_grid(grid, layout='yifan_hu', title="Synthetic Grid")
+
+See the :doc:`examples/index` for Jupyter notebooks covering each step in detail.
 
 
 .. toctree::
@@ -18,7 +89,7 @@ It contains three main components:
    :titlesonly:
    :hidden:
 
-   Getting started  <README.md>
+   Getting Started  <README.md>
 
 .. toctree::
    :maxdepth: 2
@@ -39,4 +110,4 @@ It contains three main components:
    :titlesonly:
    :hidden:
 
-   API reference <autoapi/index>
+   API Reference <autoapi/index>

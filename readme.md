@@ -124,14 +124,14 @@ Statistical parameters are stored in `reference_data.py` for reference systems (
 
 ## Examples
 
-| Notebook | Topic |
-|----------|-------|
-| `examples/TopologyGeneration.ipynb` | CLC topology generation and input configuration |
-| `examples/BusTypeAssignment.ipynb` | AIS bus-type allocation |
-| `examples/GenLoadSettings.ipynb` | Generation capacity and load allocation |
-| `examples/ieee_test.ipynb` | Validation against IEEE test cases |
-| `examples/grid2graph.ipynb` | Converting real grid data to graph representation |
-| `examples/hodge_analysis.ipynb` | Hodge-theoretic flow analysis |
+| Notebook | Topic | Colab |
+|----------|-------|-------|
+| `examples/TopologyGeneration.ipynb` | CLC topology generation and input configuration | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/TopologyGeneration_colab.ipynb) |
+| `examples/BusTypeAssignment.ipynb` | AIS bus-type allocation | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/BusTypeAssignment_colab.ipynb) |
+| `examples/GenLoadSettings.ipynb` | Generation capacity and load allocation | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/GenLoadSettings_colab.ipynb) |
+| `examples/ieee_test.ipynb` | Validation against IEEE test cases | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/ieee_test_colab.ipynb) |
+| `examples/grid2graph.ipynb` | Converting real grid data to graph representation | |
+| `examples/hodge_analysis.ipynb` | Hodge-theoretic flow analysis | |
 
 ## Testing
 

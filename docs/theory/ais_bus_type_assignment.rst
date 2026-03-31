@@ -5,12 +5,6 @@ This document outlines the pseudo-algorithm for the **Artificial Immune System (
 
 The AIS approach is based on the Clonal Selection Principle from immunology and was proposed for synthetic grid modeling by Elyas and Wang :cite:p:`elyas2016improved`. The implementation is ported from the MATLAB SynGrid toolbox (``sg_bus_type.m``).
 
-.. note::
-
-   Full reference: S. H. Elyas and Z. Wang, "Improved Synthetic Power Grid Modeling With
-   Correlated Bus Type Assignments," *IEEE Transactions on Power Systems*, vol. 32, no. 5,
-   pp. 3391–3400, Sept. 2017, doi: `10.1109/TPWRS.2016.2634318 <https://doi.org/10.1109/TPWRS.2016.2634318>`_.
-
 Initialization
 --------------
 

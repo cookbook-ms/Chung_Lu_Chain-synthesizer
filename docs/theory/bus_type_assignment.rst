@@ -8,12 +8,6 @@ In a typical power grid, $20-40\%$ of the buses are generation buses, $40-60\%$ 
 Elyas and Wang :cite:p:`elyas2016improved` verified that there exist non-trivial correlations between the three bus types and other topology metrics such as node degrees and clustering coefficients in a real-world power grid. 
 A numerical measure, called **Bus Type Entropy**, was proposed to quantify the correlated bus type assignments of realistic power grids. The entropy definition was subsequently improved with redefined formulations and better-fitted scaling functions for the normalized distance parameter.
 
-.. note::
-
-   Full reference: S. H. Elyas and Z. Wang, "Improved Synthetic Power Grid Modeling With
-   Correlated Bus Type Assignments," *IEEE Transactions on Power Systems*, vol. 32, no. 5,
-   pp. 3391–3400, Sept. 2017, doi: `10.1109/TPWRS.2016.2634318 <https://doi.org/10.1109/TPWRS.2016.2634318>`_.
-
 The methods are implemented in `bus_type_allocator.py <../autoapi/powergrid_synth/bus_type_allocator/index.html>`_ (ported from the MATLAB SynGrid toolbox ``sg_bus_type.m``).
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

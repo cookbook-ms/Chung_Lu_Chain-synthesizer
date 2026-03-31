@@ -2,7 +2,7 @@
 Generation Dispatch and Transmission Capacity Assignment
 ########################################################
 
-In previous pages, we explained how the grid topology can be generated, bus types assigned, and generation/load capacities set. In this page, we explain how the **generation dispatch** and **transmission line capacity limits** are determined for a synthetic grid model, based on `Sadeghian et al. (2018) <https://ieeexplore.ieee.org/document/8585532>`_.
+In previous pages, we explained how the grid topology can be generated, bus types assigned, and generation/load capacities set. In this page, we explain how the **generation dispatch** and **transmission line capacity limits** are determined for a synthetic grid model, based on :cite:p:`sadeghian2018novel`.
 
 As noted in :cite:p:`sadeghian2018novel`, a valid synthetic grid model requires at least three components:
 

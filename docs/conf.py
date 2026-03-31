@@ -87,7 +87,17 @@ html_theme_options = {
     'collapse_navigation': False,
     'sticky_navigation': True,
     'navigation_depth': 4,
+    'display_version': True,
 }
+
+html_context = {
+    'display_github': True,
+    'github_user': 'cookbook-ms',
+    'github_repo': 'Chung_Lu_Chain-synthesizer',
+    'github_version': 'main',
+    'conf_py_path': '/docs/',
+}
+
 html_css_files = ['custom.css']
 
 # furo theme

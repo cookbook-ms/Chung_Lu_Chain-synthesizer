@@ -3,7 +3,7 @@ Chung-Lu-Chain grid topology generation
 ########################################
 
 Here we explain the graph model, Chung-Lu-Chain model, used to generate the raw grid topology. 
-The methodology is mainly based on `Aksoy et al. (2018) <https://academic.oup.com/comnet/article-abstract/7/1/128/5073058?redirectedFrom=fulltext>`_, which investigated the topological properties of power grids from the US Eastern Internconnection, Texas Interconnection, and Poland transmission system power grids and found
+The methodology is mainly based on :cite:p:`aksoy2019generative`, which investigated the topological properties of power grids from the US Eastern Internconnection, Texas Interconnection, and Poland transmission system power grids and found
 
 1. subgraphs induced by nodes of the same voltage level exhibit shared structural properties **atypical to small-world networks**, including 
 
@@ -41,7 +41,7 @@ The LCC of a degree-1 vertex is undefined, and the local clustering coefficient 
 Power grid as network-of-networks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Following `Halappanavar et al. (2015) <https://arxiv.org/abs/1512.01436>`_, a power grid graph is defined as $G=(V,E,f,\mathcal{X})$, where $V$ is the set of vertices (substations, buses, generators, loads, etc.), $E$ is the set of edges (transmission lines and transformers), $\mathcal{X}=\{X_1,\dots,X_k\}$ is the set of voltage levels, and $f:V\to \mathcal{X}$ assigns a voltage level to each vertex.
+Following :cite:p:`halappanavar2015network`, a power grid graph is defined as $G=(V,E,f,\mathcal{X})$, where $V$ is the set of vertices (substations, buses, generators, loads, etc.), $E$ is the set of edges (transmission lines and transformers), $\mathcal{X}=\{X_1,\dots,X_k\}$ is the set of voltage levels, and $f:V\to \mathcal{X}$ assigns a voltage level to each vertex.
 
 An edge $\{i,j\}$ is called a **transformer edge** if $f(i)\neq f(j)$. The power grid graph can be decomposed into:
 
@@ -50,13 +50,13 @@ An edge $\{i,j\}$ is called a **transformer edge** if $f(i)\neq f(j)$. The power
 
 We denote:
 
-* $n^X = |V^X|$: the number of vertices at voltage level $X$
+* $n^X = \Vert V^X\Vert$: the number of vertices at voltage level $X$
 * $\mathbf{d}^X$: the degree sequence of same-voltage vertices in $G[X]$
 * $\mathbf{t}[X_i,X_j]$: the transformer degree sequence of voltage $X_i$ vertices with respect to voltage $X_j$, i.e., the number of transformer edges from each $X_i$ vertex to any $X_j$ vertex
 
 In this way, the entire power grid graph is the union of all same-voltage subgraph edges and all transformer edges.
 
-Key empirical findings from `Aksoy et al. (2018) <https://academic.oup.com/comnet/article-abstract/7/1/128/5073058>`_:
+Key empirical findings from :cite:p:`aksoy2019generative`:
 
 * Same-voltage subgraphs have diameter and average distance on the order of $\sqrt{n}$, much larger than the $\log(n)$ typical of small-world or scale-free models.
 * Same-voltage subgraphs have consistently low local clustering coefficients (typically below 0.1), unlike most real-world networks.
@@ -178,7 +178,7 @@ Phase 1 and Phase 2 operate independently: none of the Phase 1 inputs are requir
 Validation metrics
 ^^^^^^^^^^^^^^^^^^
 
-`Birchfield et al. (2017) <https://www.mdpi.com/1996-1073/10/8/1233>`_ and `Birchfield et al. (2016) <https://ieeexplore.ieee.org/document/7725528>`_ build an extensive list of 18 validation metrics for assessing the realism of systhetic power grid data. 
+:cite:p:`birchfield2017metric` and :cite:p:`birchfield2016grid` build an extensive list of 18 validation metrics for assessing the realism of systhetic power grid data. 
 
 * metrics of system proportions: substations, load and generation
 
@@ -214,7 +214,7 @@ Validation metrics
 Synthetic generation of topology generation inputs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Diameter $\delta$: The diameter of same-voltage subgraphs is on the order of $\sqrt{n}$, also suggested by `Young et al. (2018) <https://ieeexplore.ieee.org/document/8586475>`_. E.g., one can use the approximate function of the form $f(n) = c\cdot n^k$ to estimate the diameter. In this work, it yields $c\approx 1.301$ and $k\approx 0.574$ using the three sets of data. 
+* Diameter $\delta$: The diameter of same-voltage subgraphs is on the order of $\sqrt{n}$, also suggested by :cite:p:`young2018topological`. E.g., one can use the approximate function of the form $f(n) = c\cdot n^k$ to estimate the diameter. In this work, it yields $c\approx 1.301$ and $k\approx 0.574$ using the three sets of data. 
 
 
 * Same-voltage degree sequence $\mathbf{d}^X$: It was suggested to use the following 
@@ -231,7 +231,7 @@ Synthetic generation of topology generation inputs
       
       for some parameter $\gamma$. To optimizer $\gamma$, the maximum degree $d_\max$ is required, which is suggested $d_\max \sim n^{1/\gamma'}$ with some $\gamma'$. Fitting $d_\max$ in the three sets of data of this work using $g(n)=c\cdot n^{1/4}$ yields $c\approx 1.517$.
 
-  Given the required parameter(s), average and/or maximum degree, we can use `Kolda et al. (2014) <https://arxiv.org/abs/1302.6636>`_ to optimize the distribution parameters and obtain the degree sequences. 
+  Given the required parameter(s), average and/or maximum degree, we can use :cite:p:`kolda2014scalable` to optimize the distribution parameters and obtain the degree sequences. 
   
 * Transformer degree sequence $\mathbf{t}[X,Y]$: For any given transformer subgraph between voltage levels $X_i$ and $X_j$, there are two related transformer degree sequences $\mathbf{t}[X_i, X_j]$ and $\mathbf{t}[X_j,X_i].$ The first step to synthetically generating these, one needs to specify how many vertices participate in each transformer graph, i.e., how many vertices of voltage $X_i$ are incident to a transformer edge having the other endpoint in voltage $X_j$, and vice versa for $X_j$. This number can also be approximated based on the number of vertices in the same-voltage subgraphs. 
 

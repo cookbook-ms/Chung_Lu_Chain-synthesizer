@@ -1,16 +1,37 @@
 .. include:: intro.rst
 
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
+Each notebook is also available as a self-contained **Google Colab** version with
+package installation included — click the |colab| badge to open directly in your browser.
 
-   Topology Generation <TopologyGeneration.nblink>
+.. |colab| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :height: 18px
 
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
 
-   IEEE Test <IEEETest.nblink>
+   * - Notebook
+     - Open in Colab
+   * - :doc:`Topology Generation <TopologyGeneration.nblink>`
+     - |colab_topo|
+   * - :doc:`Bus Type Assignment <BusTypeAssignment.nblink>`
+     - |colab_bus|
+   * - :doc:`Generation and Load Settings <GenLoadSettings.nblink>`
+     - |colab_gen|
+   * - :doc:`IEEE Test <IEEETest.nblink>`
+     - |colab_ieee|
+
+.. |colab_topo| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/TopologyGeneration_colab.ipynb
+
+.. |colab_bus| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/BusTypeAssignment_colab.ipynb
+
+.. |colab_gen| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/GenLoadSettings_colab.ipynb
+
+.. |colab_ieee| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/ieee_test_colab.ipynb
 
 Here is a brief example showing how to configure the user input, and then generate, and visualize a synthetic power grid.
 
@@ -50,11 +71,9 @@ Here is a brief example showing how to configure the user input, and then genera
 .. toctree::
    :titlesonly:
    :maxdepth: 1
+   :hidden:
 
+   Topology Generation <TopologyGeneration.nblink>
    Bus Type Assignment <BusTypeAssignment.nblink>
-
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
    Generation and Load Settings <GenLoadSettings.nblink>
+   IEEE Test <IEEETest.nblink>
