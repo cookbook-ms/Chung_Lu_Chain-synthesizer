@@ -1,5 +1,9 @@
 .. include:: intro.rst
 
+The **recommended starting point** is the high-level ``synthesize()`` notebook, which runs the
+entire pipeline in a single function call.  The remaining notebooks provide step-by-step
+control over individual pipeline stages.
+
 Each notebook is also available as a self-contained **Google Colab** version with
 package installation included — click the |colab| badge to open directly in your browser.
 
@@ -12,6 +16,8 @@ package installation included — click the |colab| badge to open directly in yo
 
    * - Notebook
      - Open in Colab
+   * - :doc:`High-Level Synthesis <Synthesize.nblink>`
+     - (recommended starting point)
    * - :doc:`Topology Generation <TopologyGeneration.nblink>`
      - |colab_topo|
    * - :doc:`Bus Type Assignment <BusTypeAssignment.nblink>`
@@ -73,6 +79,7 @@ Here is a brief example showing how to configure the user input, and then genera
    :maxdepth: 1
    :hidden:
 
+   High-Level Synthesis <Synthesize.nblink>
    Topology Generation <TopologyGeneration.nblink>
    Bus Type Assignment <BusTypeAssignment.nblink>
    Generation and Load Settings <GenLoadSettings.nblink>

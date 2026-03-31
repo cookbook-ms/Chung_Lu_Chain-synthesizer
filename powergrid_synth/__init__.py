@@ -19,6 +19,7 @@ from .exporter import GridExporter
 from .reference_data import get_reference_stats
 from .comparison import GraphComparator
 from .grid_graph import PowerGridGraph
+from .synthesize import synthesize
 
 
 __all__ = [
@@ -33,7 +34,8 @@ __all__ = [
     "GridExporter",
     "get_reference_stats",
     "GraphComparator",
-    "PowerGridGraph"
+    "PowerGridGraph",
+    "synthesize",
 ]
 
 __version__ = "0.1.0"

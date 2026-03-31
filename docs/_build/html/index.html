@@ -18,7 +18,6 @@
       <script src="_static/documentation_options.js?v=01f34227"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -49,6 +48,7 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/Synthesize.html">High-Level Synthesis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/TopologyGeneration.html">Topology Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/GenLoadSettings.html">Generation and Load Settings</a></li>
@@ -85,6 +85,7 @@
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/input_configurator/index.html">powergrid_synth.input_configurator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/input_extractor/index.html">powergrid_synth.input_extractor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/preprocessing/index.html">powergrid_synth.preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/synthesize/index.html">powergrid_synth.synthesize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/transformer_edges/index.html">powergrid_synth.transformer_edges</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/transmission/index.html">powergrid_synth.transmission</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/powergrid_synth/visualization/index.html">powergrid_synth.visualization</a></li>
@@ -166,8 +167,42 @@
 </tbody>
 </table>
 </section>
-<section id="quick-example">
-<h2>Quick Example<a class="headerlink" href="#quick-example" title="Link to this heading"></a></h2>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<p>The easiest way to generate a synthetic grid is the high-level <code class="docutils literal notranslate"><span class="pre">synthesize()</span></code> function,
+which runs the <strong>entire pipeline in one call</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">powergrid_synth</span><span class="w"> </span><span class="kn">import</span> <span class="n">synthesize</span>
+
+<span class="c1"># Mode I — clone an existing grid&#39;s statistical profile</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">synthesize</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span>
+    <span class="n">reference_case</span><span class="o">=</span><span class="s2">&quot;case118&quot;</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">export_formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s2">&quot;cgmes&quot;</span><span class="p">,</span> <span class="s2">&quot;matpower&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Mode II — fully synthetic from user-specified parameters</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">synthesize</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span>
+    <span class="n">level_specs</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>  <span class="s2">&quot;avg_k&quot;</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span> <span class="s2">&quot;diam&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;dist_type&quot;</span><span class="p">:</span> <span class="s2">&quot;dgln&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s2">&quot;avg_k&quot;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s2">&quot;diam&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;dist_type&quot;</span><span class="p">:</span> <span class="s2">&quot;dpl&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s2">&quot;avg_k&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;diam&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;dist_type&quot;</span><span class="p">:</span> <span class="s2">&quot;poisson&quot;</span><span class="p">},</span>
+    <span class="p">],</span>
+    <span class="n">connection_specs</span><span class="o">=</span><span class="p">{</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;k-stars&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.174</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="mf">4.15</span><span class="p">},</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;k-stars&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>  <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="mf">4.15</span><span class="p">},</span>
+    <span class="p">},</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">export_formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s2">&quot;matpower&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>See <span class="xref std std-doc">examples/Synthesize.nblink</span> for a full walkthrough including optional parameter
+tuning and power-flow validation.</p>
+<section id="step-by-step-usage-advanced">
+<h3>Step-by-Step Usage (Advanced)<a class="headerlink" href="#step-by-step-usage-advanced" title="Link to this heading"></a></h3>
+<p>For fine-grained control over individual pipeline stages:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">powergrid_synth</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">InputConfigurator</span><span class="p">,</span> <span class="n">PowerGridGenerator</span><span class="p">,</span> <span class="n">BusTypeAllocator</span><span class="p">,</span>
     <span class="n">CapacityAllocator</span><span class="p">,</span> <span class="n">LoadAllocator</span><span class="p">,</span> <span class="n">GenerationDispatcher</span><span class="p">,</span>
@@ -208,6 +243,7 @@
 </pre></div>
 </div>
 <p>See the <a class="reference internal" href="examples/index.html"><span class="doc">Examples</span></a> for Jupyter notebooks covering each step in detail.</p>
+</section>
 </section>
 <section id="supported-data-formats-power-flow-solvers">
 <h2>Supported Data Formats &amp; Power-Flow Solvers<a class="headerlink" href="#supported-data-formats-power-flow-solvers" title="Link to this heading"></a></h2>
