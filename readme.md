@@ -6,7 +6,9 @@
 
 A Python package for generating realistic synthetic power grids with statistically accurate topology, bus types, generation/load settings, and transmission-line parameters.
 
-The pipeline starts from a [Chung-Lu-Chain (CLC)](https://arxiv.org/abs/1711.11098) graph model that reproduces prescribeddegree distributions and diameters across multiple voltage levels, then layers on bus-type assignment, generation/load capacity allocation, generation dispatch, and transmission-line impedance/capacity assignment drawn from empirical statistics of real grids (NYISO, WECC).
+The pipeline starts from a [Chung-Lu-Chain (CLC)](https://arxiv.org/abs/1711.11098) graph model that reproduces prescribed degree distributions and diameters across multiple voltage levels, then layers on bus-type assignment, generation/load capacity allocation, generation dispatch, and transmission-line impedance/capacity assignment drawn from empirical statistics of real grids (NYISO, WECC).
+
+Synthesised grids can be **exported to 12+ industry-standard formats** via [pandapower](https://www.pandapower.org/) and [pypowsybl](https://pypowsybl.readthedocs.io/) and validated with **DC and AC power-flow solvers** from both libraries.
 
 ## Documentation
 
@@ -119,8 +121,9 @@ Statistical parameters are stored in `reference_data.py` for reference systems (
 | `hierarchical_analysis.py` | Per-voltage-level analysis |
 | `comparison.py` | Side-by-side comparison of synthetic vs. reference grids |
 | `visualization.py` | Plotting routines (Yifan Hu layout, per-level views, interactive dashboards) |
-| `exporter.py` | Export to JSON, Excel, MATPOWER, CGMES, XIIDM, PSS/E |
-| `data_format_converter.py` | Conversion between NetworkX, pandapower, pypowsybl |
+| `exporter.py` | Export to **JSON, Excel, SQLite, Pickle** (pandapower) and **CGMES, XIIDM, MATPOWER, PSS/E, UCTE, AMPL** (pypowsybl) |
+| `data_format_converter.py` | Conversion between NetworkX ↔ pandapower → pypowsybl |
+| `dcpf.py` | Built-in lightweight DC power-flow solver (used internally for impedance calibration) |
 
 ## Examples
 
@@ -133,6 +136,44 @@ Statistical parameters are stored in `reference_data.py` for reference systems (
 | `examples/grid2graph.ipynb` | Converting real grid data to graph representation | |
 | `examples/hodge_analysis.ipynb` | Hodge-theoretic flow analysis | |
 
+## Supported Data Formats & Power-Flow Solvers
+
+Synthetic grids live as **NetworkX graphs** internally and can be converted / exported to multiple formats.
+
+### Export Formats
+
+| Via | Format | Method |
+|----|--------|--------|
+| **pandapower** | JSON | `GridExporter.to_json()` |
+| | Excel (.xlsx) | `GridExporter.to_excel()` |
+| | SQLite | `GridExporter.to_sqlite()` |
+| | Pickle | `GridExporter.to_pickle()` |
+| **pypowsybl** | CGMES | `GridExporter.to_cgmes()` |
+| | XIIDM | `GridExporter.to_pypowsybl(format='XIIDM')` |
+| | MATPOWER | `GridExporter.to_matpower()` |
+| | PSS/E | `GridExporter.to_psse()` |
+| | UCTE, AMPL, BIIDM, JIIDM | `GridExporter.to_pypowsybl(format=...)` |
+
+### Conversion Chain
+
+```
+NetworkX  ←→  pandapower  →  pypowsybl  →  [CGMES / XIIDM / MATPOWER / PSS·E / …]
+```
+
+Converter functions: `pandapower_to_nx`, `nx_to_pandapower`, `pandapower_to_pypowsybl` (in `data_format_converter.py`).
+
+### Power-Flow Solvers
+
+| Solver | Library | Type | Call |
+|--------|---------|------|------|
+| Newton-Raphson AC | **pandapower** | AC | `pp.runpp(net)` |
+| Linear DC | **pandapower** | DC | `pp.rundcpp(net)` |
+| AC load-flow | **pypowsybl** | AC | `pypowsybl.loadflow.run_ac(net)` |
+| DC load-flow | **pypowsybl** | DC | `pypowsybl.loadflow.run_dc(net)` |
+| Built-in DCPF | **powergrid_synth** | DC | `DCPowerFlow(graph).run()` |
+
+See the `examples/ieee_test.ipynb` notebook for a full demonstration of export and power-flow validation.
+
 ## Testing
 
 ```bash
@@ -141,7 +182,7 @@ pytest tests/ -v
 
 ## References
 
-1. Aksoy et al. (2019). "A Generative Graph Model for Electrical Infrastructure Networks." *Journal of Complex Networks*, 7(1), 128–162. [arXiv:1711.11098](https://arxiv.org/abs/1711.11098)
+1. Aksoy et al. (2018). "A Generative Graph Model for Electrical Infrastructure Networks." *Journal of Complex Networks*, 7(1), 128–162. [arXiv:1711.11098](https://arxiv.org/abs/1711.11098)
 2. Elyas & Wang (2017). "Improved Synthetic Power Grid Modeling With Correlated Bus Type Assignments." *IEEE Trans. Power Syst.*, 32(5), 3391–3402. [DOI:10.1109/TPWRS.2016.2636165](https://ieeexplore.ieee.org/document/7763878)
 3. Elyas et al. (2017). "On the Statistical Settings of Generation and Load in Synthetic Grid Modeling." [arXiv:1706.09294](https://arxiv.org/abs/1706.09294)
 4. Sadeghian et al. (2018). "A Novel Algorithm for Statistical Assignment of Transmission Capacities in Synthetic Grid Modeling." *IEEE PESGM*. [DOI:10.1109/PESGM.2018.8585532](https://ieeexplore.ieee.org/document/8585532)

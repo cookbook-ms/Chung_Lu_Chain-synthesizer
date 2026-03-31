@@ -5,6 +5,8 @@ PowerGridSynth
 
 The pipeline starts from a `Chung-Lu-Chain (CLC) <https://arxiv.org/abs/1711.11098>`_ graph model that reproduces prescribed degree distributions and diameters across multiple voltage levels, then layers on bus-type assignment, generation/load capacity allocation, generation dispatch, and transmission-line impedance/capacity assignment drawn from empirical statistics of real grids (NYISO, WECC).
 
+Synthesised grids can be **exported to 12+ industry-standard formats** via `pandapower <https://www.pandapower.org/>`_ and `pypowsybl <https://pypowsybl.readthedocs.io/>`_ and validated with **DC and AC power-flow solvers** from both libraries.
+
 The goal of the project is to provide synthetic yet realistic power grids for grid modeling, simulation and analysis, with the ultimate goal of building **Foundation Models** for power grids. It is part of `LF Energy <https://lfenergy.org>`_, a Linux Foundation focused on the energy sector. This project is supported by `AI-EFFECT <https://ai-effect.eu/>`_ (Artificial Intelligence Experimentation Facility For the Energy Sector).
 
 
@@ -82,6 +84,64 @@ Quick Example
    GridVisualizer().plot_grid(grid, layout='yifan_hu', title="Synthetic Grid")
 
 See the :doc:`examples/index` for Jupyter notebooks covering each step in detail.
+
+
+Supported Data Formats & Power-Flow Solvers
+--------------------------------------------
+
+Synthetic grids live as **NetworkX graphs** internally and can be converted / exported via
+``GridExporter`` and ``data_format_converter``.
+
+**Export formats**
+
+.. list-table::
+   :widths: 15 30 55
+   :header-rows: 1
+
+   * - Via
+     - Format
+     - Method
+   * - pandapower
+     - JSON, Excel, SQLite, Pickle
+     - ``to_json()``, ``to_excel()``, ``to_sqlite()``, ``to_pickle()``
+   * - pypowsybl
+     - **CGMES, XIIDM, MATPOWER, PSS/E**, UCTE, AMPL, BIIDM, JIIDM
+     - ``to_cgmes()``, ``to_matpower()``, ``to_psse()``, ``to_pypowsybl(format=...)``
+
+**Conversion chain**::
+
+    NetworkX  ↔  pandapower  →  pypowsybl  →  [CGMES / XIIDM / MATPOWER / PSS·E / …]
+
+**Power-flow solvers**
+
+.. list-table::
+   :widths: 30 20 15 35
+   :header-rows: 1
+
+   * - Solver
+     - Library
+     - Type
+     - Call
+   * - Newton-Raphson AC
+     - pandapower
+     - AC
+     - ``pp.runpp(net)``
+   * - Linear DC
+     - pandapower
+     - DC
+     - ``pp.rundcpp(net)``
+   * - AC load-flow
+     - pypowsybl
+     - AC
+     - ``pypowsybl.loadflow.run_ac(net)``
+   * - DC load-flow
+     - pypowsybl
+     - DC
+     - ``pypowsybl.loadflow.run_dc(net)``
+   * - Built-in DCPF
+     - powergrid_synth
+     - DC
+     - ``DCPowerFlow(graph).run()``
 
 
 .. toctree::

@@ -106,8 +106,43 @@ See the `examples/` directory for Jupyter notebooks covering each step in detail
 | `hierarchical_analysis.py` | Per-voltage-level analysis |
 | `comparison.py` | Side-by-side comparison of synthetic vs. reference grids |
 | `visualization.py` | Plotting routines (Yifan Hu layout, per-level views, interactive dashboards) |
-| `exporter.py` | Export to JSON, Excel, MATPOWER, CGMES, XIIDM, PSS/E |
-| `data_format_converter.py` | Conversion between NetworkX, pandapower, pypowsybl |
+| `exporter.py` | Export to **JSON, Excel, SQLite, Pickle** (pandapower) and **CGMES, XIIDM, MATPOWER, PSS/E, UCTE, AMPL** (pypowsybl) |
+| `data_format_converter.py` | Conversion between NetworkX ↔ pandapower → pypowsybl |
+| `dcpf.py` | Built-in lightweight DC power-flow solver (used internally for impedance calibration) |
+
+## Supported Data Formats & Power-Flow Solvers
+
+Synthetic grids live as **NetworkX graphs** internally and can be converted / exported to multiple formats.
+
+### Export Formats
+
+| Via | Format | Method |
+|----|--------|--------|
+| **pandapower** | JSON | `GridExporter.to_json()` |
+| | Excel (.xlsx) | `GridExporter.to_excel()` |
+| | SQLite | `GridExporter.to_sqlite()` |
+| | Pickle | `GridExporter.to_pickle()` |
+| **pypowsybl** | CGMES | `GridExporter.to_cgmes()` |
+| | XIIDM | `GridExporter.to_pypowsybl(format='XIIDM')` |
+| | MATPOWER | `GridExporter.to_matpower()` |
+| | PSS/E | `GridExporter.to_psse()` |
+| | UCTE, AMPL, BIIDM, JIIDM | `GridExporter.to_pypowsybl(format=...)` |
+
+### Conversion Chain
+
+```
+NetworkX  ←→  pandapower  →  pypowsybl  →  [CGMES / XIIDM / MATPOWER / PSS·E / …]
+```
+
+### Power-Flow Solvers
+
+| Solver | Library | Type | Call |
+|--------|---------|------|------|
+| Newton-Raphson AC | **pandapower** | AC | `pp.runpp(net)` |
+| Linear DC | **pandapower** | DC | `pp.rundcpp(net)` |
+| AC load-flow | **pypowsybl** | AC | `pypowsybl.loadflow.run_ac(net)` |
+| DC load-flow | **pypowsybl** | DC | `pypowsybl.loadflow.run_dc(net)` |
+| Built-in DCPF | **powergrid_synth** | DC | `DCPowerFlow(graph).run()` |
 
 ## Testing
 
