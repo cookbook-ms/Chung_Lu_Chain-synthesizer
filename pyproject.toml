@@ -18,6 +18,7 @@ dependencies = [
     "numba>=0.61.2",
     "lightsim2grid",
     "pypowsybl>=1.14,<2",
+    "pypowsybl-jupyter>=1.0"
 ]
 
 
