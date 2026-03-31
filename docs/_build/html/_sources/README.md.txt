@@ -33,6 +33,42 @@ uv pip install -e ".[dev]"
 
 ## Quick Start
 
+The easiest way to generate a synthetic grid is the high-level `synthesize()` function, which runs the **entire pipeline in one call**:
+
+```python
+from powergrid_synth import synthesize
+
+# Mode I — clone an existing grid's statistical profile
+grid = synthesize(
+    mode="reference",
+    reference_case="case118",
+    seed=42,
+    export_formats=["json", "cgmes", "matpower"],
+)
+
+# Mode II — fully synthetic from user-specified parameters
+grid = synthesize(
+    mode="synthetic",
+    level_specs=[
+        {"n": 50,  "avg_k": 3.5, "diam": 10, "dist_type": "dgln"},
+        {"n": 150, "avg_k": 2.5, "diam": 15, "dist_type": "dpl"},
+        {"n": 300, "avg_k": 2.0, "diam": 20, "dist_type": "poisson"},
+    ],
+    connection_specs={
+        (0, 1): {"type": "k-stars", "c": 0.174, "gamma": 4.15},
+        (1, 2): {"type": "k-stars", "c": 0.15,  "gamma": 4.15},
+    },
+    seed=42,
+    export_formats=["json", "matpower"],
+)
+```
+
+See `examples/Synthesize.ipynb` for a full walkthrough including optional parameter tuning and power-flow validation.
+
+### Step-by-Step Usage (Advanced)
+
+For fine-grained control over each pipeline stage:
+
 ```python
 from powergrid_synth import (
     InputConfigurator, PowerGridGenerator, BusTypeAllocator,
@@ -74,6 +110,10 @@ GridVisualizer().plot_grid(grid, layout='yifan_hu', title="Synthetic Grid")
 ```
 
 See the `examples/` directory for Jupyter notebooks covering each step in detail.
+
+> **Tip:** For most use cases the high-level `synthesize()` function above is sufficient.
+> Use the step-by-step API when you need intermediate visualisations or custom logic
+> between pipeline stages.
 
 ## Module Overview
 

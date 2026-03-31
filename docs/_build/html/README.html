@@ -158,6 +158,38 @@
 </section>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<p>The easiest way to generate a synthetic grid is the high-level <code class="docutils literal notranslate"><span class="pre">synthesize()</span></code> function, which runs the <strong>entire pipeline in one call</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">powergrid_synth</span><span class="w"> </span><span class="kn">import</span> <span class="n">synthesize</span>
+
+<span class="c1"># Mode I — clone an existing grid&#39;s statistical profile</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">synthesize</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span>
+    <span class="n">reference_case</span><span class="o">=</span><span class="s2">&quot;case118&quot;</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">export_formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s2">&quot;cgmes&quot;</span><span class="p">,</span> <span class="s2">&quot;matpower&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Mode II — fully synthetic from user-specified parameters</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">synthesize</span><span class="p">(</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;synthetic&quot;</span><span class="p">,</span>
+    <span class="n">level_specs</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>  <span class="s2">&quot;avg_k&quot;</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span> <span class="s2">&quot;diam&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;dist_type&quot;</span><span class="p">:</span> <span class="s2">&quot;dgln&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s2">&quot;avg_k&quot;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s2">&quot;diam&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;dist_type&quot;</span><span class="p">:</span> <span class="s2">&quot;dpl&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s2">&quot;avg_k&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;diam&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;dist_type&quot;</span><span class="p">:</span> <span class="s2">&quot;poisson&quot;</span><span class="p">},</span>
+    <span class="p">],</span>
+    <span class="n">connection_specs</span><span class="o">=</span><span class="p">{</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;k-stars&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.174</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="mf">4.15</span><span class="p">},</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;k-stars&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>  <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="mf">4.15</span><span class="p">},</span>
+    <span class="p">},</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">export_formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s2">&quot;matpower&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>See <code class="docutils literal notranslate"><span class="pre">examples/Synthesize.ipynb</span></code> for a full walkthrough including optional parameter tuning and power-flow validation.</p>
+<section id="step-by-step-usage-advanced">
+<h3>Step-by-Step Usage (Advanced)<a class="headerlink" href="#step-by-step-usage-advanced" title="Link to this heading"></a></h3>
+<p>For fine-grained control over each pipeline stage:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">powergrid_synth</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">InputConfigurator</span><span class="p">,</span> <span class="n">PowerGridGenerator</span><span class="p">,</span> <span class="n">BusTypeAllocator</span><span class="p">,</span>
     <span class="n">CapacityAllocator</span><span class="p">,</span> <span class="n">LoadAllocator</span><span class="p">,</span> <span class="n">GenerationDispatcher</span><span class="p">,</span>
@@ -198,6 +230,12 @@
 </pre></div>
 </div>
 <p>See the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> directory for Jupyter notebooks covering each step in detail.</p>
+<blockquote>
+<div><p><strong>Tip:</strong> For most use cases the high-level <code class="docutils literal notranslate"><span class="pre">synthesize()</span></code> function above is sufficient.
+Use the step-by-step API when you need intermediate visualisations or custom logic
+between pipeline stages.</p>
+</div></blockquote>
+</section>
 </section>
 <section id="module-overview">
 <h2>Module Overview<a class="headerlink" href="#module-overview" title="Link to this heading"></a></h2>
