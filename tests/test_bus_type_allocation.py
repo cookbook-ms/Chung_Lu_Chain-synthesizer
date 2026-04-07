@@ -115,9 +115,8 @@ class TestBusTypeAllocator:
 
     def test_generate_random_assignment_all_leaves(self):
         """When all nodes are leaves (degree 1), connection bus assignment falls back."""
-        # Create a star graph: center has high degree, leaves have degree 1
-        # Path graph: all interior nodes have degree 2, endpoints have degree 1
-        g = nx.path_graph(4)  # nodes: 0-1-2-3, nodes 0 and 3 are leaves
+        # Path graph: nodes 0 and 3 are endpoints (degree 1), nodes 1 and 2 have degree 2
+        g = nx.path_graph(4)  # nodes: 0-1-2-3
         alloc = BusTypeAllocator(g, bus_type_ratio=[0.0, 0.0, 1.0])
         # ratio says 100% connection buses but only 2 non-leaf nodes
         # n_conn = round(4 * 1.0) = 4, but only 2 non-leaf → fallback to all nodes
