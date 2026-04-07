@@ -101,6 +101,54 @@ class TestBusTypeAllocator:
         d = alloc._get_d_parameter(100)
         assert isinstance(d, float)
 
+    # --- _get_d_parameter model1 large n (line 225) ---
+
+    def test_get_d_parameter_model1_large(self):
+        g = self._make_graph()
+        alloc = BusTypeAllocator(g, entropy_model=1)
+        # e^8 ≈ 2981, use n > 2981 so log(n) > 8
+        d = alloc._get_d_parameter(5000)
+        assert isinstance(d, float)
+        assert d < 0  # Large-n branch should give negative d
+
+    # --- _generate_random_assignment fallback (line 252) ---
+
+    def test_generate_random_assignment_all_leaves(self):
+        """When all nodes are leaves (degree 1), connection bus assignment falls back."""
+        # Create a star graph: center has high degree, leaves have degree 1
+        # Path graph: all interior nodes have degree 2, endpoints have degree 1
+        g = nx.path_graph(4)  # nodes: 0-1-2-3, nodes 0 and 3 are leaves
+        alloc = BusTypeAllocator(g, bus_type_ratio=[0.0, 0.0, 1.0])
+        # ratio says 100% connection buses but only 2 non-leaf nodes
+        # n_conn = round(4 * 1.0) = 4, but only 2 non-leaf → fallback to all nodes
+        assign = alloc._generate_random_assignment()
+        assert len(assign) == 4
+        assert set(np.unique(assign)).issubset({1, 2, 3})
+
+    # --- plot_entropy_pdf (lines 587-620) ---
+
+    @patch('matplotlib.pyplot.show')
+    def test_plot_entropy_pdf(self, mock_show):
+        import matplotlib
+        matplotlib.use("Agg")
+        g = self._make_graph()
+        alloc = BusTypeAllocator(g)
+        alloc.allocate(max_iter=3, population_size=3)
+        # w_samples should be populated after allocate
+        assert len(alloc.w_samples) > 0
+        alloc.plot_entropy_pdf()  # should not raise
+        plt.close("all")
+
+    @patch('matplotlib.pyplot.show')
+    def test_plot_entropy_pdf_no_samples(self, mock_show, capsys):
+        """plot_entropy_pdf with no samples prints warning."""
+        g = self._make_graph()
+        alloc = BusTypeAllocator(g)
+        alloc.w_samples = []
+        alloc.plot_entropy_pdf()
+        captured = capsys.readouterr()
+        assert "No entropy samples" in captured.out
+
     # --- allocate ---
 
     def test_allocate_returns_all_nodes(self):

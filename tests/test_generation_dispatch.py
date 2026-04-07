@@ -99,6 +99,15 @@ class TestGenerationDispatcher:
         alphas = dispatcher._generate_alphas(0)
         assert len(alphas) == 0
 
+    def test_generate_alphas_alpha_mod_nonzero_small(self, sample_grid):
+        """_generate_alphas with alpha_mod != 0 and small n_comm hits n_005=0 path."""
+        dispatcher = GenerationDispatcher(sample_grid, ref_sys_id=1)
+        dispatcher.alpha_mod = 1
+        # n_comm=1: n_995=round(1*0.995)=1, n_005=0 → returns a1 directly (line 198)
+        alphas = dispatcher._generate_alphas(1)
+        assert len(alphas) == 1
+        assert alphas[0, 0] >= 0  # no negative dispatch for such a small set
+
     def test_invalid_ref_sys_fallback(self):
         """Invalid ref_sys_id falls back to ref_sys_id=1 without error."""
         grid = nx.Graph()
