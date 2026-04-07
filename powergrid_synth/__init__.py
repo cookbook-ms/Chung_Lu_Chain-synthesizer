@@ -20,6 +20,9 @@ from .reference_data import get_reference_stats
 from .comparison import GraphComparator
 from .grid_graph import PowerGridGraph
 from .synthesize import synthesize
+from .hierarchical_analysis import HierarchicalAnalyzer
+from .data_format_converter import pandapower_to_nx, nx_to_pandapower, pandapower_to_pypowsybl
+from .input_extractor import extract_topology_params_from_graph
 
 
 __all__ = [
@@ -36,6 +39,11 @@ __all__ = [
     "GraphComparator",
     "PowerGridGraph",
     "synthesize",
+    "HierarchicalAnalyzer",
+    "pandapower_to_nx",
+    "nx_to_pandapower",
+    "pandapower_to_pypowsybl",
+    "extract_topology_params_from_graph",
 ]
 
 __version__ = "0.1.0"
