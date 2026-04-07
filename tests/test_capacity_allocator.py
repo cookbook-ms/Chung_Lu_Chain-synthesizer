@@ -53,3 +53,37 @@ class TestCapacityAllocator:
         allocator = CapacityAllocator(grid_with_bus_types, ref_sys_id=ref_sys_id)
         result = allocator.allocate()
         assert len(result) > 0
+
+    def test_heuristic_tab_2d_ref_sys_0(self, grid_with_bus_types):
+        """ref_sys_id=0 triggers _generate_heuristic_tab_2d via _get_default_tab_2d."""
+        np.random.seed(42)
+        allocator = CapacityAllocator(grid_with_bus_types, ref_sys_id=0)
+        result = allocator.allocate()
+        assert isinstance(result, dict)
+        assert len(result) > 0
+
+    def test_allocate_no_generators(self):
+        """Grid with only Load/Conn nodes returns empty dict from allocate."""
+        grid = nx.path_graph(5)
+        for n in grid.nodes():
+            grid.nodes[n]["bus_type"] = "Load"
+        allocator = CapacityAllocator(grid, ref_sys_id=1)
+        result = allocator.allocate()
+        assert result == {}
+
+    def test_generate_heuristic_tab_2d_shape(self, grid_with_bus_types):
+        """_generate_heuristic_tab_2d returns a 14x14 matrix that sums to ~1."""
+        allocator = CapacityAllocator(grid_with_bus_types, ref_sys_id=0)
+        tab = allocator._generate_heuristic_tab_2d()
+        assert tab.shape == (14, 14)
+        assert abs(np.sum(tab) - 1.0) < 1e-6
+
+    def test_initial_generation_distribution_no_gen(self):
+        """_initial_generation_distribution returns empty when n_gen=0."""
+        grid = nx.path_graph(5)
+        for n in grid.nodes():
+            grid.nodes[n]["bus_type"] = "Load"
+        allocator = CapacityAllocator(grid, ref_sys_id=1)
+        assert allocator.n_gen == 0
+        result = allocator._initial_generation_distribution(100.0)
+        assert len(result[0]) == 0
