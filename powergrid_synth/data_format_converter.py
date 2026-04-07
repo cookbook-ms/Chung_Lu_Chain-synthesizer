@@ -1,11 +1,38 @@
+from __future__ import annotations
+
 import networkx as nx
 import pandas as pd
 import numpy as np
-import pandapower as pp
-import pypowsybl as ppl 
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    import pandapower as pp
+    import pypowsybl as ppl
 
 
-def pandapower_to_nx(net: pp.pandapowerNet) -> nx.Graph:
+def _require_pandapower():
+    try:
+        import pandapower as pp
+    except ImportError as exc:
+        raise ImportError(
+            "pandapower is required for powergrid_synth.data_format_converter. "
+            "Install it with: pip install powergrid_synth[export]"
+        ) from exc
+    return pp
+
+
+def _require_pypowsybl():
+    try:
+        import pypowsybl as ppl
+    except ImportError as exc:
+        raise ImportError(
+            "pypowsybl is required for pandapower_to_pypowsybl. "
+            "Install it with: pip install powergrid_synth[export]"
+        ) from exc
+    return ppl
+
+
+def pandapower_to_nx(net: Any) -> nx.Graph:
     """
     Converts a pandapowerNet object into a NetworkX graph compatible with the synthesizer.
     Extracts buses, lines, transformers, loads, and generators.
@@ -82,7 +109,12 @@ def pandapower_to_nx(net: pp.pandapowerNet) -> nx.Graph:
             
     return G
 
-def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict = None) -> pp.pandapowerNet:
+
+def nx_to_pandapower(
+    graph: nx.Graph,
+    base_mva: float = 100.0,
+    base_kv_map: dict = None,
+) -> Any:
     """
     Converts a synthetic NetworkX graph into a pandapowerNet object.
     Uses native Pandapower creation functions to ensure memory safety for the solver.
@@ -92,6 +124,8 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
         base_mva: System base MVA for per-unit calculations.
         base_kv_map: Dictionary mapping voltage level indices (0, 1, 2) to actual kV (e.g., {0: 380.0, 1: 110.0}).
     """
+    pp = _require_pandapower()
+
     # Create empty network structure
     net = pp.create_empty_network()
     net.sn_mva = base_mva
@@ -201,9 +235,10 @@ def nx_to_pandapower(graph: nx.Graph, base_mva: float = 100.0, base_kv_map: dict
     return net
 
 
-def pandapower_to_pypowsybl(net: pp.pandapowerNet) -> ppl.network.impl.network.Network:
+def pandapower_to_pypowsybl(net: Any) -> Any:
     """
     Converts a pandapowerNet object into a Pypowsybl Network object.
     """
+    ppl = _require_pypowsybl()
     ppl_net = ppl.network.impl.pandapower_converter.convert_from_pandapower(net)
     return ppl_net

@@ -57,12 +57,9 @@ import os
 from typing import Dict, List, Optional, Sequence, Tuple, Union
 
 import networkx as nx
-import pandapower.networks as pn
 
 from .bus_type_allocator import BusTypeAllocator
 from .capacity_allocator import CapacityAllocator
-from .data_format_converter import pandapower_to_nx
-from .exporter import GridExporter
 from .generation_dispatcher import GenerationDispatcher
 from .generator import PowerGridGenerator
 from .input_configurator import InputConfigurator
@@ -71,8 +68,16 @@ from .load_allocator import LoadAllocator
 from .transmission import TransmissionLineAllocator
 
 
-# Maps user-facing case names to pandapower factory functions.
-_PANDAPOWER_CASES = {name: getattr(pn, name) for name in dir(pn) if name.startswith("case")}
+def _get_pandapower_cases() -> Dict[str, object]:
+    try:
+        import pandapower.networks as pn
+    except ImportError as exc:
+        raise ImportError(
+            "synthesize() in reference mode requires pandapower. "
+            "Install it with: pip install powergrid_synth[export]"
+        ) from exc
+
+    return {name: getattr(pn, name) for name in dir(pn) if name.startswith("case")}
 
 # Maps user-facing format names to (GridExporter method, default extension).
 _EXPORT_DISPATCH = {
@@ -208,14 +213,17 @@ def synthesize(
     # 1. Obtain topology parameters
     # ------------------------------------------------------------------
     if mode == "reference":
+        from .data_format_converter import pandapower_to_nx
+
         if reference_net is not None:
             net = reference_net
         else:
-            factory = _PANDAPOWER_CASES.get(reference_case)
+            pandapower_cases = _get_pandapower_cases()
+            factory = pandapower_cases.get(reference_case)
             if factory is None:
                 raise ValueError(
                     f"Unknown pandapower case {reference_case!r}. "
-                    f"Available: {sorted(_PANDAPOWER_CASES)}"
+                    f"Available: {sorted(pandapower_cases)}"
                 )
             net = factory()
 
@@ -313,6 +321,8 @@ def synthesize(
     # ------------------------------------------------------------------
     # 8. Export
     # ------------------------------------------------------------------
+    from .exporter import GridExporter
+
     os.makedirs(output_dir, exist_ok=True)
     exporter = GridExporter(graph, base_kv_map=base_kv_map)
 

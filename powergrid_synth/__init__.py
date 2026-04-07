@@ -62,7 +62,7 @@ def __getattr__(name):
             pkg = _EXTRA_DEPS.get(name, "the required optional package")
             raise ImportError(
                 f"{name!r} requires {pkg}. "
-                f"Install it with:  pip install powergrid_synth[export]"
+                f"Install it with: pip install powergrid_synth[export]"
             ) from exc
 
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
@@ -91,4 +91,4 @@ __all__ = [
     "pandapower_to_pypowsybl",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"

@@ -2,6 +2,9 @@ import pytest
 import os
 import tempfile
 import networkx as nx
+
+pytest.importorskip("pandapower", reason="pandapower not installed")
+
 from powergrid_synth.synthesize import synthesize
 
 

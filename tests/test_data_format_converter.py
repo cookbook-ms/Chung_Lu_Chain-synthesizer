@@ -1,6 +1,9 @@
 import pytest
 import networkx as nx
-import pandapower as pp
+
+pp = pytest.importorskip("pandapower", reason="pandapower not installed")
+pytest.importorskip("pypowsybl", reason="pypowsybl not installed")
+
 from powergrid_synth.data_format_converter import (
     pandapower_to_nx,
     nx_to_pandapower,

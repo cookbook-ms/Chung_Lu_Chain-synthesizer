@@ -15,8 +15,6 @@ import os
 import networkx as nx
 from typing import Optional
 
-from .data_format_converter import nx_to_pandapower, pandapower_to_pypowsybl
-
 
 class GridExporter:
     """
@@ -56,6 +54,8 @@ class GridExporter:
     def _get_pandapower_net(self):
         """Return a pandapower network, building it once from the graph."""
         if self._pp_net is None:
+            from .data_format_converter import nx_to_pandapower
+
             self._pp_net = nx_to_pandapower(
                 self.graph, base_mva=self.base_mva, base_kv_map=self.base_kv_map
             )
@@ -64,6 +64,8 @@ class GridExporter:
     def _get_pypowsybl_net(self):
         """Return a pypowsybl network, building it once from pandapower."""
         if self._ppl_net is None:
+            from .data_format_converter import pandapower_to_pypowsybl
+
             self._ppl_net = pandapower_to_pypowsybl(self._get_pandapower_net())
         return self._ppl_net
 

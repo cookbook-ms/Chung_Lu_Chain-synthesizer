@@ -29,11 +29,27 @@ source powergrid/bin/activate
 uv pip install -e ".[dev]"
 ```
 
-**Dependencies:** `numpy`, `scipy`, `networkx`, `matplotlib`, `pandas`, `pandapower`, `lightsim2grid`, `pypowsybl`.
+For the core topology and allocation pipeline, the editable install above is enough.
+
+For one-call synthesis, converters, exporters, and external power-flow integrations, install the optional extras as well:
+
+```bash
+uv pip install -e ".[dev,export]"
+```
+
+Core dependencies: `numpy`, `scipy`, `networkx`, `matplotlib`, `pandas`.
+
+Optional export/power-flow dependencies: `pandapower`, `numba`, `lightsim2grid`, `pypowsybl`, `pypowsybl-jupyter`.
 
 ## Quick Start
 
-The easiest way to generate a synthetic grid is the high-level `synthesize()` function, which runs the **entire pipeline in one call**:
+The easiest way to generate a synthetic grid is the high-level `synthesize()` function, which runs the **entire pipeline in one call**.
+
+Install the optional dependencies first if you want to use `synthesize()`:
+
+```bash
+uv pip install -e ".[export]"
+```
 
 ```python
 from powergrid_synth import synthesize
