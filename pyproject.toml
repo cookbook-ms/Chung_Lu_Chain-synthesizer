@@ -14,11 +14,6 @@ dependencies = [
     "scipy>=1.15",
     "matplotlib>=3.5",
     "pandas>=2.3,<3",
-    "pandapower>=3.3,<4",
-    "numba>=0.61.2",
-    "lightsim2grid",
-    "pypowsybl>=1.14,<2",
-    "pypowsybl-jupyter>=1.0"
 ]
 
 
@@ -28,6 +23,13 @@ include = ["powergrid_synth*"]
 exclude = ["demos*", "tests*"] 
 
 [project.optional-dependencies]
+export = [
+    "pandapower>=3.3,<4",
+    "numba>=0.61.2",
+    "lightsim2grid",
+    "pypowsybl>=1.14,<2",
+    "pypowsybl-jupyter>=1.0",
+]
 dev = [
     "pytest",
     "pytest-cov",
