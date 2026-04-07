@@ -54,3 +54,40 @@ class TestDegreeDistributionOptimizer:
         degrees = np.arange(1, len(pdf) + 1)
         achieved_avg = np.dot(degrees, pdf)
         assert abs(achieved_avg - target) < 0.5  # generous tolerance
+
+    def test_dgln_pdf_extreme_params_fallback(self, optimizer):
+        """Extreme params that produce total=0 should fall back to p[0]=1."""
+        pdf = optimizer._dgln_pdf(20, 1e-20, 1e20)
+        assert pdf[0] == 1.0
+        assert abs(np.sum(pdf) - 1.0) < 1e-6
+
+    def test_objective_func_unknown_type_raises(self, optimizer):
+        """_objective_func raises ValueError for an unknown dist_type."""
+        with pytest.raises(ValueError, match="Unknown type"):
+            optimizer._objective_func([2.0, 2.0], "unknown", 20, 3.0, 1e-10)
+
+    def test_optimize_unknown_type_raises(self, optimizer):
+        """optimize raises ValueError for an unsupported dist_type."""
+        with pytest.raises(ValueError, match="must be"):
+            optimizer.optimize(target_avg=3.0, max_deg=20, dist_type="unknown")
+
+    def test_verbose_optimizer(self, capsys):
+        """Verbose mode prints optimization progress and results."""
+        opt = DegreeDistributionOptimizer(verbose=True)
+        params, pdf = opt.optimize(target_avg=3.0, max_deg=20, dist_type="dgln")
+        captured = capsys.readouterr()
+        assert "Params:" in captured.out
+        assert "Optimization Success:" in captured.out
+        assert "Found Params:" in captured.out
+
+    def test_dpl_pdf_decreasing(self, optimizer):
+        """Power-law PDF is monotonically decreasing."""
+        pdf = optimizer._dpl_pdf(20, 2.0)
+        for i in range(len(pdf) - 1):
+            assert pdf[i] >= pdf[i + 1]
+
+    def test_objective_func_penalty_high_pmax(self, optimizer):
+        """When P(d_max) exceeds prob_bound, penalty term y1 is positive."""
+        score = optimizer._objective_func([0.5, 0.5], "dgln", 5, 2.0, 1e-10)
+        score_no_bound = optimizer._objective_func([0.5, 0.5], "dgln", 5, 2.0, 1.0)
+        assert score > score_no_bound

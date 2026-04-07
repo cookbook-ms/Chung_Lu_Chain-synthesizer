@@ -65,3 +65,52 @@ class TestGenerationDispatcher:
         
         print(f"Target: {total_load}, Actual: {total_gen}")
         assert abs(total_gen - total_load) < 0.1 * total_load
+
+    def test_dispatch_no_generators(self):
+        """dispatch returns empty dict when grid has no Gen nodes."""
+        grid = nx.Graph()
+        for i in range(5):
+            grid.add_node(i, bus_type='Load', pl=10.0)
+        dispatcher = GenerationDispatcher(grid, ref_sys_id=1)
+        result = dispatcher.dispatch()
+        assert result == {}
+
+    def test_select_uncommitted_empty(self, sample_grid):
+        """_select_uncommitted returns empty arrays for empty input."""
+        dispatcher = GenerationDispatcher(sample_grid, ref_sys_id=1)
+        empty = np.array([]).reshape(0, 2)
+        uncomm, remaining = dispatcher._select_uncommitted(empty)
+        assert len(uncomm) == 0
+        assert len(remaining) == 0
+
+    def test_generate_alphas_alpha_mod_nonzero(self, sample_grid):
+        """_generate_alphas with alpha_mod != 0 produces 99.5% positive, 0.5% negative."""
+        dispatcher = GenerationDispatcher(sample_grid, ref_sys_id=1)
+        dispatcher.alpha_mod = 1
+        np.random.seed(42)
+        n_comm = 200
+        alphas = dispatcher._generate_alphas(n_comm)
+        assert len(alphas) == n_comm
+        assert np.any(alphas < 0)
+
+    def test_generate_alphas_zero_count(self, sample_grid):
+        """_generate_alphas with n_comm=0 returns empty array."""
+        dispatcher = GenerationDispatcher(sample_grid, ref_sys_id=1)
+        alphas = dispatcher._generate_alphas(0)
+        assert len(alphas) == 0
+
+    def test_generate_alphas_alpha_mod_nonzero_small(self, sample_grid):
+        """_generate_alphas with alpha_mod != 0 and small n_comm hits n_005=0 path."""
+        dispatcher = GenerationDispatcher(sample_grid, ref_sys_id=1)
+        dispatcher.alpha_mod = 1
+        # n_comm=1: n_995=round(1*0.995)=1, n_005=0 → returns a1 directly (line 198)
+        alphas = dispatcher._generate_alphas(1)
+        assert len(alphas) == 1
+        assert alphas[0, 0] >= 0  # no negative dispatch for such a small set
+
+    def test_invalid_ref_sys_fallback(self):
+        """Invalid ref_sys_id falls back to ref_sys_id=1 without error."""
+        grid = nx.Graph()
+        grid.add_node(0, bus_type='Load', pl=10.0)
+        dispatcher = GenerationDispatcher(grid, ref_sys_id=99)
+        assert dispatcher.stats is not None
