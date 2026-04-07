@@ -80,3 +80,51 @@ class TestTransmissionLineAllocator:
         result = allocator.allocate()
         for cap in result.values():
             assert cap > 0
+
+    def test_assign_betas_empty(self, dispatched_grid):
+        """_assign_betas returns empty array for empty inputs."""
+        allocator = TransmissionLineAllocator(dispatched_grid, ref_sys_id=1)
+        result = allocator._assign_betas(np.array([]), np.array([]))
+        assert isinstance(result, np.ndarray)
+        assert result.size == 0
+
+    def test_allocate_empty_graph(self):
+        """allocate() on a graph with no edges returns empty dict."""
+        g = nx.Graph()
+        g.add_node(0, bus_type="PQ", pg_max=0, pl=10, pg=0)
+        allocator = TransmissionLineAllocator(g, ref_sys_id=1)
+        result = allocator.allocate()
+        assert result == {}
+
+    def test_allocate_with_refine_topology(self, dispatched_grid):
+        """allocate(refine_topology=True) should still return valid capacities."""
+        np.random.seed(42)
+        allocator = TransmissionLineAllocator(dispatched_grid, ref_sys_id=1)
+        result = allocator.allocate(refine_topology=True)
+        assert isinstance(result, dict)
+        assert len(result) > 0
+        for cap in result.values():
+            assert cap > 0
+
+    def test_generate_beta_sorted(self, dispatched_grid):
+        """_generate_beta returns values in sorted order."""
+        allocator = TransmissionLineAllocator(dispatched_grid, ref_sys_id=1)
+        beta = allocator._generate_beta(200)
+        assert np.all(beta[:-1] <= beta[1:])
+
+    def test_generate_beta_no_zeros(self, dispatched_grid):
+        """_generate_beta should have no near-zero values (< 1e-4)."""
+        np.random.seed(0)
+        allocator = TransmissionLineAllocator(dispatched_grid, ref_sys_id=1)
+        beta = allocator._generate_beta(500)
+        assert np.all(beta >= 1e-4)
+
+    def test_fallback_ref_sys_id(self):
+        """Invalid ref_sys_id should fall back to system 1."""
+        g = nx.Graph()
+        g.add_nodes_from([0, 1], bus_type="PQ", pg_max=0, pl=10, pg=0)
+        g.add_edge(0, 1)
+        allocator = TransmissionLineAllocator(g, ref_sys_id=99)
+        # Should not raise; falls back to ref_sys_id=1
+        assert allocator.stats is not None
+        assert 'Tab_2D_FlBeta' in allocator.stats
