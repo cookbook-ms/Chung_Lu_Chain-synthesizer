@@ -48,3 +48,27 @@ class TestReferenceData:
     def test_zpr_pars_has_three_values(self, ref_sys_id):
         stats = get_reference_stats(ref_sys_id)
         assert len(stats["Zpr_pars"]) == 3
+
+    def test_invalid_ref_sys_raises(self):
+        with pytest.raises(ValueError, match="Invalid Reference System ID"):
+            get_reference_stats(99)
+
+    def test_invalid_ref_sys_id_zero_raises(self):
+        with pytest.raises(ValueError, match="Invalid Reference System ID"):
+            get_reference_stats(0)
+
+    def test_ref_sys_1_system_name(self):
+        stats = get_reference_stats(1)
+        assert stats["system_name"] == "Reference System 1"
+
+    def test_ref_sys_2_system_name(self):
+        stats = get_reference_stats(2)
+        assert stats["system_name"] == "Reference System 2"
+
+    @pytest.mark.parametrize("ref_sys_id", [1, 2])
+    def test_tab_2d_pgmax_sums_close_to_one(self, ref_sys_id):
+        stats = get_reference_stats(ref_sys_id)
+        tab = stats["Tab_2D_Pgmax"]
+        assert abs(tab.sum() - 1.0) < 0.05, (
+            f"Tab_2D_Pgmax for ref_sys_id={ref_sys_id} should be a valid PMF"
+        )
