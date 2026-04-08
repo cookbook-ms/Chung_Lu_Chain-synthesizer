@@ -244,3 +244,5 @@ is used to approximate this number with an optimal $c\approx 0.174$.
 Then, since transformer subgraphs are relatively small graphs consisting almost entirely of disjoint, small $k$-stars, where the number of $k$-stars decreases exponentially in $k$, their degree distributions are short and steep. Thus, one can consider simple power-law degree distributions for some large power-law exponent $\gamma$. An optimal $\gamma\approx4.5$ is found by fitting the data. 
 
 Finally, for each pair of voltage levels $(X_i,X_j)$, one may draw a single power law degree distribution on $h(n_i,n_j)$ vertices. Note that since transformer subgraphs are bipartitie graphs, the degree sequences $\mathbf{t}[X_i, X_j]$ and $\mathbf{t}[X_j,X_i]$ must sum to the same value for each pair of voltage levels (a necessary condition). This constraint can be achieved by iteratively modifying the outputted degree sequences --- nullifying the degree of randomly chosen vertices from the larger-sum sequence while redrawing degrees for null-degreed vertices in the smaller-sum sequence, until the sums are equal. 
+
+.. bibliography::

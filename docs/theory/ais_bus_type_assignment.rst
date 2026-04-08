@@ -140,3 +140,7 @@ Final Output
 ------------
 
 * Return ``BestSolution`` converted to a dictionary ``{NodeID: BusType}``.
+
+
+
+.. bibliography::

@@ -163,3 +163,6 @@ In step 5, an optimization can be designed with the following objective :math:`\
    :maxdepth: 1
 
    ais_bus_type_assignment
+
+
+.. bibliography::

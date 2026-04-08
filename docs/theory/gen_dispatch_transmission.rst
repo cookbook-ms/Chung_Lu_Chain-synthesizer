@@ -276,3 +276,6 @@ After impedance and capacity assignment, an optional topology refinement step re
    b. **Remove a weak line**: from the top 20% highest-impedance lines, randomly remove one (ensuring both endpoints have degree $\geq 3$ for grids with $N \geq 40$). Revert if the removal disconnects the grid.
 
 4. Repeat up to 10 iterations.
+
+
+.. bibliography::
