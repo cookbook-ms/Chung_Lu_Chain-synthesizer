@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API reference &mdash; PowerGridSynth 0.1.0 documentation</title>
+  <title>API reference &mdash; PowerGridSynth 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
@@ -15,7 +15,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["\\(", "\\)"]], "processEscapes": true, "displayMath": [["\\[", "\\]"]]}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -54,6 +54,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/GenLoadSettings.html">Generation and Load Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/IEEETest.html">IEEE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/Pegase9241Test.html">PEGASE 9241 Test</a></li>
 </ul>
 </li>
 </ul>
@@ -719,6 +720,120 @@ units on or off.</p></li>
 </section>
 <section id="utilities">
 <h2>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">GraphComparator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synth_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synth_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Synthetic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Reference</span> <span class="pre">(Real)'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Compares a synthetic power grid against a reference (real-world) graph.
+Provides tabular metric comparisons and visual distribution overlaps,
+both globally and per voltage level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>synth_graph</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>ref_graph</strong> (<em>Graph</em>)</p></li>
+<li><p><strong>synth_label</strong> (<em>str</em>)</p></li>
+<li><p><strong>ref_label</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator.compare_degree_distributions">
+<span class="sig-name descname"><span class="pre">compare_degree_distributions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_pvalue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator.compare_degree_distributions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator.compare_degree_distributions" title="Link to this definition"></a></dt>
+<dd><p>Computes Kolmogorov-Smirnov (KS) and Relative Hausdorff (RH) statistics
+between the degree distributions of the synthetic and reference graphs,
+per voltage level.  Prints and returns the results table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>show_pvalue</strong> (<em>bool</em>) – If True, include the KS p-value column. Default False.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame with columns Level, KS Statistic, RH Distance
+(and KS p-value if show_pvalue is True).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>DataFrame</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator.plot_all_levels_comparison">
+<span class="sig-name descname"><span class="pre">plot_all_levels_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator.plot_all_levels_comparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator.plot_all_levels_comparison" title="Link to this definition"></a></dt>
+<dd><p>Plots degree comparison for all common voltage levels in a single figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_scale</strong> (<em>bool</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator.plot_degree_comparison">
+<span class="sig-name descname"><span class="pre">plot_degree_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synth_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Degree</span> <span class="pre">Distribution</span> <span class="pre">Comparison'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator.plot_degree_comparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator.plot_degree_comparison" title="Link to this definition"></a></dt>
+<dd><p>Plots overlaid degree distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>synth_graph</strong> (<em>Graph</em><em> | </em><em>None</em>) – Custom synthetic graph (or None for self.synth_graph).</p></li>
+<li><p><strong>ref_graph</strong> (<em>Graph</em><em> | </em><em>None</em>) – Custom reference graph (or None for self.ref_graph).</p></li>
+<li><p><strong>ax</strong> (<em>Axes</em><em> | </em><em>None</em>) – Matplotlib axis to plot on. If None, creates new figure.</p></li>
+<li><p><strong>log_scale</strong> (<em>bool</em>) – Whether to use log-log scale (default True).</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Title for the plot.</p></li>
+<li><p><strong>fig_size</strong> (<em>Tuple</em>)</p></li>
+<li><p><strong>show_lines</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator.plot_level_topology_comparison">
+<span class="sig-name descname"><span class="pre">plot_level_topology_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(15,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator.plot_level_topology_comparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator.plot_level_topology_comparison" title="Link to this definition"></a></dt>
+<dd><p>Plots side-by-side bar comparisons for topology metrics per voltage level:
+Nodes, Edges, Diameter, Avg Path Length, Avg Clustering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator.print_level_metrics">
+<span class="sig-name descname"><span class="pre">print_level_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator.print_level_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator.print_level_metrics" title="Link to this definition"></a></dt>
+<dd><p>Iterates through voltage levels found in both graphs and prints metrics.
+Does NOT plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator.print_metric_comparison">
+<span class="sig-name descname"><span class="pre">print_metric_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synth_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GRAPH</span> <span class="pre">COMPARISON</span> <span class="pre">REPORT'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator.print_metric_comparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator.print_metric_comparison" title="Link to this definition"></a></dt>
+<dd><p>Prints a side-by-side table of topological metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>synth_graph</strong> (<em>Graph</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>ref_graph</strong> (<em>Graph</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>title</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="powergrid_synth.GraphComparator.run_full_comparison">
+<span class="sig-name descname"><span class="pre">run_full_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/comparison.html#GraphComparator.run_full_comparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GraphComparator.run_full_comparison" title="Link to this definition"></a></dt>
+<dd><p>Runs global comparison followed by per-level comparison.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_scale</strong> (<em>bool</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="powergrid_synth.GridVisualizer">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">GridVisualizer</span></span><a class="reference internal" href="../_modules/powergrid_synth/visualization.html#GridVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GridVisualizer" title="Link to this definition"></a></dt>

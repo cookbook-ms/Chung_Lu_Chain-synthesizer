@@ -58,6 +58,13 @@
 
 ## Utilities
 ```{eval-rst}
+.. autoclass:: powergrid_synth.GraphComparator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```
+
+```{eval-rst}
 .. autoclass:: powergrid_synth.GridVisualizer
    :members:
    :undoc-members:

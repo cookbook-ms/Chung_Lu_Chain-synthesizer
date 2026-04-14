@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Started &mdash; PowerGridSynth 0.1.0 documentation</title>
+  <title>Getting Started &mdash; PowerGridSynth 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -54,6 +54,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/GenLoadSettings.html">Generation and Load Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/IEEETest.html">IEEE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/Pegase9241Test.html">PEGASE 9241 Test</a></li>
 </ul>
 </li>
 </ul>
@@ -153,12 +154,22 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
 </pre></div>
 </div>
-<p><strong>Dependencies:</strong> <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">networkx</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">pandapower</span></code>, <code class="docutils literal notranslate"><span class="pre">lightsim2grid</span></code>, <code class="docutils literal notranslate"><span class="pre">pypowsybl</span></code>.</p>
+<p>For the core topology and allocation pipeline, the editable install above is enough.</p>
+<p>For one-call synthesis, converters, exporters, and external power-flow integrations, install the optional extras as well:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev,export]&quot;</span>
+</pre></div>
+</div>
+<p>Core dependencies: <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">networkx</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<p>Optional export/power-flow dependencies: <code class="docutils literal notranslate"><span class="pre">pandapower</span></code>, <code class="docutils literal notranslate"><span class="pre">numba</span></code>, <code class="docutils literal notranslate"><span class="pre">lightsim2grid</span></code>, <code class="docutils literal notranslate"><span class="pre">pypowsybl</span></code>, <code class="docutils literal notranslate"><span class="pre">pypowsybl-jupyter</span></code>.</p>
 </section>
 </section>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
-<p>The easiest way to generate a synthetic grid is the high-level <code class="docutils literal notranslate"><span class="pre">synthesize()</span></code> function, which runs the <strong>entire pipeline in one call</strong>:</p>
+<p>The easiest way to generate a synthetic grid is the high-level <code class="docutils literal notranslate"><span class="pre">synthesize()</span></code> function, which runs the <strong>entire pipeline in one call</strong>.</p>
+<p>Install the optional dependencies first if you want to use <code class="docutils literal notranslate"><span class="pre">synthesize()</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[export]&quot;</span>
+</pre></div>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">powergrid_synth</span><span class="w"> </span><span class="kn">import</span> <span class="n">synthesize</span>
 
 <span class="c1"># Mode I — clone an existing grid&#39;s statistical profile</span>
