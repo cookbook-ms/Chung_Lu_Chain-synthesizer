@@ -445,3 +445,6 @@ class GraphComparator:
 
         print(">>> Plotting Per-Level Degree Distributions")
         self.plot_all_levels_comparison(log_scale=log_scale)
+
+        print(">>> Computing Degree Distribution Statistics (KS & RH)")
+        self.compare_degree_distributions()

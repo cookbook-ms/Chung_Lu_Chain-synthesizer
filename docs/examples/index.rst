@@ -26,6 +26,8 @@ package installation included — click the |colab| badge to open directly in yo
      - |colab_gen|
    * - :doc:`IEEE Test <IEEETest.nblink>`
      - |colab_ieee|
+   * - :doc:`PEGASE 9241 Test <Pegase9241Test.nblink>`
+     - |colab_pegase|
 
 .. |colab_topo| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/TopologyGeneration_colab.ipynb
@@ -38,6 +40,9 @@ package installation included — click the |colab| badge to open directly in yo
 
 .. |colab_ieee| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/ieee_test_colab.ipynb
+
+.. |colab_pegase| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/pegase9241_test_colab.ipynb
 
 Here is a brief example showing how to configure the user input, and then generate, and visualize a synthetic power grid.
 
@@ -84,3 +89,4 @@ Here is a brief example showing how to configure the user input, and then genera
    Bus Type Assignment <BusTypeAssignment.nblink>
    Generation and Load Settings <GenLoadSettings.nblink>
    IEEE Test <IEEETest.nblink>
+   PEGASE 9241 Test <Pegase9241Test.nblink>
