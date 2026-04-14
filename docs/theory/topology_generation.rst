@@ -204,7 +204,54 @@ Validation metrics
   * distance of transmission lines along the Delaunay triangulation 
   * topology-related graph theory statistics: 
 
-    * distribution of nodal degrees, clustering coefficient, average shortest path length 
+    * distribution of nodal degrees, clustering coefficient, average shortest path length
+
+
+Degree distribution comparison statistics
+__________________________________________
+
+To quantitatively compare the degree distributions of a synthetic graph against a reference graph, we compute two complementary statistics --- the **Kolmogorov--Smirnov (KS) statistic** and the **Relative Hausdorff (RH) distance** --- both globally and per voltage level. These are implemented in the ``compare_degree_distributions`` method of :class:`~powergrid_synth.GraphComparator`.
+
+**Kolmogorov--Smirnov (KS) statistic**
+
+The two-sample KS test is a nonparametric test for equality of two distributions. Given empirical cumulative distribution functions (ECDFs) $F_1$ and $F_2$ of the degree sequences from the synthetic and reference graphs respectively, the KS statistic is
+
+.. math:: D_{KS} = \sup_{x} |F_1(x) - F_2(x)|
+
+$D_{KS}\in[0,1]$, where values close to 0 indicate that the two distributions are similar. The associated *p*-value tests the null hypothesis that both samples are drawn from the same distribution: a large *p*-value (e.g., $>0.05$) means we cannot reject that hypothesis, providing evidence that the synthetic degree distribution is statistically consistent with the reference.
+
+**Relative Hausdorff (RH) distance**
+
+The Hausdorff distance measures the worst-case discrepancy between two point sets. For two sorted degree sequences $\mathbf{d}^{(1)}$ and $\mathbf{d}^{(2)}$ (treated as 1-D point sets), the undirected Hausdorff distance is
+
+.. math:: d_H(\mathbf{d}^{(1)}, \mathbf{d}^{(2)}) = \max\Big\{\sup_{a\in\mathbf{d}^{(1)}} \inf_{b\in\mathbf{d}^{(2)}} |a-b|, \; \sup_{b\in\mathbf{d}^{(2)}} \inf_{a\in\mathbf{d}^{(1)}} |b-a| \Big\}
+
+We normalize by the maximum degree observed across both sequences to obtain the **Relative Hausdorff distance**:
+
+.. math:: D_{RH} = \frac{d_H(\mathbf{d}^{(1)}, \mathbf{d}^{(2)})}{\max\big(\max(\mathbf{d}^{(1)}), \max(\mathbf{d}^{(2)})\big)}
+
+$D_{RH}\in[0,1]$, where 0 means the degree ranges overlap perfectly. Unlike KS, which compares the shape of distribution functions, RH captures the worst-case mismatch in actual degree values. It is particularly sensitive to differences in maximum degree or the presence of outlier hubs.
+
+**Interpretation guide**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+
+   * - Metric
+     - Good range
+     - Interpretation
+   * - KS Statistic
+     - $< 0.15$
+     - Degree distribution shapes are similar; the two-sample test cannot distinguish them.
+   * - KS *p*-value
+     - $> 0.05$
+     - Fail to reject the null hypothesis that both degree sequences come from the same distribution.
+   * - RH Distance
+     - $< 0.15$
+     - The worst-case degree mismatch is small relative to the maximum degree in the system.
+
+Both metrics are computed per voltage level, giving a fine-grained view of where the synthetic topology matches or deviates from the reference. 
 
   * ratio of total lengths of all lines to the length of the minimum spanning tree
 

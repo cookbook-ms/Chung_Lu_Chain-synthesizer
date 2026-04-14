@@ -353,6 +353,84 @@ class GraphComparator:
         plt.tight_layout()
         plt.show()
 
+    def compare_degree_distributions(self, show_pvalue: bool = False) -> pd.DataFrame:
+        """
+        Computes Kolmogorov-Smirnov (KS) and Relative Hausdorff (RH) statistics
+        between the degree distributions of the synthetic and reference graphs,
+        per voltage level.  Prints and returns the results table.
+
+        Args:
+            show_pvalue: If True, include the KS p-value column. Default False.
+
+        Returns:
+            pd.DataFrame with columns Level, KS Statistic, RH Distance
+            (and KS p-value if show_pvalue is True).
+        """
+        from scipy.stats import ks_2samp
+        from scipy.spatial.distance import directed_hausdorff
+
+        def _degree_seq(graph, nodes=None):
+            if nodes is not None:
+                sub = graph.subgraph(nodes)
+            else:
+                sub = graph
+            return [d for _, d in sub.degree()]
+
+        def _relative_hausdorff(seq_a, seq_b):
+            """1-D relative Hausdorff distance between two degree sequences."""
+            if not seq_a or not seq_b:
+                return float('nan')
+            a = np.sort(seq_a).reshape(-1, 1).astype(float)
+            b = np.sort(seq_b).reshape(-1, 1).astype(float)
+            h = max(directed_hausdorff(a, b)[0], directed_hausdorff(b, a)[0])
+            denom = max(a.max(), b.max())
+            return h / denom if denom > 0 else 0.0
+
+        levels_s = set(nx.get_node_attributes(self.synth_graph, 'voltage_level').values())
+        levels_r = set(nx.get_node_attributes(self.ref_graph, 'voltage_level').values())
+        common_levels = sorted(list(levels_s.intersection(levels_r)))
+
+        rows = []
+
+        # Per voltage level
+        for level in common_levels:
+            nodes_s = [n for n, d in self.synth_graph.nodes(data=True) if d.get('voltage_level') == level]
+            nodes_r = [n for n, d in self.ref_graph.nodes(data=True) if d.get('voltage_level') == level]
+
+            deg_s = _degree_seq(self.synth_graph, nodes_s)
+            deg_r = _degree_seq(self.ref_graph, nodes_r)
+
+            if deg_s and deg_r:
+                ks_stat, ks_p = ks_2samp(deg_s, deg_r)
+                rh = _relative_hausdorff(deg_s, deg_r)
+            else:
+                ks_stat, ks_p, rh = float('nan'), float('nan'), float('nan')
+
+            row = {
+                'Level': f'Level {level}',
+                'KS Statistic': ks_stat,
+                'RH Distance': rh,
+            }
+            if show_pvalue:
+                row['KS p-value'] = ks_p
+            rows.append(row)
+
+        df = pd.DataFrame(rows)
+
+        # Print table
+        print("\n" + "=" * 65)
+        print("DEGREE DISTRIBUTION COMPARISON  (KS & Relative Hausdorff)")
+        print("=" * 65)
+        fmt = df.copy()
+        fmt['KS Statistic'] = fmt['KS Statistic'].map('{:.4f}'.format)
+        fmt['RH Distance'] = fmt['RH Distance'].map('{:.4f}'.format)
+        if show_pvalue:
+            fmt['KS p-value'] = fmt['KS p-value'].map('{:.4e}'.format)
+        print(fmt.to_string(index=False))
+        print("=" * 65 + "\n")
+
+        # return df
+
     def run_full_comparison(self, log_scale: bool = True):
         """Runs global comparison followed by per-level comparison."""
         print(">>> Running Global Comparison")
