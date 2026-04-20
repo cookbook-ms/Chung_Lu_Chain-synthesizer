@@ -2,7 +2,7 @@ import pytest
 import networkx as nx
 import matplotlib
 matplotlib.use("Agg")
-from powergrid_synth.analysis import GridAnalyzer
+from powergrid_synth.core.analysis import GridAnalyzer
 
 
 class TestGridAnalyzer:

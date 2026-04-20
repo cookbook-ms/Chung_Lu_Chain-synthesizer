@@ -1,14 +1,17 @@
 .. include:: intro.rst
 
-The **recommended starting point** is the high-level ``synthesize()`` notebook, which runs the
-entire pipeline in a single function call.  The remaining notebooks provide step-by-step
-control over individual pipeline stages.
-
 Each notebook is also available as a self-contained **Google Colab** version with
 package installation included — click the |colab| badge to open directly in your browser.
 
 .. |colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :height: 18px
+
+Transmission Grid Synthesis
+---------------------------
+
+The **recommended starting point** is the high-level ``synthesize()`` notebook, which runs the
+entire pipeline in a single function call.  The remaining notebooks provide step-by-step
+control over individual pipeline stages.
 
 .. list-table::
    :header-rows: 1
@@ -18,6 +21,8 @@ package installation included — click the |colab| badge to open directly in yo
      - Open in Colab
    * - :doc:`High-Level Synthesis <Synthesize.nblink>`
      - (recommended starting point)
+   * - :doc:`Transmission Synthesis with pypowsybl <SynthesizePypowsybl.nblink>`
+     -
    * - :doc:`Topology Generation <TopologyGeneration.nblink>`
      - |colab_topo|
    * - :doc:`Bus Type Assignment <BusTypeAssignment.nblink>`
@@ -28,6 +33,8 @@ package installation included — click the |colab| badge to open directly in yo
      - |colab_ieee|
    * - :doc:`PEGASE 9241 Test <Pegase9241Test.nblink>`
      - |colab_pegase|
+
+
 
 .. |colab_topo| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/github/cookbook-ms/Chung_Lu_Chain-synthesizer/blob/main/examples/colab/TopologyGeneration_colab.ipynb
@@ -79,14 +86,25 @@ Here is a brief example showing how to configure the user input, and then genera
         transformer_degrees=params['transformer_degrees']
     )
 
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
-   :hidden:
+Distribution Grid Synthesis
+----------------------------
 
-   High-Level Synthesis <Synthesize.nblink>
-   Topology Generation <TopologyGeneration.nblink>
-   Bus Type Assignment <BusTypeAssignment.nblink>
-   Generation and Load Settings <GenLoadSettings.nblink>
-   IEEE Test <IEEETest.nblink>
-   PEGASE 9241 Test <Pegase9241Test.nblink>
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Notebook
+     - Description
+   * - :doc:`Distribution Feeder Synthesis <DistributionSynth.nblink>`
+     - Schweitzer algorithm with default/custom parameters
+   * - :doc:`Distribution Synthesis from Reference Grid <DistributionSynthFromRef.nblink>`
+     - Fit parameters from a pandapower network
+   * - :doc:`Distribution Synthesis with pypowsybl <DistributionSynthPypowsybl.nblink>`
+     - Load CIGRE LV via CGMES, run full pipeline + one-liner
+
+
+.. toctree::
+   :maxdepth: 1
+
+   transmission
+   distribution

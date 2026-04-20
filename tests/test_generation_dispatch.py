@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import networkx as nx
-from powergrid_synth.generation_dispatcher import GenerationDispatcher
+from powergrid_synth.transmission.generation_dispatcher import GenerationDispatcher
 
 @pytest.fixture
 def sample_grid():

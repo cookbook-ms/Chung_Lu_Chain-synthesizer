@@ -123,4 +123,21 @@ The load setting follows a methodology analogous to the generation capacity assi
 The assignment of individual load values to load buses then uses the same 3-stage procedure: (1) generate random load demands from an exponential distribution (with ~1% super-large outliers), (2) normalize, and (3) assign via 2D binning using ``Tab_2D_load``. The methods are implemented in `load_allocator.py <../autoapi/powergrid_synth/load_allocator/index.html>`_.
 
 
+---------------------------------
+Reactive Power Load Allocation
+---------------------------------
+After active power loads :math:`P_l` are assigned, the corresponding reactive power loads :math:`Q_l` are derived using a power-factor model. For each load bus, a power factor is sampled uniformly from a realistic range:
+
+.. math:: \text{pf}_n \sim \mathcal{U}[\text{pf}_{\min},\; \text{pf}_{\max}], \quad \text{pf}_{\min} = 0.85,\; \text{pf}_{\max} = 0.97
+
+The reactive load is then computed as:
+
+.. math:: Q_{l_n} = P_{l_n} \cdot \tan\!\big(\arccos(\text{pf}_n)\big)
+
+This yields lagging (inductive) reactive loads consistent with typical transmission system characteristics, where power factors fall in the range 0.85–0.97. The resulting :math:`Q_l` values are stored as the ``ql`` node attribute on the graph and are used by the pandapower and pypowsybl exporters when creating load elements.
+
+The method is implemented in :meth:`LoadAllocator.allocate_reactive` and is called automatically during :func:`synthesize`.
+
+
 .. bibliography::
+   :filter: docname in docnames

@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from powergrid_synth.reference_data import get_reference_stats
+from powergrid_synth.core.reference_data import get_reference_stats
 
 
 class TestReferenceData:

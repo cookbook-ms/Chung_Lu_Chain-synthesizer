@@ -2,7 +2,7 @@ import pytest
 import networkx as nx
 import matplotlib
 matplotlib.use("Agg")
-from powergrid_synth.hierarchical_analysis import HierarchicalAnalyzer
+from powergrid_synth.core.hierarchical_analysis import HierarchicalAnalyzer
 
 
 class TestHierarchicalAnalyzer:

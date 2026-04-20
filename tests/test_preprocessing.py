@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import math
-from powergrid_synth.preprocessing import Preprocessor
+from powergrid_synth.transmission.preprocessing import Preprocessor
 
 class TestPreprocessor:
     def setup_method(self):

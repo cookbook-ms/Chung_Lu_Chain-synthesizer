@@ -5,21 +5,29 @@ PowerGridSynth Package
 The main package for PowerGridSynth. 
 
 This package contains submodules for generating, analyzing, and exporting 
-synthetic power grids.
+synthetic power grids, organized into three subpackages:
+
+- ``core``: shared utilities (analysis, comparison, visualization, etc.)
+- ``transmission``: CLC-based transmission grid synthesis pipeline
+- ``distribution``: Schweitzer-based distribution feeder synthesis pipeline
 """
-from .generator import PowerGridGenerator
-from .input_configurator import InputConfigurator
-from .bus_type_allocator import BusTypeAllocator
-from .capacity_allocator import CapacityAllocator
-from .load_allocator import LoadAllocator
-from .generation_dispatcher import GenerationDispatcher
-from .transmission import TransmissionLineAllocator
-from .visualization import GridVisualizer
-from .reference_data import get_reference_stats
-from .comparison import GraphComparator
-from .grid_graph import PowerGridGraph
-from .hierarchical_analysis import HierarchicalAnalyzer
-from .input_extractor import extract_topology_params_from_graph
+# --- Core (shared) ----------------------------------------------------------
+from .core.grid_graph import PowerGridGraph, TransmissionGrid, DistributionGrid
+from .core.analysis import GridAnalyzer
+from .core.comparison import GraphComparator
+from .core.hierarchical_analysis import HierarchicalAnalyzer
+from .core.input_extractor import extract_topology_params_from_graph
+from .core.reference_data import get_reference_stats
+from .core.visualization import GridVisualizer
+
+# --- Transmission pipeline ---------------------------------------------------
+from .transmission.generator import PowerGridGenerator
+from .transmission.input_configurator import InputConfigurator
+from .transmission.bus_type_allocator import BusTypeAllocator
+from .transmission.capacity_allocator import CapacityAllocator
+from .transmission.load_allocator import LoadAllocator
+from .transmission.generation_dispatcher import GenerationDispatcher
+from .transmission.transmission import TransmissionLineAllocator
 
 
 # ---------------------------------------------------------------------------
@@ -32,13 +40,22 @@ from .input_extractor import extract_topology_params_from_graph
 
 def __getattr__(name):
     _LAZY = {
-        "synthesize": (".synthesize", "synthesize"),
-        "GridExporter": (".exporter", "GridExporter"),
-        "pandapower_to_nx": (".data_format_converter", "pandapower_to_nx"),
-        "nx_to_pandapower": (".data_format_converter", "nx_to_pandapower"),
+        "synthesize": (".transmission.synthesize", "synthesize"),
+        "synthesize_distribution": (".distribution.synthesize", "synthesize_distribution"),
+        "GridExporter": (".core.exporter", "GridExporter"),
+        "pandapower_to_nx": (".core.data_format_converter", "pandapower_to_nx"),
+        "nx_to_pandapower": (".core.data_format_converter", "nx_to_pandapower"),
         "pandapower_to_pypowsybl": (
-            ".data_format_converter",
+            ".core.data_format_converter",
             "pandapower_to_pypowsybl",
+        ),
+        "pypowsybl_to_nx": (
+            ".core.data_format_converter",
+            "pypowsybl_to_nx",
+        ),
+        "load_grid": (
+            ".core.data_format_converter",
+            "load_grid",
         ),
     }
 
@@ -46,10 +63,13 @@ def __getattr__(name):
         module_path, attr = _LAZY[name]
         _EXTRA_DEPS = {
             "synthesize": "pandapower",
+            "synthesize_distribution": "pandapower",
             "GridExporter": "pandapower",
             "pandapower_to_nx": "pandapower",
             "nx_to_pandapower": "pandapower",
             "pandapower_to_pypowsybl": "pypowsybl",
+            "pypowsybl_to_nx": "pypowsybl",
+            "load_grid": "pypowsybl",
         }
         try:
             import importlib
@@ -81,14 +101,19 @@ __all__ = [
     "get_reference_stats",
     "GraphComparator",
     "PowerGridGraph",
+    "TransmissionGrid",
+    "DistributionGrid",
     "HierarchicalAnalyzer",
     "extract_topology_params_from_graph",
     # Optional (lazy-loaded, require pandapower / pypowsybl)
     "synthesize",
+    "synthesize_distribution",
     "GridExporter",
     "pandapower_to_nx",
     "nx_to_pandapower",
     "pandapower_to_pypowsybl",
+    "pypowsybl_to_nx",
+    "load_grid",
 ]
 
 __version__ = "0.1.1"

@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from powergrid_synth.transformer_edges import TransformerConnector
+from powergrid_synth.transmission.transformer_edges import TransformerConnector
 
 
 class TestTransformerConnector:

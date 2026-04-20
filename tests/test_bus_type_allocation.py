@@ -5,10 +5,10 @@ from unittest.mock import patch
 import matplotlib.pyplot as plt
 
 # Import your package modules
-from powergrid_synth.generator import PowerGridGenerator
-from powergrid_synth.input_configurator import InputConfigurator
-from powergrid_synth.bus_type_allocator import BusTypeAllocator
-from powergrid_synth.visualization import GridVisualizer
+from powergrid_synth.transmission.generator import PowerGridGenerator
+from powergrid_synth.transmission.input_configurator import InputConfigurator
+from powergrid_synth.transmission.bus_type_allocator import BusTypeAllocator
+from powergrid_synth.core.visualization import GridVisualizer
 
 
 class TestBusTypeAllocator:

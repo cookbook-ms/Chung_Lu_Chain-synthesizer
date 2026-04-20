@@ -144,3 +144,4 @@ Final Output
 
 
 .. bibliography::
+   :filter: docname in docnames

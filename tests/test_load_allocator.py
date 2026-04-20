@@ -1,7 +1,7 @@
 import pytest
 import networkx as nx
 import numpy as np
-from powergrid_synth.load_allocator import LoadAllocator
+from powergrid_synth.transmission.load_allocator import LoadAllocator
 
 @pytest.fixture
 def sample_graph():
@@ -94,3 +94,39 @@ class TestLoadAllocator:
         loads = allocator.allocate(loading_level='H')
         assert len(loads) == 1
         assert list(loads.values())[0] > 0
+
+    def test_allocate_reactive_basic(self, sample_graph):
+        """Reactive loads are computed for every active load bus."""
+        np.random.seed(42)
+        allocator = LoadAllocator(sample_graph, ref_sys_id=0)
+        active = allocator.allocate(loading_level='D')
+        reactive = allocator.allocate_reactive(active)
+
+        assert set(reactive.keys()) == set(active.keys())
+        assert all(q > 0 for q in reactive.values())
+
+    def test_allocate_reactive_power_factor_range(self, sample_graph):
+        """Each ql should satisfy pf_min <= pf <= pf_max."""
+        allocator = LoadAllocator(sample_graph)
+        active = {2: 10.0, 3: 20.0, 4: 30.0}
+        pf_min, pf_max = 0.85, 0.97
+
+        reactive = allocator.allocate_reactive(active, pf_min=pf_min, pf_max=pf_max)
+
+        for node, ql in reactive.items():
+            pl = active[node]
+            # Recover power factor: pf = cos(arctan(ql / pl))
+            pf = np.cos(np.arctan(ql / pl))
+            assert pf_min - 1e-9 <= pf <= pf_max + 1e-9
+
+    def test_allocate_reactive_empty(self, sample_graph):
+        """Empty active loads produce empty reactive loads."""
+        allocator = LoadAllocator(sample_graph)
+        assert allocator.allocate_reactive({}) == {}
+
+    def test_allocate_reactive_custom_pf(self, sample_graph):
+        """With pf=1.0 (unity), reactive load should be ~0."""
+        allocator = LoadAllocator(sample_graph)
+        active = {2: 50.0}
+        reactive = allocator.allocate_reactive(active, pf_min=1.0, pf_max=1.0)
+        assert reactive[2] == pytest.approx(0.0, abs=1e-9)

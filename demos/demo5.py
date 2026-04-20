@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 # Add src to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from powergrid_synth.generator import PowerGridGenerator
-from powergrid_synth.input_configurator import InputConfigurator
-from powergrid_synth.bus_type_allocator import BusTypeAllocator
-from powergrid_synth.capacity_allocator import CapacityAllocator
+from powergrid_synth.transmission.generator import PowerGridGenerator
+from powergrid_synth.transmission.input_configurator import InputConfigurator
+from powergrid_synth.transmission.bus_type_allocator import BusTypeAllocator
+from powergrid_synth.transmission.capacity_allocator import CapacityAllocator
 
 def main():
     # --- 1. Configuration ---

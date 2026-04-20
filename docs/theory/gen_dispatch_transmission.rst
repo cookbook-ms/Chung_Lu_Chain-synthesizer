@@ -279,3 +279,4 @@ After impedance and capacity assignment, an optional topology refinement step re
 
 
 .. bibliography::
+   :filter: docname in docnames

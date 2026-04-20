@@ -166,3 +166,4 @@ In step 5, an optimization can be designed with the following objective :math:`\
 
 
 .. bibliography::
+   :filter: docname in docnames

@@ -1,6 +1,6 @@
 import pytest
 import networkx as nx
-from powergrid_synth.input_extractor import extract_topology_params_from_graph
+from powergrid_synth.core.input_extractor import extract_topology_params_from_graph
 
 
 class TestInputExtractor:

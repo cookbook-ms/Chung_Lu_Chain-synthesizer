@@ -5,7 +5,7 @@ import networkx as nx
 
 pytest.importorskip("pandapower", reason="pandapower not installed")
 
-from powergrid_synth.synthesize import synthesize
+from powergrid_synth.transmission.synthesize import synthesize
 
 
 class TestSynthesizeModeReference:
@@ -44,6 +44,7 @@ class TestSynthesizeModeReference:
         assert grid.number_of_nodes() > 0
 
     def test_reference_multiple_formats(self, tmpdir):
+        pytest.importorskip("pypowsybl", reason="pypowsybl required for matpower export")
         grid = synthesize(
             mode="reference",
             reference_case="case_ieee30",
@@ -135,7 +136,7 @@ class TestSynthesizeValidation:
             synthesize(mode="invalid")
 
     def test_reference_without_case_raises(self):
-        with pytest.raises(ValueError, match="requires either"):
+        with pytest.raises(ValueError, match="requires reference_net"):
             synthesize(mode="reference")
 
     def test_synthetic_without_specs_raises(self):
@@ -143,7 +144,7 @@ class TestSynthesizeValidation:
             synthesize(mode="synthetic")
 
     def test_unknown_case_raises(self):
-        with pytest.raises(ValueError, match="Unknown pandapower case"):
+        with pytest.raises(ValueError, match="Unknown reference case"):
             synthesize(
                 mode="reference",
                 reference_case="case_does_not_exist_99999",

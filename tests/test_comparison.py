@@ -3,7 +3,7 @@ import networkx as nx
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from powergrid_synth.comparison import GraphComparator
+from powergrid_synth.core.comparison import GraphComparator
 
 
 class TestGraphComparator:

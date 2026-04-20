@@ -10,9 +10,9 @@ import networkx as nx
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 try:
-    from powergrid_synth.generator import PowerGridGenerator
-    from powergrid_synth.exporter import GridExporter
-    from powergrid_synth.bus_type_allocator import BusTypeAllocator
+    from powergrid_synth.transmission.generator import PowerGridGenerator
+    from powergrid_synth.core.exporter import GridExporter
+    from powergrid_synth.transmission.bus_type_allocator import BusTypeAllocator
 except ImportError:
     print("Could not import powergrid_synth. Please ensure you are running from the correct directory.")
 

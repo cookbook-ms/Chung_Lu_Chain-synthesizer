@@ -1,10 +1,10 @@
 import pytest
 import numpy as np
 import networkx as nx
-from powergrid_synth.capacity_allocator import CapacityAllocator
-from powergrid_synth.input_configurator import InputConfigurator
-from powergrid_synth.generator import PowerGridGenerator
-from powergrid_synth.bus_type_allocator import BusTypeAllocator
+from powergrid_synth.transmission.capacity_allocator import CapacityAllocator
+from powergrid_synth.transmission.input_configurator import InputConfigurator
+from powergrid_synth.transmission.generator import PowerGridGenerator
+from powergrid_synth.transmission.bus_type_allocator import BusTypeAllocator
 
 
 class TestCapacityAllocator:

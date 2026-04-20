@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from powergrid_synth.edge_creation import EdgeCreator
+from powergrid_synth.transmission.edge_creation import EdgeCreator
 
 
 class TestEdgeCreator:

@@ -1,7 +1,7 @@
 import pytest
 import networkx as nx
 import numpy as np
-from powergrid_synth.generator import PowerGridGenerator
+from powergrid_synth.transmission.generator import PowerGridGenerator
 
 class TestGenerator:
     def test_single_level_generation(self):

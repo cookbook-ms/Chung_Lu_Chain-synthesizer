@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import networkx as nx
-from powergrid_synth.dcpf import DCPowerFlow
+from powergrid_synth.core.dcpf import DCPowerFlow
 
 
 class TestDCPowerFlow:

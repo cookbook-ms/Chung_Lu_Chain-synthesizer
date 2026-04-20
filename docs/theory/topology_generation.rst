@@ -293,3 +293,4 @@ Then, since transformer subgraphs are relatively small graphs consisting almost 
 Finally, for each pair of voltage levels $(X_i,X_j)$, one may draw a single power law degree distribution on $h(n_i,n_j)$ vertices. Note that since transformer subgraphs are bipartitie graphs, the degree sequences $\mathbf{t}[X_i, X_j]$ and $\mathbf{t}[X_j,X_i]$ must sum to the same value for each pair of voltage levels (a necessary condition). This constraint can be achieved by iteratively modifying the outputted degree sequences --- nullifying the degree of randomly chosen vertices from the larger-sum sequence while redrawing degrees for null-degreed vertices in the smaller-sum sequence, until the sums are equal. 
 
 .. bibliography::
+   :filter: docname in docnames

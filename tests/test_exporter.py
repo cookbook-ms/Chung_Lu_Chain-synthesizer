@@ -5,7 +5,7 @@ import tempfile
 pytest.importorskip("pandapower", reason="pandapower not installed")
 pytest.importorskip("pypowsybl", reason="pypowsybl not installed")
 
-from powergrid_synth.exporter import GridExporter
+from powergrid_synth.core.exporter import GridExporter
 
 _has_xlsxwriter = pytest.importorskip("xlsxwriter", reason="xlsxwriter not installed") if False else None
 

@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from powergrid_synth.input_configurator import InputConfigurator
+from powergrid_synth.transmission.input_configurator import InputConfigurator
 
 class TestInputConfig:
     def setup_method(self):

@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from powergrid_synth.deg_dist_optimizer import DegreeDistributionOptimizer
+from powergrid_synth.transmission.deg_dist_optimizer import DegreeDistributionOptimizer
 
 
 class TestDegreeDistributionOptimizer:

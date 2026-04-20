@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 # Add the 'src' directory to the path so we can import the package locally
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from powergrid_synth.generator import PowerGridGenerator
-from powergrid_synth.input_configurator import InputConfigurator
-from powergrid_synth.hierarchical_analysis import HierarchicalAnalyzer
+from powergrid_synth.transmission.generator import PowerGridGenerator
+from powergrid_synth.transmission.input_configurator import InputConfigurator
+from powergrid_synth.core.hierarchical_analysis import HierarchicalAnalyzer
 
 def main():
     print("--- 1. Configuration: Setting up 3-Level Hierarchy ---")

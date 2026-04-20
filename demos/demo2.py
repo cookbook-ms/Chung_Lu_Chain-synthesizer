@@ -6,10 +6,10 @@ import os
 # Add the 'src' directory to the path so we can import the package locally
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from powergrid_synth.generator import PowerGridGenerator
-from powergrid_synth.visualization import GridVisualizer
-from powergrid_synth.input_configurator import InputConfigurator
-from powergrid_synth.comparison import GraphComparator
+from powergrid_synth.transmission.generator import PowerGridGenerator
+from powergrid_synth.core.visualization import GridVisualizer
+from powergrid_synth.transmission.input_configurator import InputConfigurator
+from powergrid_synth.core.comparison import GraphComparator
 
 def generate_hierarchical_ws_baseline(target_graph, seed=None):
     """
