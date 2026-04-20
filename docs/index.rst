@@ -4,7 +4,7 @@ PowerGridSynth
 **PowerGridSynth** is an open-source Python package for generating realistic **synthetic power grids** at both the transmission and distribution level.
 
 - **Transmission grids** are synthesized using a `Chung-Lu-Chain (CLC) <https://arxiv.org/abs/1711.11098>`_ graph model that reproduces prescribed degree distributions and diameters across multiple voltage levels, then layers on bus-type assignment, generation/load capacity allocation (active *and* reactive power), generation dispatch, and transmission-line impedance/capacity assignment drawn from empirical statistics of real grids (NYISO, WECC).
-- **Distribution feeders** are synthesized using the algorithm of `Schweitzer et al. (2017) <https://doi.org/10.1109/TPWRS.2017.2694839>`_, producing radial MV/LV tree graphs with realistic cable types, lengths, and load/generation profiles.
+- **Distribution feeders** are synthesized using the algorithm of `Schweitzer et al. (2017) <https://ieeexplore.ieee.org/document/7895177>`_, producing radial MV/LV tree graphs with realistic cable types, lengths, and load/generation profiles.
 
 Synthesised grids can be **exported to 12+ industry-standard formats** via `pandapower <https://www.pandapower.org/>`_ and `pypowsybl <https://pypowsybl.readthedocs.io/>`_ and validated with **DC and AC power-flow solvers** from both libraries.
 

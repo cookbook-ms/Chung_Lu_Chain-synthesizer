@@ -7,7 +7,7 @@
 A Python package for generating realistic **synthetic power grids** at both the transmission and distribution level.
 
 - **Transmission grids** are synthesized using a [Chung-Lu-Chain (CLC)](https://arxiv.org/abs/1711.11098) graph model that reproduces prescribed degree distributions and diameters across multiple voltage levels, then layers on bus-type assignment, generation/load capacity allocation (active *and* reactive power), generation dispatch, and transmission-line impedance/capacity assignment drawn from empirical statistics of real grids (NYISO, WECC).
-- **Distribution feeders** are synthesized using the algorithm of [Schweitzer et al. (2017)](https://doi.org/10.1109/TPWRS.2017.2694839), producing radial MV/LV tree graphs with realistic cable types, lengths, and load/generation profiles.
+- **Distribution feeders** are synthesized using the algorithm of [Schweitzer et al. (2017)](https://ieeexplore.ieee.org/document/7895177), producing radial MV/LV tree graphs with realistic cable types, lengths, and load/generation profiles.
 
 Synthesised grids can be **exported to 12+ industry-standard formats** via [pandapower](https://www.pandapower.org/) and [pypowsybl](https://pypowsybl.readthedocs.io/) and validated with **DC and AC power-flow solvers** from both libraries.
 
@@ -319,7 +319,7 @@ pytest tests/ -v
 2. Elyas & Wang (2017). "Improved Synthetic Power Grid Modeling With Correlated Bus Type Assignments." *IEEE Trans. Power Syst.*, 32(5), 3391–3402. [DOI:10.1109/TPWRS.2016.2636165](https://ieeexplore.ieee.org/document/7763878)
 3. Elyas et al. (2017). "On the Statistical Settings of Generation and Load in Synthetic Grid Modeling." [arXiv:1706.09294](https://arxiv.org/abs/1706.09294)
 4. Sadeghian et al. (2018). "A Novel Algorithm for Statistical Assignment of Transmission Capacities in Synthetic Grid Modeling." *IEEE PESGM*. [DOI:10.1109/PESGM.2018.8585532](https://ieeexplore.ieee.org/document/8585532)
-5. Schweitzer et al. (2017). "Automated Generation Models for Synthetic Power Distribution Grids." *IEEE Trans. Power Syst.*, 32(5), 3974–3985. [DOI:10.1109/TPWRS.2017.2694839](https://doi.org/10.1109/TPWRS.2017.2694839)
+5. Schweitzer et al. (2017). "Automated Generation Models for Synthetic Power Distribution Grids." *IEEE Trans. Power Syst.*, 32(5), 3974–3985. [DOI:10.1109/TPWRS.2017.2694839](https://ieeexplore.ieee.org/document/7895177)
 
 ## License
 
