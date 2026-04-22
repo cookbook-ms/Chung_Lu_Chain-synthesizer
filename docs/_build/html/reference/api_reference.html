@@ -63,6 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../examples/DistributionSynth.html">Distribution Feeder Synthesis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/DistributionSynthFromRef.html">Distribution Synthesis from Reference Grid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/DistributionSynthPypowsybl.html">Distribution Synthesis with pypowsybl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/CLC4Distribution.html">CLC for Distribution Topology Generation</a></li>
 </ul>
 </li>
 </ul>
@@ -876,7 +877,7 @@ factory function name.  Ignored when <em>reference_net</em> or
 <li><p><strong>reference_net</strong> (<em>pandapowerNet</em><em> or </em><em>pypowsybl.network.Network</em><em>, </em><em>optional</em>) – A pre-loaded network object.  Takes precedence over
 <em>reference_case</em> and <em>reference_file</em>.</p></li>
 <li><p><strong>reference_file</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to a grid file in any pypowsybl-supported format.</p></li>
-<li><p><strong>params</strong> (<a class="reference internal" href="../autoapi/powergrid_synth/distribution/distribution_params/index.html#powergrid_synth.distribution.distribution_params.DistributionSynthParams" title="powergrid_synth.distribution.distribution_params.DistributionSynthParams"><em>DistributionSynthParams</em></a><em>, </em><em>optional</em>) – Custom parameters for <code class="docutils literal notranslate"><span class="pre">mode=&quot;default&quot;</span></code>.  If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the
+<li><p><strong>params</strong> (<a class="reference internal" href="#powergrid_synth.distribution.DistributionSynthParams" title="powergrid_synth.distribution.DistributionSynthParams"><em>DistributionSynthParams</em></a><em>, </em><em>optional</em>) – Custom parameters for <code class="docutils literal notranslate"><span class="pre">mode=&quot;default&quot;</span></code>.  If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the
 built-in defaults from Schweitzer Table III are used.</p></li>
 <li><p><strong>n_feeders</strong> (<em>int</em>) – Number of synthetic feeders to generate (default 1).</p></li>
 <li><p><strong>n_nodes</strong> (<em>int</em>) – Number of nodes per feeder (default 20).</p></li>

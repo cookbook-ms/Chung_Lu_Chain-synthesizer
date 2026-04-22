@@ -134,6 +134,9 @@ The reactive load is then computed as:
 
 .. math:: Q_{l_n} = P_{l_n} \cdot \tan\!\big(\arccos(\text{pf}_n)\big)
 
+Reference for active/reactive power relation and power-factor context:
+`Phase to Phase, Chapter 9.5.2 <https://www.phasetophase.nl/book/book_2_9.html#_9.5.2>`_.
+
 This yields lagging (inductive) reactive loads consistent with typical transmission system characteristics, where power factors fall in the range 0.85–0.97. The resulting :math:`Q_l` values are stored as the ``ql`` node attribute on the graph and are used by the pandapower and pypowsybl exporters when creating load elements.
 
 The method is implemented in :meth:`LoadAllocator.allocate_reactive` and is called automatically during :func:`synthesize`.

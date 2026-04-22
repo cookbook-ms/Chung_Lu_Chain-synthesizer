@@ -397,6 +397,9 @@ class LoadAllocator:
         ``[pf_min, pf_max]`` (lagging) and the reactive load is computed as
         ``ql = pl * tan(arccos(pf))``.
 
+        Theory reference:
+        https://www.phasetophase.nl/book/book_2_9.html#_9.5.2
+
         Parameters
         ----------
         active_loads : dict[int, float]

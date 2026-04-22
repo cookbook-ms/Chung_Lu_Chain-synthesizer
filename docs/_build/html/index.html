@@ -62,6 +62,7 @@
 <li class="toctree-l3"><a class="reference internal" href="examples/DistributionSynth.html">Distribution Feeder Synthesis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="examples/DistributionSynthFromRef.html">Distribution Synthesis from Reference Grid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="examples/DistributionSynthPypowsybl.html">Distribution Synthesis with pypowsybl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/CLC4Distribution.html">CLC for Distribution Topology Generation</a></li>
 </ul>
 </li>
 </ul>
@@ -158,7 +159,7 @@
 <p><strong>PowerGridSynth</strong> is an open-source Python package for generating realistic <strong>synthetic power grids</strong> at both the transmission and distribution level.</p>
 <ul class="simple">
 <li><p><strong>Transmission grids</strong> are synthesized using a <a class="reference external" href="https://arxiv.org/abs/1711.11098">Chung-Lu-Chain (CLC)</a> graph model that reproduces prescribed degree distributions and diameters across multiple voltage levels, then layers on bus-type assignment, generation/load capacity allocation (active <em>and</em> reactive power), generation dispatch, and transmission-line impedance/capacity assignment drawn from empirical statistics of real grids (NYISO, WECC).</p></li>
-<li><p><strong>Distribution feeders</strong> are synthesized using the algorithm of <a class="reference external" href="https://doi.org/10.1109/TPWRS.2017.2694839">Schweitzer et al. (2017)</a>, producing radial MV/LV tree graphs with realistic cable types, lengths, and load/generation profiles.</p></li>
+<li><p><strong>Distribution feeders</strong> are synthesized using the algorithm of <a class="reference external" href="https://ieeexplore.ieee.org/document/7895177">Schweitzer et al. (2017)</a>, producing radial MV/LV tree graphs with realistic cable types, lengths, and load/generation profiles.</p></li>
 </ul>
 <p>Synthesised grids can be <strong>exported to 12+ industry-standard formats</strong> via <a class="reference external" href="https://www.pandapower.org/">pandapower</a> and <a class="reference external" href="https://pypowsybl.readthedocs.io/">pypowsybl</a> and validated with <strong>DC and AC power-flow solvers</strong> from both libraries.</p>
 <p>The goal of the project is to provide synthetic yet realistic power grids for grid modeling, simulation and analysis, with the ultimate goal of building <strong>Foundation Models</strong> for power grids. It is part of <a class="reference external" href="https://lfenergy.org">LF Energy</a>, a Linux Foundation focused on the energy sector. This project is supported by <a class="reference external" href="https://ai-effect.eu/">AI-EFFECT</a> (Artificial Intelligence Experimentation Facility For the Energy Sector).</p>
