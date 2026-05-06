@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "powergrid_synth"
 version = "0.1.1"
-description = "Synthetic power grid generator based on Chung-Lu-Chain model and MATPOWER SynGrid." 
+description = "Synthetic power grid generator based on Chung-Lu-Chain model and MATPOWER SynGrid for the transmission grid system." 
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
