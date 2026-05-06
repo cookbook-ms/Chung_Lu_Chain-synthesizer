@@ -25,7 +25,7 @@ class PowerGridGenerator:
     Generative model for an entire power grid graph on *k* voltage levels.
 
     Implements Algorithm 4 (CLCStars) from `Aksoy et al. (2018)
-    <https://doi.org/10.1093/comnet/cny016>`_ (arXiv:1711.11098).
+    <https://doi.org/10.1093/comnet/cny016>`_.
     Phase 1 generates each same-voltage subgraph via the CLC model,
     and Phase 2 inserts transformer edges via the random-star model.
 

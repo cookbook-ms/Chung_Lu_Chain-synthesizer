@@ -280,10 +280,10 @@ class GenerationDispatcher:
     def dispatch(self) -> Dict[int, float]:
         r"""Run the full generation dispatch pipeline.
 
-        Implements the algorithm of Sadeghian et al. (2018), Fig. 6:
+        Implements the algorithm of Sadeghian et al. (2018):
 
         1. Collect generator buses and normalise capacities by
-           :math:`P_g^{\max}_{\text{max}}`.
+           :math:`P^{\max}_{g_{\max}}`.
         2. Partition generators into **uncommitted**
            (:math:`\alpha = 0`), **partially committed**
            (:math:`0 < \alpha < 1`), and **fully committed**
@@ -295,7 +295,7 @@ class GenerationDispatcher:
            :math:`\alpha` values and toggling uncommitted / full-load
            units on or off.
         5. Convert normalised dispatch back to MW:
-           :math:`P_{g_i} = \alpha_i \cdot \bar{P}_{g_i}^{\max} \cdot P_{g}^{\max}_{\text{max}}`.
+           :math:`P_{g_i} = \alpha_i \cdot \bar{P}_{g_i}^{\max} \cdot P^{\max}_{g_{\max}}`.
 
         Returns
         -------

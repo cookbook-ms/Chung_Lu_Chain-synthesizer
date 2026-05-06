@@ -51,12 +51,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/transmission.html">Transmission</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/Synthesize.html">High-Level Synthesis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/SynthesizePypowsybl.html">Transmission Synthesis with pypowsybl</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/TopologyGeneration.html">Topology Generation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/BusTypeAssignment.html">Bus Type Assignment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/GenLoadSettings.html">Generation and Load Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/SynthesizePypowsybl.html">Synthesis with pypowsybl</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/IEEETest.html">IEEE Test</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/Pegase9241Test.html">PEGASE 9241 Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/RTE7000Test.html">RTE 7000 Test</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/distribution.html">Distribution</a><ul>
@@ -295,7 +296,7 @@ Config is either:</p>
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">powergrid_synth.</span></span><span class="sig-name descname"><span class="pre">PowerGridGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/transmission/generator.html#PowerGridGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.PowerGridGenerator" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Generative model for an entire power grid graph on <em>k</em> voltage levels.</p>
-<p>Implements Algorithm 4 (CLCStars) from <a class="reference external" href="https://doi.org/10.1093/comnet/cny016">Aksoy et al. (2018)</a> (arXiv:1711.11098).
+<p>Implements Algorithm 4 (CLCStars) from <a class="reference external" href="https://doi.org/10.1093/comnet/cny016">Aksoy et al. (2018)</a>.
 Phase 1 generates each same-voltage subgraph via the CLC model,
 and Phase 2 inserts transformer edges via the random-star model.</p>
 <dl class="field-list simple">
@@ -704,10 +705,10 @@ are Uniform[0, 1]; otherwise 0.5 % receive negative dispatch
 <dt class="sig sig-object py" id="powergrid_synth.GenerationDispatcher.dispatch">
 <span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/powergrid_synth/transmission/generation_dispatcher.html#GenerationDispatcher.dispatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powergrid_synth.GenerationDispatcher.dispatch" title="Link to this definition"></a></dt>
 <dd><p>Run the full generation dispatch pipeline.</p>
-<p>Implements the algorithm of Sadeghian et al. (2018), Fig. 6:</p>
+<p>Implements the algorithm of Sadeghian et al. (2018):</p>
 <ol class="arabic simple">
 <li><p>Collect generator buses and normalise capacities by
-<span class="math notranslate nohighlight">\(P_g^{\max}_{\text{max}}\)</span>.</p></li>
+<span class="math notranslate nohighlight">\(P^{\max}_{g_{\max}}\)</span>.</p></li>
 <li><p>Partition generators into <strong>uncommitted</strong>
 (<span class="math notranslate nohighlight">\(\alpha = 0\)</span>), <strong>partially committed</strong>
 (<span class="math notranslate nohighlight">\(0 &lt; \alpha &lt; 1\)</span>), and <strong>fully committed</strong>
@@ -719,7 +720,7 @@ the 2-D bin-matching table <code class="docutils literal notranslate"><span clas
 <span class="math notranslate nohighlight">\(\alpha\)</span> values and toggling uncommitted / full-load
 units on or off.</p></li>
 <li><p>Convert normalised dispatch back to MW:
-<span class="math notranslate nohighlight">\(P_{g_i} = \alpha_i \cdot \bar{P}_{g_i}^{\max} \cdot P_{g}^{\max}_{\text{max}}\)</span>.</p></li>
+<span class="math notranslate nohighlight">\(P_{g_i} = \alpha_i \cdot \bar{P}_{g_i}^{\max} \cdot P^{\max}_{g_{\max}}\)</span>.</p></li>
 </ol>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>

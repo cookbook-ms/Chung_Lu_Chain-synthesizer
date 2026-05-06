@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:entsoe="http://entsoe.eu/CIM/SchemaExtension/3/1#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cim="http://iec.ch/TC57/2013/CIM-schema-cim16#" xmlns:md="http://iec.ch/TC57/61970-552/ModelDescription/1#">
-    <md:FullModel rdf:about="urn:uuid:network_N_EQUIPMENT_2026-04-17T14:11:14Z_1_1D__FM">
-        <md:Model.scenarioTime>2026-04-17T14:11:14Z</md:Model.scenarioTime>
-        <md:Model.created>2026-04-17T14:11:14Z</md:Model.created>
+    <md:FullModel rdf:about="urn:uuid:network_N_EQUIPMENT_2026-05-06T12:14:36Z_1_1D__FM">
+        <md:Model.scenarioTime>2026-05-06T12:14:36Z</md:Model.scenarioTime>
+        <md:Model.created>2026-05-06T12:14:36Z</md:Model.created>
         <md:Model.description>EQ Model</md:Model.description>
         <md:Model.version>1</md:Model.version>
         <md:Model.profile>http://entsoe.eu/CIM/EquipmentCore/3/1</md:Model.profile>
@@ -5105,7 +5105,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_90_112_20_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>923.8822634684897</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>923.8822634684889</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_90_112_20_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -5343,7 +5343,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_56_57_34_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>449.95103970900396</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>449.95103970900414</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_56_57_34_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -5394,7 +5394,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_57_99_37_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>9066.283222525142</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>9066.283222525146</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_57_99_37_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -5411,7 +5411,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_57_71_38_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>13347.40182986691</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>13347.401829866909</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_57_71_38_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -5428,7 +5428,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_57_86_39_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>1258.7577887156517</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>1258.757788715652</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_57_86_39_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -5853,7 +5853,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_21_112_64_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>305.7189377971819</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>305.71893779718096</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_21_112_64_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6074,7 +6074,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_72_108_77_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>1162.0040732890911</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>1162.0040732890868</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_72_108_77_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6108,7 +6108,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_72_99_79_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>4496.3080360912945</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>4496.308036091294</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_72_99_79_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6125,7 +6125,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_72_71_80_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>691.997997337778</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>691.997997337777</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_72_71_80_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6159,7 +6159,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_108_116_82_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>10826.675524303175</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>10826.675524303173</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_108_116_82_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6176,7 +6176,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_66_83_83_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>256.2699298092743</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>256.2699298092739</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_66_83_83_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6210,7 +6210,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_66_89_85_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>2027.6244783666168</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>2027.6244783666173</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_66_89_85_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6244,7 +6244,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_83_43_87_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>1562.3200821153812</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>1562.3200821153803</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_83_43_87_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6295,7 +6295,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_83_35_90_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>5546.767399819873</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>5546.767399819875</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_83_35_90_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6380,7 +6380,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_24_62_95_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>521.4858667177542</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>521.4858667177537</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_24_62_95_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6431,7 +6431,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_45_116_98_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>38750.093174519905</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>38750.09317451991</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_45_116_98_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6448,7 +6448,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_45_65_99_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>2489.578813473366</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>2489.5788134733657</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_45_65_99_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6465,7 +6465,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_116_71_100_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>630.6706344945205</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>630.6706344945206</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_116_71_100_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6499,7 +6499,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_113_86_102_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>1853.7731482153565</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>1853.7731482153574</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_113_86_102_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6805,7 +6805,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_43_49_120_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>2380.0062414178356</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>2380.0062414178324</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_43_49_120_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6873,7 +6873,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_112_74_124_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>633.0553882877621</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>633.0553882877614</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_112_74_124_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -6890,7 +6890,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_112_29_125_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>1077.4349552081671</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>1077.4349552081665</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_112_29_125_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -7264,7 +7264,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_99_82_147_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>2427.6882601616553</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>2427.6882601616558</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_99_82_147_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
@@ -7315,7 +7315,7 @@
     </cim:OperationalLimitSet>
     <cim:CurrentLimit rdf:ID="_104_52_150_ACLS_T_1_DEFAULT_OLS_CurrentLimit_PATL_OLV">
         <cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
-        <cim:CurrentLimit.value>16189.099256155912</cim:CurrentLimit.value>
+        <cim:CurrentLimit.value>16189.099256155909</cim:CurrentLimit.value>
         <cim:OperationalLimit.OperationalLimitSet rdf:resource="#_104_52_150_ACLS_T_1_DEFAULT_OLS"/>
         <cim:OperationalLimit.OperationalLimitType rdf:resource="#_PATL_OLT"/>
     </cim:CurrentLimit>
