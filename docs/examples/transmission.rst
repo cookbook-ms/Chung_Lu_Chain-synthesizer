@@ -16,3 +16,4 @@ control over individual pipeline stages.
    Generation and Load Settings <GenLoadSettings.nblink>
    IEEE Test <IEEETest.nblink>
    PEGASE 9241 Test <Pegase9241Test.nblink>
+   RTE 7000 Test <RTE7000Test.nblink>
