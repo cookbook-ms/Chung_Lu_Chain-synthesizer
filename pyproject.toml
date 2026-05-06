@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "powergrid_synth"
 version = "0.1.1"
-description = "Synthetic power grid generator based on Chung-Lu-Chain model and MATPOWER SynGrid for the transmission grid system." 
+description = "Synthetic power grid generator based on Chung-Lu-Chain model and MATPOWER SynGrid for the transmission grid system. The distribution grid synthesization is under development. This package is maintained by the AI Energy Lab at TU Delft." 
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -44,6 +44,6 @@ dev = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer"
+"Homepage" = "https://github.com/TU-Delft-AI-Energy-Lab/grid-synthesizer"
 "Documentation" = "https://power-grid-synthesizer.readthedocs.io/en/latest/"
-"Bug Tracker" = "https://github.com/cookbook-ms/Chung_Lu_Chain-synthesizer/issues"
+"Bug Tracker" = "https://github.com/TU-Delft-AI-Energy-Lab/grid-synthesizer/issues"
